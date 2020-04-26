@@ -1,0 +1,11 @@
+{
+    "profile" : {
+        "addresses" : "Addresses",
+        "myorders" : "My orders",
+        "privatepolicy" : "Pricate policy",
+        "language" : "English",
+        "invitefriends" : "Invite friends",
+        "unlocktext" : "To unlock all feature please:",
+        "logintext" : "Log in/registeer"
+    }
+}

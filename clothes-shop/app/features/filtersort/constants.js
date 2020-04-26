@@ -1,0 +1,21 @@
+export const filtersort = {
+  dateDesc: 'dateDesc',
+  downloaded: 'downloaded',
+  ratingDesc: 'ratingDesc',
+  ratingAsc: 'ratingAsc',
+  timeAsc: 'timeAsc',
+  timeDesc: 'timeDesc',
+  sizeAsc: 'sizeAsc',
+  sizeDesc: 'sizeDesc',
+  favorite: 'favorite',
+  viewed: 'viewed',
+  notviewed: 'notviewe',
+  alphabetAsc: 'alphabetAsc',
+  alphabetDesc: 'alphabetDesc',
+
+  popularity: 'popularity',
+  relevance: 'relevance',
+  priceDesc: 'priceDesc',
+  priceAsc: 'priceAsc',
+  popularity: 'popularity',
+};

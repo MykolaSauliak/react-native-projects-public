@@ -1,0 +1,945 @@
+[
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "0VpHpUQuUkwBhEKtX4uJ",
+        "createdAt": {
+            "_seconds": 1587546475,
+            "_nanoseconds": 23000000
+        },
+        "title": "Nechlaces",
+        "updatedAt": {
+            "_seconds": 1587546475,
+            "_nanoseconds": 23000000
+        }
+    },
+    {
+        "id": "0Xd0DRwxLybinKMvZWqX",
+        "createdAt": {
+            "_seconds": 1582538437,
+            "_nanoseconds": 562000000
+        },
+        "title": "Heels",
+        "updatedAt": {
+            "_seconds": 1582538437,
+            "_nanoseconds": 562000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582534026,
+            "_nanoseconds": 142000000
+        },
+        "id": "0XjyOTFfMc4u05Q7gq4M",
+        "createdAt": {
+            "_seconds": 1582534026,
+            "_nanoseconds": 142000000
+        },
+        "title": "Loafers",
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "31hq8Ve6ckhHKFizdFI1",
+        "createdAt": {
+            "_seconds": 1587546253,
+            "_nanoseconds": 35000000
+        },
+        "title": "Silk handkerchief",
+        "updatedAt": {
+            "_seconds": 1587546253,
+            "_nanoseconds": 35000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546333,
+            "_nanoseconds": 258000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn",
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "3ltiN0Wnd0OAyLW6CfKj",
+        "createdAt": {
+            "_seconds": 1587546333,
+            "_nanoseconds": 258000000
+        },
+        "title": "Watches"
+    },
+    {
+        "id": "3z4aIVzTeUrwO6MNhkBU",
+        "createdAt": {
+            "_seconds": 1587546397,
+            "_nanoseconds": 554000000
+        },
+        "title": "Rings",
+        "updatedAt": {
+            "_seconds": 1587546397,
+            "_nanoseconds": 554000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546536,
+            "_nanoseconds": 134000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "57Zf7pcNS0P4rAxNRU0T",
+        "createdAt": {
+            "_seconds": 1587546536,
+            "_nanoseconds": 134000000
+        },
+        "title": "Hair accessories"
+    },
+    {
+        "title": "Derby shoes",
+        "type_id": "ICORWzI1trn3O6wQBQwF",
+        "updatedAt": {
+            "_seconds": 1582537649,
+            "_nanoseconds": 22000000
+        },
+        "id": "5MFbdh7BMTDPTN5QEMY8",
+        "createdAt": {
+            "_seconds": 1582537649,
+            "_nanoseconds": 22000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587544939,
+            "_nanoseconds": 366000000
+        },
+        "id": "5PSu7lNBWHFuouUwC4Pr",
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "title": "Travel bags",
+        "type_id": " 8NUULeFjsycewAFgvx2X"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545685,
+            "_nanoseconds": 103000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "65sg7Iy9yd8OZ9dZle6K",
+        "createdAt": {
+            "_seconds": 1587545685,
+            "_nanoseconds": 103000000
+        },
+        "title": "Lingerie"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546219,
+            "_nanoseconds": 880000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn",
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "6JRqqm6mKPIibktqSFdt",
+        "createdAt": {
+            "_seconds": 1587546219,
+            "_nanoseconds": 880000000
+        },
+        "title": "Belts"
+    },
+    {
+        "title": "Sungslasses",
+        "updatedAt": {
+            "_seconds": 1587545744,
+            "_nanoseconds": 847000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn",
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "7rfZowHEr2z2UaAtwf65",
+        "createdAt": {
+            "_seconds": 1587545744,
+            "_nanoseconds": 847000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546590,
+            "_nanoseconds": 424000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "8p7RJbNx8aLii3YfVRwO",
+        "createdAt": {
+            "_seconds": 1587546590,
+            "_nanoseconds": 424000000
+        },
+        "title": "Bag charms"
+    },
+    {
+        "title": "Baskets",
+        "type_id": "ICORWzI1trn3O6wQBQwF",
+        "updatedAt": {
+            "_seconds": 1582537342,
+            "_nanoseconds": 862000000
+        },
+        "id": "AEXg5oFP3zfPysbPIbFW",
+        "createdAt": {
+            "_seconds": 1582537342,
+            "_nanoseconds": 862000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582533583,
+            "_nanoseconds": 942000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "B9M1HQrVoZjzaq5uazpn",
+        "createdAt": {
+            "_seconds": 1582533583,
+            "_nanoseconds": 942000000
+        },
+        "typey_id": "d99jQZ70MLPPdk75i6ij",
+        "title": "Jumpsuits"
+    },
+    {
+        "id": "BHsJYO1g5YT4QISL2h2N",
+        "createdAt": {
+            "_seconds": 1582538381,
+            "_nanoseconds": 489000000
+        },
+        "title": "Ballet Flats",
+        "updatedAt": {
+            "_seconds": 1582538381,
+            "_nanoseconds": 489000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545768,
+            "_nanoseconds": 5000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn",
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "CArEYiN6TolC9kui7rFu",
+        "createdAt": {
+            "_seconds": 1587545768,
+            "_nanoseconds": 5000000
+        },
+        "title": "Wallets"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545591,
+            "_nanoseconds": 239000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "DXKeibr5fm8mIy65AoEB",
+        "createdAt": {
+            "_seconds": 1587545591,
+            "_nanoseconds": 239000000
+        },
+        "title": "Coats"
+    },
+    {
+        "id": "EMu9cjjK1sliBLDAIA9A",
+        "createdAt": {
+            "_seconds": 1587546493,
+            "_nanoseconds": 40000000
+        },
+        "title": "Pendants",
+        "updatedAt": {
+            "_seconds": 1587546493,
+            "_nanoseconds": 40000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582537756,
+            "_nanoseconds": 192000000
+        },
+        "id": "G6D3ebbY1BT4roZuUGqo",
+        "createdAt": {
+            "_seconds": 1582537756,
+            "_nanoseconds": 192000000
+        },
+        "title": "Satchel",
+        "type_id": "Ufg6Eag6C0DopkJeRSzc"
+    },
+    {
+        "id": "GxNgiKgHQhsCAlUEF6tk",
+        "title": "Dresses",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw"
+    },
+    {
+        "title": "Jackets & coats",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw",
+        "id": "HCFWfer68uT3jHlqGlBg"
+    },
+    {
+        "id": "JefX7IgTPKWYgCaxtjjX",
+        "title": "Trousers",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582537659,
+            "_nanoseconds": 705000000
+        },
+        "id": "MLgYmk5Ph1jqnG054V99",
+        "createdAt": {
+            "_seconds": 1582537659,
+            "_nanoseconds": 705000000
+        },
+        "title": "Flats",
+        "type_id": "ICORWzI1trn3O6wQBQwF"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582538424,
+            "_nanoseconds": 70000000
+        },
+        "id": "NfjD4Kp79ndKpGokmCT3",
+        "createdAt": {
+            "_seconds": 1582538424,
+            "_nanoseconds": 70000000
+        },
+        "title": "Derby shoes",
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545026,
+            "_nanoseconds": 478000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "PahLOvxXTlNiZykqI3Ak",
+        "createdAt": {
+            "_seconds": 1587545026,
+            "_nanoseconds": 478000000
+        },
+        "title": "Flats"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "title": "Backpacks",
+        "type_id": " 8NUULeFjsycewAFgvx2X",
+        "updatedAt": {
+            "_seconds": 1587544930,
+            "_nanoseconds": 809000000
+        },
+        "id": "PmaPRlxu914DwTSH7Tic"
+    },
+    {
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw",
+        "titlte": "Outfits",
+        "id": "QY5uibrZZ6CjcbGjXnPM"
+    },
+    {
+        "id": "RXvQUXhXuD6sTmjyT9W1",
+        "createdAt": {
+            "_seconds": 1587545201,
+            "_nanoseconds": 483000000
+        },
+        "title": "Lace ups",
+        "updatedAt": {
+            "_seconds": 1587545201,
+            "_nanoseconds": 483000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545318,
+            "_nanoseconds": 902000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "ShvtkJvwiP6ITHCXCEUl",
+        "createdAt": {
+            "_seconds": 1587545318,
+            "_nanoseconds": 902000000
+        },
+        "title": "Tops"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546349,
+            "_nanoseconds": 817000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "VRUeYNKv8koubg9BmHXB",
+        "createdAt": {
+            "_seconds": 1587546349,
+            "_nanoseconds": 817000000
+        },
+        "title": "Gloves"
+    },
+    {
+        "id": "VhINPrBqjM7Q279Qgs6U",
+        "createdAt": {
+            "_seconds": 1587545665,
+            "_nanoseconds": 883000000
+        },
+        "title": "Trench coats",
+        "updatedAt": {
+            "_seconds": 1587545665,
+            "_nanoseconds": 883000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij"
+    },
+    {
+        "title": "Skirts",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw",
+        "id": "WMBaKQfBuwyxPTJkLvrp"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587544916,
+            "_nanoseconds": 868000000
+        },
+        "id": "WTrZf7tMPoGm1LnrrOg7",
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "title": "Clutch bags",
+        "type_id": " 8NUULeFjsycewAFgvx2X"
+    },
+    {
+        "id": "Y9v7geyQZT8aQRvNdyr6",
+        "title": "Shorts",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546523,
+            "_nanoseconds": 144000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "YY2jJfOCyLDUPQTCBe2O",
+        "createdAt": {
+            "_seconds": 1587546523,
+            "_nanoseconds": 144000000
+        },
+        "title": "Earrings"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582538469,
+            "_nanoseconds": 197000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "YggevDrnQqvYmUVSo2B6",
+        "createdAt": {
+            "_seconds": 1582538469,
+            "_nanoseconds": 197000000
+        },
+        "title": "Espadrilles"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546605,
+            "_nanoseconds": 998000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "Yu38SGhCoqUGtKXDowTh",
+        "createdAt": {
+            "_seconds": 1587546605,
+            "_nanoseconds": 998000000
+        },
+        "title": "Phone charms"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582533505,
+            "_nanoseconds": 319000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "ZFnwh5yqJjuQNjWHs72e",
+        "createdAt": {
+            "_seconds": 1582533505,
+            "_nanoseconds": 319000000
+        },
+        "title": "Skirts",
+        "typey_id": "d99jQZ70MLPPdk75i6ij"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587544903,
+            "_nanoseconds": 697000000
+        },
+        "id": "ZckAr4dKkCgtfr209P7L",
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "title": "Handbags",
+        "type_id": " 8NUULeFjsycewAFgvx2X"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582534014,
+            "_nanoseconds": 326000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "atTQ6a3TKYRbZ4PDhUSB",
+        "createdAt": {
+            "_seconds": 1582534014,
+            "_nanoseconds": 326000000
+        },
+        "typey_id": "L3nCd0aPr9pOAbKNaAcW",
+        "title": "Trainers"
+    },
+    {
+        "id": "bEqh5lDHLW5x9g3WRXRg",
+        "title": "Tops",
+        "type_id": "Eo2l5gIDLgjCKWLTR7Nw"
+    },
+    {
+        "id": "biNcJt3L5QGavO9hjBfD",
+        "createdAt": {
+            "_seconds": 1587546417,
+            "_nanoseconds": 268000000
+        },
+        "title": "Bracelets",
+        "updatedAt": {
+            "_seconds": 1587546417,
+            "_nanoseconds": 268000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY"
+    },
+    {
+        "id": "btvY7hIQIT2kgk2sxPpP",
+        "createdAt": {
+            "_seconds": 1587546509,
+            "_nanoseconds": 949000000
+        },
+        "title": "Long necklaces",
+        "updatedAt": {
+            "_seconds": 1587546509,
+            "_nanoseconds": 949000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY"
+    },
+    {
+        "title": "Shirts",
+        "updatedAt": {
+            "_seconds": 1587543110,
+            "_nanoseconds": 21000000
+        },
+        "category_ids": [
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "buFTdM986I9gBnAa04p1",
+        "createdAt": {
+            "_seconds": 1587543110,
+            "_nanoseconds": 21000000
+        }
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "cQEyNhHvduycX11xM5fb",
+        "createdAt": {
+            "_seconds": 1582533999,
+            "_nanoseconds": 754000000
+        },
+        "typey_id": "L3nCd0aPr9pOAbKNaAcW",
+        "title": "Boots",
+        "updatedAt": {
+            "_seconds": 1582533999,
+            "_nanoseconds": 754000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545698,
+            "_nanoseconds": 921000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "d4UiG9BLPGvmvhHyif3j",
+        "createdAt": {
+            "_seconds": 1587545698,
+            "_nanoseconds": 921000000
+        },
+        "title": "Swimwaear"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545343,
+            "_nanoseconds": 75000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "d4mRxUMMGTdd0Jou87VV",
+        "createdAt": {
+            "_seconds": 1587545343,
+            "_nanoseconds": 75000000
+        },
+        "title": "Dresses"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582538451,
+            "_nanoseconds": 206000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "dKju3nuKRwjhGnD87dnZ",
+        "createdAt": {
+            "_seconds": 1582538451,
+            "_nanoseconds": 206000000
+        },
+        "title": "Ankle Boots"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "dhg1dEGFGOfkykt2rgyE",
+        "createdAt": {
+            "_seconds": 1582538413,
+            "_nanoseconds": 114000000
+        },
+        "title": "Mules & Clogs",
+        "updatedAt": {
+            "_seconds": 1582538413,
+            "_nanoseconds": 114000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1582537941,
+            "_nanoseconds": 912000000
+        },
+        "id": "eWHYiN2ajMBE2FfcHkN8",
+        "createdAt": {
+            "_seconds": 1582537941,
+            "_nanoseconds": 912000000
+        },
+        "title": "Week-end bags",
+        "type_id": "Ufg6Eag6C0DopkJeRSzc"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "fodnjVW9a7MwBmpB5q8e",
+        "createdAt": {
+            "_seconds": 1582533434,
+            "_nanoseconds": 696000000
+        },
+        "title": "Knitwear",
+        "typey_id": "d99jQZ70MLPPdk75i6ij",
+        "updatedAt": {
+            "_seconds": 1582533434,
+            "_nanoseconds": 696000000
+        }
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587545576,
+            "_nanoseconds": 90000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "hFdLtCZVLhf6iowOmYro",
+        "createdAt": {
+            "_seconds": 1587545576,
+            "_nanoseconds": 90000000
+        },
+        "title": "Jackets"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "hcNKTRD1rFWRlUbrKjRS",
+        "createdAt": {
+            "_seconds": 1587545490,
+            "_nanoseconds": 536000000
+        },
+        "title": "Jeans",
+        "updatedAt": {
+            "_seconds": 1587545490,
+            "_nanoseconds": 536000000
+        }
+    },
+    {
+        "id": "ikhqOgXO3Sxg34vWSv1J",
+        "createdAt": {
+            "_seconds": 1587546295,
+            "_nanoseconds": 225000000
+        },
+        "title": "Purses, wallets & cases",
+        "updatedAt": {
+            "_seconds": 1587546295,
+            "_nanoseconds": 225000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546279,
+            "_nanoseconds": 518000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "ocL5xs4ORWnvqRgs0cx6",
+        "createdAt": {
+            "_seconds": 1587546279,
+            "_nanoseconds": 518000000
+        },
+        "title": "Scarves"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546267,
+            "_nanoseconds": 143000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "pjvJcy4IdmJ1ri4tvvXD",
+        "id": "q1I5Uh4XNRq8xC7E6y5t",
+        "createdAt": {
+            "_seconds": 1587546267,
+            "_nanoseconds": 143000000
+        },
+        "title": "Hats"
+    },
+    {
+        "typey_id": "d99jQZ70MLPPdk75i6ij",
+        "title": "Shorts",
+        "collection_ids": [
+            "wxm2cpK8UCMFaO49R69Q"
+        ],
+        "updatedAt": {
+            "_seconds": 1582533568,
+            "_nanoseconds": 767000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "image": {
+            "src": "https://w0.pngwave.com/png/760/65/bermuda-shorts-jeans-pants-clothing-jeans-png-clip-art-thumbnail.png"
+        },
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "qX3gP6Meq2rUckVvXtil",
+        "createdAt": {
+            "_seconds": 1582533568,
+            "_nanoseconds": 767000000
+        }
+    },
+    {
+        "id": "uOtHVOeBUg8400d7ioSn",
+        "createdAt": {
+            "_seconds": 1582533548,
+            "_nanoseconds": 585000000
+        },
+        "title": "Trousers",
+        "typey_id": "d99jQZ70MLPPdk75i6ij",
+        "updatedAt": {
+            "_seconds": 1582533548,
+            "_nanoseconds": 585000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij"
+    },
+    {
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "d99jQZ70MLPPdk75i6ij",
+        "id": "vAEcfaQV0Ht6Ctf9oG43",
+        "createdAt": {
+            "_seconds": 1587545651,
+            "_nanoseconds": 523000000
+        },
+        "title": "Leather jackets",
+        "updatedAt": {
+            "_seconds": 1587545651,
+            "_nanoseconds": 523000000
+        }
+    },
+    {
+        "id": "w6ZvvVaoVz1el7VuvgWQ",
+        "createdAt": {
+            "_seconds": 1582537667,
+            "_nanoseconds": 830000000
+        },
+        "title": "Boots",
+        "category_id": "xJeMcRLyhqL6NXz03orV",
+        "updatedAt": {
+            "_seconds": 1582537667,
+            "_nanoseconds": 830000000
+        },
+        "category_ids": [
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "id": "yWKOYybJR7rE0TPuqvtc",
+        "createdAt": {
+            "_seconds": 1582537695,
+            "_nanoseconds": 89000000
+        },
+        "collection_ids": [
+            "wxm2cpK8UCMFaO49R69Q"
+        ],
+        "title": "Espadrilles",
+        "category_id": "xJeMcRLyhqL6NXz03orV",
+        "updatedAt": {
+            "_seconds": 1582537695,
+            "_nanoseconds": 89000000
+        },
+        "category_ids": [
+            "xJeMcRLyhqL6NXz03orV"
+        ],
+        "image": {
+            "src": "https://cdn.shopify.com/s/files/1/2698/1188/products/933c20edd27db2e3c7ea62ed1dc6d0cf_1800x1800.png?v=1549975222"
+        },
+        "type_id": "L3nCd0aPr9pOAbKNaAcW"
+    },
+    {
+        "updatedAt": {
+            "_seconds": 1587546437,
+            "_nanoseconds": 212000000
+        },
+        "category_ids": [
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "type_id": "Dzmxt8ehIp2ZLhBrXghY",
+        "id": "ymbPV7xTVpCPJVybzbGG",
+        "createdAt": {
+            "_seconds": 1587546437,
+            "_nanoseconds": 212000000
+        },
+        "title": "Pins & brooches"
+    },
+    {
+        "category_id": "xJeMcRLyhqL6NXz03orV",
+        "updatedAt": {
+            "_seconds": 1582537681,
+            "_nanoseconds": 874000000
+        },
+        "category_ids": [
+            "xJeMcRLyhqL6NXz03orV",
+            "g2llU0ofWnYUFdvSh7Tn"
+        ],
+        "image": {
+            "src": "https://www.pngitem.com/pimgs/m/165-1656282_shoes-and-sandals-png-transparent-png.png"
+        },
+        "type_id": "L3nCd0aPr9pOAbKNaAcW",
+        "id": "zDn7ISgrx1jM109XMcpc",
+        "createdAt": {
+            "_seconds": 1582537681,
+            "_nanoseconds": 874000000
+        },
+        "collection_ids": [
+            "wxm2cpK8UCMFaO49R69Q"
+        ],
+        "title": "Sandals"
+    }
+]

@@ -1,0 +1,528 @@
+{
+  "profile" : {
+      "addresses" : "Addresses",
+      "myorders" : "My orders",
+      "privatepolicy" : "Pricate policy",
+      "language" : "English",
+      "invitefriends" : "Invite friends",
+      "unlocktext" : "To unlock all feature please:",
+      "logintext" : "Log in/registeer",
+      "longpress" : "For language change long press is needed",
+      "profile": "Profile",
+      "noListings": "User haven't got any listings yet",
+      "noReviews": "User haven't got any reviews yet",
+      "noBio": "The user doesn't say his bio",
+      "listings": "Listings",
+      "reviews": "Reviews",
+      "testTextBio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididu...",
+      "mywishlist": "My wishlist",
+      "mysaveditems": "My saved items",
+      "myfavorites": "My favorites",
+      "settings": "Settings",
+      "subscriptions": "Subscriptions",
+      "myalerts": "My Alerts",
+      "myitems": "My Items",
+      "myaccount": "My account",
+      "myvestiaire": "My Vestiaire",
+      "mydetails": "My Details",
+      "pushnotifications": "Push notifications",
+      "priceoffersent": "Price offer sent"
+  },
+  "tabs" : {
+      "home" : "Home",
+      "support" : "Support",
+      "profile" : "Profile",
+      "cart" : "Cart",
+      "wishlist" : "Wishlist",
+      "catalog" : "Catalog"
+  },
+  "addcar" : {
+      "addcarbymodel" : "ADD CAR BY MODEL",
+      "addcar" : "ADD CAR"
+  },
+  "authentication" : {
+      "email" : "Email",
+      "next" : "Next",
+      "enteremail" : "Enter your email to log in or register",
+      "entercorrectemail" : "Enter correct email",
+      "whatisyourname" : "What's your name?",
+      "name" : "Name",
+      "entercorrectname" : "Enter correct name",
+      "passwordisnotcorrect" : "Password is not correct",
+      "enterpassword" : "Enter password",
+      "passwdplaceholder" : "Password (minimum 8 characters)",
+      "entercorrectlast_name" : "Enter correct last name",
+      "last_nameplaceholder" : "last_name",
+      "enterlast_name" : "Enter your last_name",
+  },
+  "cart" : {
+      "carttitle" : "Cart",
+      "totalvalue" : "Total value:"
+  },
+  "categories" : {
+      "categoriestitle" : "CATEGORIES"
+  },
+  "myorders" : {
+      "orderstatus" : "Order status:",
+      "paymentstatus" : "Payment status:",
+      "postalcode" : "Postal code:",
+      "orderid" : "Order №:",
+      "createdtime" : "Last updated:",
+      "placedon" : "Placed on",
+      "totalincludedtax" : "Total incl tax:",
+      "paymentmethod" : "Payment method:"
+  },
+  "product" : {
+      "makeanoffer" : "Make an offer",
+      "waranty" : "Waranty:",
+      "months" : "Months",
+      "instock" : "In stock",
+      "notinstock" : "Not in stock",
+      "universalfit" : "Universal fit",
+      "itemdetails" : "Item details",
+      "similar_parts" : "Similar parts",
+      "addtocart" : "ADD TO CART",
+      "removefromcart" : "REMOVE FROM CART"
+  },
+  "wishlist" : {
+      "mywishlist" : "My wishlist"
+  },
+  "support" : {
+      "emailus" : "If you have questions or suggestions, you can write to us",
+      "sendemail" : "Send email",
+      "openchat" : "Open chat"
+  },
+  "edit" : "Edit",
+  "done" : "Done",
+  "search" : "Search",
+  "cancel" : "Cancel",
+  "loginorregister" : "Login or register",
+  "sort" : "sort",
+  "searchpbypartnumber" : "Search by item, by part number",
+  "searchitems" : "Search for items, designers",
+  "searchnotfound" : "Sorry, we didn't find anything",
+  "drawer": {
+      "home": "Home",
+      "myListings": "My listings",
+      "inbox": "Inbox",
+      "rentals": "Rentals",
+      "settings": "Settings",
+      "help": "Help",
+      "logout": "Logout",
+      "login": "Login",
+      "addYourGoods": "Add your goods"
+    },
+    "main": {
+      
+    },
+    "home": {
+      "home": "Home",
+      "category": "Category",
+      "subCategory": "Sub category",
+      "day": "day",
+      "seeAll": "See All",
+      "emptyList": "Sorry list is empty",
+      "search": "Search",
+      "nothingWasFound": "Nothing was found"
+    },
+    "auth": {
+      "heading": "Mobile rent service",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "email": "Email",
+      "password": "Password",
+      "firstName": "First Name",
+      "last_name": "Last Name",
+      "resetPassword": "Forgot your password?",
+      "resetPasswordLink": "Reset Password",
+      "termsAndConditions": "By signing up you accept the",
+      "termsAndConditionsLink": "terms and conditions",
+      "dontHaveAnAccount": "Dont have an account?",
+      "alreadyHaveAnAccount": "Already have an account?",
+      "createAccount": "Create account",
+      "sendResetEmail": "Send Email",
+      "resetPasswordHeading": "Reset your Password",
+      "resetPasswordPreInstruction": "Lorem ipsum dolor sit amet, adipiscing elit, sed do eiusmod tempor incididunt",
+      "resetPasswordPostInstruction": "Check your email for a message with a link to update your password",
+      "resetPasswordErrorInstruction": "Sorry we couldn't send email. Try send again",
+      "somethingWentWrong": "Something went wrong",
+      "tryAgain": "Try again",
+      "emailSent": "Email sent",
+      "continue": "Continue",
+      "skip": "skip"
+    },
+    "updatePassword": {
+      "addGoods": "Add goods",
+      "newPassword": "New Password",
+      "newPasswordInstruction": "Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt labore dolore magna aliqua",
+      "retypeNewPassword": "Re-type New Password",
+      "updatePassword": "Update Password",
+      "updateYourPassword": "Update your password"
+    },
+    "addNewItem": {
+      "photos": "Photos",
+      "addPhoto": "Add photo",
+      "addGoods": "Add goods",
+      "title": "Title",
+      "category": "Category",
+      "description": "Description",
+      "priceADay": "Price a day",
+      "location": "Location",
+      "publishListing": "Publish listing",
+      "brand": "Brand",
+      "level": "Level",
+      "choosePhotos": "Choose photos from library or make new photo?",
+      "choosePhotosFromLibrary": "Choose photos from library",
+      "makeNewPhoto": "Make new photo by camera",
+      "reviews": "Reviews",
+      "cancel": "Cancel",
+      "save": "Save",
+      "editGoods": "Edit goods",
+      "retry": "Retry"
+  
+    },
+    "category": {
+      "category": "Category",
+      "transport": "Transport",
+      "sport": "Sport",
+      "travel": "Travel",
+      "allCategories": "All categories"
+    },
+    "myListings": {
+      "myListings": "My listings",
+      "addNewItem": "Add new goods",
+      "youHave": "You have",
+      "listings": "listings",
+      "noListings": "You haven't got any listings yet"
+    },
+    "settings": {
+      "settings": "Settings",
+      "profileSettings": "Profile settings",
+      "contactDetails": "Contact details",
+      "passwordSettings": "Password settings",
+      "tip": "Tip: Choose an image where your face is recognizable.",
+      "formatSuggestion": "JPG, .GIF or .PNG. Max. 10 MB",
+      "firstName": "First name",
+      "last_name": "Last name",
+      "bio": "Profile bio",
+      "email": "Email",
+      "phoneNumber": "Phone number",
+      "newPassword": "New Password",
+      "retypeNewPassword": "Re-type New Password",
+      "currentPassword": "Current Password",
+      "noVerifiedEmail": "You haven't verified your email address yet.",
+      "noVerifiedEmailLink": "Resend verification email",
+      "myProfile": "View my profile",
+      "change": "Change",
+      "choosePhotos": "Choose photos from library or make new photo?",
+      "choosePhotosFromLibrary": "Choose photos from library",
+      "makeNewPhoto": "Make new photo by camera",
+      "verifyEmailSent": "Email with verify link sent. Check your email",
+      "verifyEmail": "Verify email",
+      "errorChangeEmail": "Wrong email",
+      "errorChangeEmailDetails": " Your current password is invalid"
+    },
+    "verifyEmail": {
+      "verifyEmail": "Verify email",
+      "verifyEmailSuccess": "Your email is verified",
+      "verifyEmailError": "You already verified email or token is not valid",
+      "someInstruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+      "goToSettings": "Go to settings"
+    },
+    "requestToRent": {
+      "requestToRent": "Request to rent",
+      "sendRequest": "Send request",
+      "when": "When do you want it?",
+      "bookingBreakdown": "Booking breakdown",
+      "priceADay": "Price per day",
+      "totalPrice": "Total price",
+      "payment": "Payment",
+      "message": "Message",
+      "cardNumber": "Card number",
+      "cardExpiration": "MM/YY",
+      "cardCVC": "CVC",
+      "cardCVCInfo": "The 3-digit security code is found on the back of most credit and debit cards",
+      "somethingWentWrong": "Something went wrong",
+      "requestErrorInstruction": "Sorry we couldn't create request. Try send again",
+      "tryAgain": "Try again",
+      "goToChat": "Go to chat",
+      "requestSent": "Request sent",
+      "waitForConfirmation": "Wait for confirmation",
+      "verificationError": "Current user has not verified the account, you can not rent this product",
+      "sorry": "Sorry",
+      "goToProduct": "Go to product"
+    },
+    "payoutPreferences": {
+      "payoutPreferences": "Payout Preferences",
+      "personalDetails": "Personal details",
+      "oneMoreThing": "One more thing: Payout preferences",
+      "oneMoreThingDescription": "Since this was the first listing you created, we need to know bit more about you in order to send you money. We only ask these once.",
+      "firstName": "First name",
+      "last_name": "Last name",
+      "country": "Country",
+      "address": "Address",
+      "streetAddress": "Street address",
+      "postalCode": "Postal code",
+      "city": "City",
+      "saveAndPublish": "Save details & Publish listing",
+      "birthDate": "Birth date",
+      "month": "Month",
+      "year": "Year",
+      "payment": "Payment",
+      "addCard": "Add a card",
+      "accountNumber": "Bank account number"
+    },
+    "stripeVerifyInstructions": {
+      "attention": "Attention",
+      "message": "Contact with support team to verify your account"
+    },
+  
+    "cardList": {
+      "cardList": "Your cards"
+    },
+    "alerts": {
+      "signInError": {
+        "title": "Sign In",
+        "message": "Incorrect email or password"
+      },
+      "signUpError": {
+        "title": "Sign Up",
+        "message": "User already registered"
+      },
+      "signOutError": {
+        "title": "Sign Out",
+        "message": "Something went wrong try again"
+      },
+      "incorrectEmail": {
+        "title": "Incorrect email",
+        "message": "You send incorrect email"
+      },
+      "createListingSuccess": {
+        "title": "Create Listing",
+        "message": "Listing created"
+      },
+      "createListingError": {
+        "title": "Create Listing",
+        "message": "Sorry, we couldn't create listing, try again"
+      },
+      "updateProductSuccess": {
+        "title": "Update Product",
+        "message": "Product updated"
+      },
+      "updateProductError": {
+        "title": "Update Product",
+        "message": "Sorry, we couldn't update product, try again"
+      },
+      "somethingWentWrong": {
+        "title": "Error",
+        "message": "Something went wrong"
+      },
+      "inDevelopment": {
+        "title": "Error",
+        "message": "This functional in development"
+      }
+    },
+  
+    "common": {
+      "hello": "Hello",
+      "viewProfile": "View profile",
+      "ok": "OK",
+      "cancel": "Cancel",
+      "areYouSure": "Are you sure?",
+      "joinToUs": "Join to us",
+      "select": "Select",
+      "settings": "Settings",
+      "save": "Save",
+      "more": "More",
+      "less": "Less",
+      "availableDate": "Available date",
+      "employedDate": "Employed date",
+      "day": "day",
+      "days": "days",
+      "viewCalendar": "View calendar",
+      "nowOnLease": "Now on lease",
+      "canLease": "You can lease",
+      "nextAvailableDate": "Next available date:",
+      "availableUntil": "Available until:",
+      "calendar": "Calendar",
+      "continue": "Continue"
+    },
+    "permissions": {
+      "iosRestrictedPermission": "Restricted Permission",
+      "titles": {
+        "cameraRoll": "Camera roll permission",
+        "camera": "Camera permission",
+        "mediaLibrary": "Media library permission"
+      },
+      "cameraRoll": "We need camera roll Permission",
+      "camera": "We need camera permission",
+      "mediaLibrary": "We need media library permission",
+      "error": "Permission error"
+    }, 
+    "errors": {
+      "error": "Error",
+      "passwordMustBe": "Password must be between 8 and 256 symbols",
+      "confirmPassword": "Password don't the same",
+      "incorrectPassword": "Incorrect password",
+      "incorrectPhone": "Incorrect phone number",
+      "incorrectEmail": "Incorrect email",
+      "requireFirstName": "First name must be minimum 1 symbol",
+      "requirelast_name": "Last name must be minimum 1 symbol",
+      "currentPasswordIncorrect": "You typed incorrect current password",
+      "passwordIncorrectForEmail": "You typed incorrect current password for changing email",
+      "passwordIncorrectForNewPassword": "You typed incorrect current password for changing password",
+      "incorrectCardNumber": "You typed incorrect card number",
+      "incorrectCardExpiration": "You typed incorrect card expiration",
+      "incorrectCardCVC": "You typed incorrect card CVC",
+      "stripeCounties": "Sorry, Stripe doesn't support this country, select one from the list, please",
+      "require": "Require"
+    },
+    "helpScreen": {
+      "helpCenter": "Help Center",
+      "privacyPolicy": "Privacy policy"
+    },
+  
+    "dayOfWeek": {
+    "su": "Su",
+    "mo": "Mo", 
+    "tu": "Tu",
+    "we": "We",
+    "th": "Th",
+    "fr": "Fr",
+    "sa": "Sa",
+    "availableDays": "Available days"
+    },
+  
+    "chat": {
+      "accept": "Accept",
+      "deny": "Deny",
+      "viewGoods": "View goods",
+      "viewDetails": "View details",
+      "closeDetails": "Close details",
+      "requestToRent": "Request to rent",
+      "completedBooking": "The booking was completed.",
+      "leaveReviewFor": "Request to rent"
+    },
+  
+    "inbox": {
+      "inbox": "Inbox",
+      "bookingBreakdown": "Booking breakdown",
+      "pricePerDay": "Price per day",
+      "day": "day",
+      "request": "Request",
+      "accepted": "Accepted",
+      "totalPrice": "Total price",
+      "decline": "Decline",
+      "delivered": "Delivered",
+      "chat": "Chat",
+      "review": "Review",
+      "reviewing": "Reviewing",
+      "complete": "Complete"
+  
+    },
+  
+    "monthNames": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "dayNames": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "dayNamesShort": [
+      "S",
+      "M",
+      "T",
+      "W",
+      "T",
+      "F",
+      "S"
+    ],
+  
+  
+    "countries": {
+      "australia": "Australia",
+      "austria": "Austria",
+      "belgium": "Belgium",
+      "canada": "Canada",
+      "denmark": "Denmark",
+      "finland": "Finland",
+      "france": "France",
+      "germany": "Germany",
+      "hongKong": "Hong Kong",
+      "ireland": "Ireland",
+      "japan": "Japan",
+      "luxembourg": "Luxembourg",
+      "netherlands": "Netherlands",
+      "newZealand": "New Zealand",
+      "norway": "Norway",
+      "singapore": "Singapore",
+      "spain": "Spain",
+      "sweden": "Sweden",
+      "switzerland": "Switzerland",
+      "unitedKingdom": "United Kingdom",
+      "unitedStates": "United States",
+      "italy": "Italy",
+      "portugal": "Portugal"
+    },
+    "rentItem": {
+      "totalPrice": "Total price",
+      "requestToRent": "Request to rent"
+    },
+    "review": {
+      "writeReview": "Write a review",
+      "publishReview": "Publish review",
+      "emptyReview": "Not yet reviewed"
+    },
+  
+    "rentals": {
+      "dashboard": "Dashboard",
+      "borrowing": "Borrowing",
+      "lending": "Lending",
+      "emptyList": "Sorry list is empty",
+      "provider": "Provider: ",
+      "renter": "Renter: ",
+      "viewChat": "View chat",
+      "viewGoods": "View goods",
+      "statsBorrowing": "Stats Borrowing",
+      "statsLending": "Stats Lending",
+      "itemsListed": "Items listed",
+      "rentals": "Rentals",
+      "spend": "Spend",
+      "earnings": "Earnings"
+  
+    },
+    "PrivacyPolicies": {
+      "name": "Sharetribe Flex",
+      "title": "PrivacyPolicies"
+    }
+}

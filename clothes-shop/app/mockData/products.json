@@ -1,0 +1,52 @@
+[
+    {
+        "id"  : "O33B0001",
+        "title"  : "K2 Engine Oil",
+        "desc" : "TEXAR | FUEL ECONOMY | 5W-30 | 1| Part Synthetic Oil",
+        "image"  : "https://i1.rozetka.ua/goods/1457429/toyota_00279_1qt5w_images_1457429458._S.jpg",
+        "price" : 6.79,
+        "discount" : 15, // у відсотках
+        "discountEnd" : "23.12.2019",
+        "discountEndTs" :   1577379228,
+        "warranty" : 12, // in monthes
+        "suitsFor" : [],
+        "specs" : [
+            {
+                "key" : "capacity",
+                "sortBy" : true,
+                "value" : 1
+            },
+            {
+                "key" : "Product line",
+                "value" : "TEXAR"
+            },
+            {
+                "key" : "Version",
+                "value" : "FUEL Economy"
+            }
+        ]
+    },
+    {
+        "id"  : "GMC01B",
+        "title"  : "Engine oil",
+        "desc" : "Blue",
+        "image"  : "https://b2e5u6h2.stackpathcdn.com/wp-content/uploads/2019/05/MOB124184.jpg",
+        "price" : 3.01,
+        "discount" : 19, // у відсотках
+        "discountEnd" : "23.12.2019",
+        "discountEndTs" :   1577379228,
+        "warranty" : 6, // in monthes
+        "suitsFor" : []
+    },
+    {
+        "id"  : "N201N",
+        "title"  : "Window Cleaner",
+        "desc" : "1l || Blue",
+        "image"  : "https://www.bostik-industrial.com/assets/176.-Air-Filters.png",
+        "price" : 8.05,
+        "discount" : 0,
+        "warranty" : 0,
+        "suitsFor" : []
+
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "title" : "Most Wanted",
+        "value" : "most_wanted",
+        "tag_id" : "B2BSflXEl0J7EWUA8Bv9",
+        "image" : "https://www.kindpng.com/picc/m/84-842782_lv-purse-png-louis-vuitton-transparent-png.png"
+    },
+    {
+        "title" : "Best Deals -50 %",
+        "value" : "discount",
+        "tag_id" : "HfVrGZxrcrYugcN6gwEU",
+        "image" : "https://media.giphy.com/media/3rsCqUgtxFxRr9P7is/giphy.gif"
+    },
+    {
+        "title" : "Exception Pieces",
+        "value" : "exception_piece",
+        "tag_id" : "Zx0aGohxsGc8WRJFrZY4",
+        "image" : "https://ekaterinakofman.files.wordpress.com/2016/03/img_7779.jpg"
+    },
+    {
+        "title" : "Hot trends",
+        "value" : "hot",
+        "tag_id" : "fT48nDXlk5OSVAEU2M8Q",
+        "image" : "https://media.giphy.com/media/l3q2PGmHtZs0olRjW/giphy.gif"
+    }
+]

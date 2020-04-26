@@ -1,0 +1,23 @@
+{
+    "profile" : {
+        "addresses" : "Адреси",
+        "myorders" : "Мої замовлення",
+        "privatepolicy" : "Політика конфеденційності",
+        "language" : "Українська",
+        "invitefriends" : "Запросити друзів",
+        "unlocktext" : "Щоб розблокувати всі функції:",
+        "logintext" : "Увійдіть/зареєструйтеся",
+        "longpress" : "для змінни утримуйте кнопку"
+    },
+    "cancel" : "Відміна",
+    "tabs" : {
+        "support" : "Підтримка",
+        "profile" : "Профіль",
+        "cart" : "Кошик",
+        "wishlist" : "Список бажань",
+        "catalog" : "Каталог"
+    },
+    "addcar" : {
+        "addcarbymodel" : "ADD CAR BY MODEL"
+    }
+}
