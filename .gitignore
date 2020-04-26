@@ -1,5 +1,5 @@
 //clothes shop some components
 ./clothes-shop/config
-./clothes-shop/stores
-./clothes-shop/components/Negotiations
-./clothes-shop/components/Comments
+./clothes-shop/app/stores
+./clothes-shop/app/components/Negotiations
+./clothes-shop/app/components/Comments
