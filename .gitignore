@@ -1,4 +1,4 @@
-//clothes shop some components
+#clothes shop some components
 ./clothes-shop/config
 ./clothes-shop/app/stores
 ./clothes-shop/app/components/Negotiations
