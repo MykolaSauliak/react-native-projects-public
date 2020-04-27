@@ -13,6 +13,7 @@ import AccountDetails from '../screens/Profile/AccountDetails';
 import {BackHeader} from '../components';
 import screens from '../constants/screens';
 import Favorites from '../screens/Profile/Favorites';
+import Stats from '../screens/Profile/Stats/Stats';
 
 const ProfileStack = createStackNavigator(
   {
@@ -22,13 +23,7 @@ const ProfileStack = createStackNavigator(
         header: null,
       }),
     },
-    // [screens.AuthenticationStack]: {
-    //   screen: AuthenticationStack,
-    //   navigationOptions: props => ({
-    //       header: null,
-    //       // header:  <BackHeader navigation={props.navigation} title="Sign in"/>,
-    //   }),
-    // },
+
     [screens.MyOrders]: {
       screen: MyOrders,
       navigationOptions: props => ({
@@ -43,6 +38,7 @@ const ProfileStack = createStackNavigator(
         // header:  <BackHeader navigation={props.navigation} title="Sign in"/>,
       }),
     },
+    [screens.Stats]: Stats,
     [screens.Wishlist]: Wishlist,
     [screens.Favorites]: Favorites,
     [screens.MyAlerts]: MyAlerts,

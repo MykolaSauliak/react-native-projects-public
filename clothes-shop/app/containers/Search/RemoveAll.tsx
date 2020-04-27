@@ -11,7 +11,7 @@ import {
     connectToggleRefinement,
     connectStats,
     connectHits,
-    } from 'react-instantsearch-native';
+} from 'react-instantsearch-native';
 
 class RemoveAll extends Component {
 

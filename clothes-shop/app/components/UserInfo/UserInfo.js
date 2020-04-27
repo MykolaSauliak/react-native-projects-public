@@ -17,8 +17,8 @@ import i18n from '../../i18n';
 
 const UserInfo = ({
   rating,
-  email,
-  first_name,
+  email = "",
+  first_name = "",
   onLogout,
   showViewProfile = false,
   textReview = false,

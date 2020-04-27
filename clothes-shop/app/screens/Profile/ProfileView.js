@@ -8,7 +8,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import {ListItem, CheckBox, Header} from 'react-native-elements';
+import { CheckBox, Header} from 'react-native-elements';
 import colors from '../../styles/colors';
 import i18n from '../../i18n';
 import {NavigationService} from '../../services';
@@ -16,6 +16,8 @@ import ShippingCartIcon from '../../containers/ShippingCartIcon';
 import AvatarUpload from '../../containers/AvatarUpload';
 import UserInfo  from '../../components/UserInfo/UserInfo'
 import { BackHeader } from '../../components';
+import ListItem from '../../components/ListItem/ListItem';
+import NotAuthorizedUser from '../../components/NotAuthorizedUser/NotAuthorizedUser'
 
 const S = StyleSheet.create({
   text: {
@@ -154,7 +156,7 @@ const ProfileView = ({
         renderHeader={renderSheetHeader}
       /> */}
       <ScrollView>
-        <View style={{padding: 15, paddingVertical: 25}}>
+        <View style={{paddingVertical: 25}}>
           {isSignedIn === true && (
             <View
               style={{aspectRatio: 3 / 1, width: '100%', flexDirection: 'row', alignItems : "center"}}>
@@ -178,88 +180,52 @@ const ProfileView = ({
               marginVertical: 25,
             }}>
             <ListItem
-              containerStyle={{backgroundColor: colors.gray}}
-              // leftIcon={{...activeColorStyle, name : "truck-delivery", type: "material-community"}}
-              titleStyle={[activeColor, S.title]}
+              disabled={!isSignedIn}
+              onPress={toStats}
+              // titleStyle={activeColorStyle}
+              title={i18n.t('profile.mystats')}
+            />
+            <ListItem
+              gray
+              bold
+              // titleStyle={[activeColor, S.title]}
               title={i18n.t('profile.myvestiaire')}
-              bottomDivider
             />
             <ListItem
               disabled={!isSignedIn}
-              // leftIcon={{
-              //   ...activeColorStyle,
-              //   name: 'truck-delivery',
-              //   type: 'material-community',
-              // }}
               onPress={toOrders}
-              titleStyle={activeColorStyle}
+              // titleStyle={activeColorStyle}
               title={i18n.t('profile.myorders')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
             />
             <ListItem
               disabled={!isSignedIn}
-              // leftIcon={{
-              //   ...activeColorStyle,
-              //   name: 'truck-delivery',
-              //   type: 'material-community',
-              // }}
               onPress={toMyItems}
               titleStyle={activeColorStyle}
               title={i18n.t('profile.myitems')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
             />
             <ListItem
               disabled={!isSignedIn}
-              // leftIcon={{
-              //   ...activeColorStyle,
-              //   name: 'truck-delivery',
-              //   type: 'material-community',
-              // }}
               onPress={toMyNegotiations}
               titleStyle={activeColorStyle}
               title={i18n.t('profile.priceoffersent')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
             />
             <ListItem
-              containerStyle={{backgroundColor: colors.gray}}
+              gray
               // leftIcon={{...activeColorStyle, name : "truck-delivery", type: "material-community"}}
               titleStyle={[activeColor, S.title]}
               title={i18n.t('profile.mysaveditems')}
-              bottomDivider
             />
             <ListItem
               disabled={!isSignedIn}
-              // leftIcon={{
-              //   ...activeColorStyle,
-              //   name: 'bookmark',
-              //   type: 'material-community',
-              // }}
               onPress={toWishlist}
               titleStyle={activeColorStyle}
               title={i18n.t('profile.mywishlist')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
             />
             <ListItem
               disabled={!isSignedIn}
-              // leftIcon={{
-              //   ...activeColorStyle,
-              //   name: 'heart',
-              //   type: 'material-community',
-              // }}
               onPress={toFavorites}
               titleStyle={[activeColorStyle]}
               title={i18n.t('profile.myfavorites')}
-              bottomDivider
-              containerStyle={{paddingVertical: 25}}
-              chevron
             />
             <ListItem
               disabled={!isSignedIn}
@@ -377,6 +343,7 @@ ProfileView.defaultProps = {
   toSubscriptionsSettings: () =>
     NavigationService.navigateToSubscriptionsSettings(),
   toWishlist: () => NavigationService.navigateToWishlist(),
+  toStats: () => NavigationService.navigateToStats(),
   toFavorites: () => NavigationService.navigateToFavorites(),
   toProfileDetails: () => NavigationService.navigateToProfileInfo(),
   toMyNegotiations: () => NavigationService.navigateToMyNegotiations(),

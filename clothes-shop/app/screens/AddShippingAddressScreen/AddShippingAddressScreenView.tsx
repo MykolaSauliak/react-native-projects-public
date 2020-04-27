@@ -13,11 +13,10 @@ import S from './styles';
 import globalStyles from '../../constants/styles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import colors from '../../styles/colors';
+import {colors} from '../../styles';
 import constants from '../../constants';
 import {ListItem, Header, Input} from 'react-native-elements';
 import {List, Checkbox} from 'react-native-paper';
-import globalColors from '../../styles/colors';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import {Formik} from 'formik';
@@ -109,7 +108,7 @@ const AddShippingAddressScreenView = ({
     <View
       style={{
         padding: 10,
-        backgroundColor: globalColors.weLoveColor || 'gray',
+        backgroundColor: colors.weLoveColor || 'gray',
         height: constants.DEVICE_HEIGHT,
       }}>
       <View style={{width: '100%', alignItems: 'center'}}>
@@ -119,11 +118,11 @@ const AddShippingAddressScreenView = ({
           <AntDesign name="down" size={15} />
         )}
       </View>
-      <Text style={[S.text, {opacity: 0.5}]}>
+      <Text style={[globalStyles.text, {opacity: 0.5}]}>
         Why are you asking me for this information?
       </Text>
       <View style={{width: 50, marginVertical: 15, borderWidth: 2}} />
-      <Text style={S.text}>
+      <Text style={globalStyles.text}>
         These details enable us to fill out the pre-paid shipping voucher that
         will be provided to you when your item has sold. You will only beb asked
         for these once, when you make your first consignment

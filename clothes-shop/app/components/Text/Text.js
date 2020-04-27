@@ -1,6 +1,6 @@
 import {Text} from 'react-native';
 import {compose, setPropTypes, withProps} from 'recompose';
-import {fontSizes, colors} from '../../constants/styles';
+import {fontSizes, colors} from '../../styles';
 
 const getFontFamily = (light, medium, bold) => {
   // let fontFamily = 'OpenSans-Regular';
@@ -30,6 +30,7 @@ const getFontSize = (
   xxsmallSize,
   smallSize,
   xsmallSize,
+  bold = 'bold',
 ) => {
   let fontSize = fontSizes.medium;
 
@@ -100,7 +101,6 @@ const getFontColor = (black, gray, white, orange, red, lightGray, green) => {
 
 const enhance = compose(
   setPropTypes(Text.propTypes),
-
   withProps(props => ({
     style: [
       getFontFamily(props.light, props.medium, props.bold),
@@ -126,6 +126,7 @@ const enhance = compose(
         props.lightGray,
         props.green,
       ),
+      {fontWeight:bold? 'bold' :''},
       props.style,
     ],
   })),

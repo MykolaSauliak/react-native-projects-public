@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 import { Comment } from '../../types/Comment.type';
 import { ShopService } from "../../services";
 import { withComments } from "../../utils/enhancers";
-import CommentList from "../../components/CommentList";
+import CommentList from "../../components/Comments/CommentList";
 import { ActivityIndicator } from '../../components';
 import { compose } from 'redux';
 

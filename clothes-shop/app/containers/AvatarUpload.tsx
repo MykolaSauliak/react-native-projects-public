@@ -10,6 +10,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import { AuthService } from "../services";
 import { withAuth } from "../utils/enhancers";
+import {User} from '../types/User.type'
 
 const defaultAvatar = "https://www.misemacau.org/wp-content/uploads/2015/11/avatar-placeholder-01-300x250.png"
 
@@ -24,14 +25,15 @@ const S = StyleSheet.create({
 })
 
 type Props = {
-    initialURL : string,
-    signedUser : any,
+    loggedInUser : User,
     containerStyle : any,
+    disabled: boolean,
 }
 
 let AvatarUpload = ({
     loggedInUser,
     containerStyle,
+    disabled = false
 } : Props) => {
 
     let [avatar, changeAvatar] = React.useState(loggedInUser.avatar || defaultAvatar)
@@ -39,20 +41,20 @@ let AvatarUpload = ({
 
     const onAvatarPress = () => {
         ImagePicker
-        .openPicker({})
-        .then(async image => {
-          console.log('image',image)
-          setAvatarLoading(true)
-          let newUrl = await AuthService.changeAvatar(image.path)
-          changeAvatar(newUrl)
-          setAvatarLoading(false)
-          // setImages([...images, ...imgs]);
-          // console.log(images);
-        });
+          .openPicker({})
+          .then(async image => {
+            console.log('image',image)
+            setAvatarLoading(true)
+            let newUrl = await AuthService.changeAvatar(image.path)
+            changeAvatar(newUrl)
+            setAvatarLoading(false)
+            // setImages([...images, ...imgs]);
+            // console.log(images);
+          });
     }
 
     return (
-        <TouchableOpacity style={[containerStyle]} onPress={onAvatarPress}>
+        <TouchableOpacity disabled={disabled} style={[containerStyle]} onPress={onAvatarPress}>
         {avatarLoading 
           ?<ActivityIndicator />
           :<Image

@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   },
   name: {
     marginBottom: dimensions.indent / 2,
+    fontWeight: "bold"
   },
   button: {
     alignSelf: 'center',

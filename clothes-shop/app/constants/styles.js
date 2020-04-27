@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import * as dimensions from './dimensions';
-import colors from './colors';
+import colors from '../styles/colors';
 
 const styles = StyleSheet.create({
   screenTitle: {
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     marginVertical: 10,
     // fontWeight: 'bold',
-    fontFamily: 'OPTICenturyNova',
+    // fontFamily: 'OPTICenturyNova',
   },
   badgeText: {fontSize: 11},
   sliderContainer: {
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
 
 export default styles;
 export {dimensions};
-export {default as colors} from './colors';
+// export {default as colors} from './colors';
 export {default as fontSizes} from './fontSizes';
 export {default as theme} from './theme';

@@ -86,6 +86,7 @@ export default {
   // Support : "Support",
 
   Profile: 'Profile',
+  Stats: 'Stats',
   AccountDetails: 'AccountDetails',
   ProfileStack: 'ProfileStack',
   MyOrders: 'MyOrders',

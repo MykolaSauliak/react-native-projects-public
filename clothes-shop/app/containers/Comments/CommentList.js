@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import CommentList from '../../components/CommentList';
+import CommentList from '../../components/Comments/CommentList';
 import {withComments} from '../../utils/enhancers';
 
 type Props = {

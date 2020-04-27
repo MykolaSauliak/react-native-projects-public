@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, dimensions} from '../../constants/styles';
+import {colors, dimensions} from '../../styles';
 import {isAndroid} from '../../utils';
 
 const isAndroidDevice = isAndroid();

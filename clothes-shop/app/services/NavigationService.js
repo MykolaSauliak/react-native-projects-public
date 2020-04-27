@@ -4,6 +4,7 @@ import screens from '../constants/screens';
 import {isAndroid} from '../utils';
 
 class NavigationService {
+
   _navigation = null;
 
   init(navigation) {
@@ -170,6 +171,10 @@ class NavigationService {
   }
 
   /** */
+
+  navigateToStats(props) {
+    this.navigate(screens.Stats, props);
+  }
 
   navigateToChat(props) {
     this.navigate(screens.Chat, props);

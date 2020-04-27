@@ -2,19 +2,16 @@ import React from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from '../styles/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 // import  FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import SearchHeader from '../components/SearchHeader';
 import ClothesSearchHeader from '../containers/Headers/ClothesSearchHeader';
 import NotificationIcon from '../containers/NotificationIcon';
 import Home from '../screens/Home';
-import LifestyleSearch from '../screens/Search/CategorySearch/LifestyleSearch';
 
 import Sell from '../screens/Sell';
 import SelectSellCategory from '../screens/Sell/components/SelectSellCategory';
@@ -48,8 +45,7 @@ import i18n from '../i18n';
 import screens from '../constants/screens';
 
 import ProfileStack from './ProfileNavigation';
-
-import {NavigationService} from '../services';
+import CategorySearchStack from './CategorySearchNavigation';
 import NotificationNavigator from './NotificationNavigator';
 
 const ProductListStack = createStackNavigator({
@@ -152,71 +148,6 @@ const SellStack = createStackNavigator(
   },
 );
 
-const SearchTabs = createMaterialTopTabNavigator(
-  {
-    [screens.WomanSearch]: {
-      screen: WomanSearch,
-      navigationOptions: props => ({
-        title: 'Woman',
-      }),
-    },
-    [screens.ManSearch]: {
-      screen: ManSearch,
-      navigationOptions: props => ({
-        title: 'Man',
-      }),
-    },
-    [screens.LifestyleSearch]: {
-      screen: LifestyleSearch,
-      navigationOptions: props => ({
-        title: 'Lifestyle',
-      }),
-    },
-  },
-  {
-    defaultNavigationOptions: props => ({
-      tabBarOptions: {
-        style: {
-          backgroundColor: colors.inputBackground,
-        },
-        tabStyle: {
-          backgroundColor: colors.inputBackground,
-        },
-        indicatorStyle: {
-          backgroundColor: 'black',
-        },
-        labelStyle: {
-          color: 'black',
-        },
-        // activeTintColor: colors.inputBackground,
-        // inactiveTintColor: colors.inputBackground,
-      },
-    }),
-  },
-);
-
-const CategorySearchStack = createStackNavigator({
-  CategorySearchStack: {
-    screen: SearchTabs,
-    navigationOptions: ({navigation}) => ({
-      header: ({navigation}) => (
-        <ClothesSearchHeader
-          onLeftButtonPress={() => NavigationService.navigateToHome()}
-          onCartClick={() => navigation.navigate(screens.CartStack)}
-          onSearchClick={() => navigation.navigate(screens.TextSearch)}
-        />
-      ),
-    }),
-  },
-});
-
-// CategorySearchStack.navigationOptions = {
-//   header : ({navigation}) => <ClothesSearchHeader
-//         onLeftButtonPress={() => navigation.navigate(screens.MainStack)}
-//         onCartClick={() => navigation.navigate(screens.CartStack)}
-//         onSearchClick={() => navigation.navigate(screens.TextSearch)}
-//       />,
-// }
 
 const BottomTabs = createBottomTabNavigator(
   {
