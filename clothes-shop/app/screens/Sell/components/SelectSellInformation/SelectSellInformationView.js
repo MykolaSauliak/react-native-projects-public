@@ -48,7 +48,7 @@ const SelectInformationView = ({
       <BackHeaderCenter
         title="Information"
       />
-      <ListItem
+      {/* <ListItem
         containerStyle={{backgroundColor: 'white'}}
         rightElement={
           <View style={{}}>
@@ -64,7 +64,7 @@ const SelectInformationView = ({
         title="Sub-category"
         bottomDivider
         onPress={goToSubcategoryChoose}
-      />
+      /> */}
       <ListItem
         title="Material"
         rightElement={

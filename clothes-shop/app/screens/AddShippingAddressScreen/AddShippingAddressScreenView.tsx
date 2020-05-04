@@ -7,7 +7,9 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
+  ActivityIndicator, 
+  KeyboardAvoidingView   ,
+  Platform
 } from 'react-native';
 import S from './styles';
 import globalStyles from '../../constants/styles';
@@ -15,7 +17,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../styles';
 import constants from '../../constants';
-import {ListItem, Header, Input} from 'react-native-elements';
+import {ListItem, Header} from 'react-native-elements';
 import {List, Checkbox} from 'react-native-paper';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -27,7 +29,7 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 import CountryPicker from 'react-native-country-picker-modal';
 import {Address} from '../../types'
-import {BackHeaderCenter} from '../../components'
+import {BackHeaderCenter, Input } from '../../components'
 import ButtonBlack from '../../components/Button/ButtonBlack'
 // import { CountryCode, Country } from './types'
 import * as Yup from 'yup';
@@ -69,17 +71,7 @@ const AddressSchema = Yup.object().shape({
 });
 
 const AddShippingAddressScreenView = ({
-  onPress,
-  loading,
-  types = [],
-  subtypes = [],
-
-  updateSearch,
-  placeholder,
-  goBack,
   onDone,
-  chooseItem,
-
   address,
   addresses,
   addAddress,
@@ -132,9 +124,14 @@ const AddShippingAddressScreenView = ({
 
   let inputStyle = {
     fontSize: 12,
+    // textAlign: 'flex-start',
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={{flex:1}}
+    >
     <View style={{flex: 1, backgroundColor: colors.gray}}>
       <BottomSheet
         onCloseEnd={() => setClosed(true)}
@@ -231,45 +228,80 @@ const AddShippingAddressScreenView = ({
                   title="First name"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.first_name, onChangeText: handleChange('first_name'), inputStyle}}
-                  onBlur={handleBlur('first_name')}
-                  value={values.first_name}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.first_name, onChangeText: handleChange('first_name'), 
+                  //   inputStyle
+                  // }}
+                  rightElement={<Input 
+                    errorMessage={errors.first_name}
+                    onChangeText={handleChange('first_name')}
+                    onBlur={handleBlur('first_name')}
+                    value={values.first_name}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
                   title="Last name"
                   titleStyle={S.listItemTitle}
                   containerStyle={S.listItemcontainerStyle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.last_name, 
-                    onChangeText: handleChange('last_name'), inputStyle}}
-                  onBlur={handleBlur('last_name')}
-                  value={values.last_name}
+                  rightElement={<Input 
+                    errorMessage={errors.last_name}
+                    onChangeText={handleChange('last_name')}
+                    onBlur={handleBlur('last_name')}
+                    value={values.last_name}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.last_name, 
+                  //   onChangeText: handleChange('last_name'), 
+                  //   inputStyle,
+                  //   // inputContainerStyle: {
+                  //   //   justifyContent:'flex-start'
+                  //   // }
+                  // }}
                   bottomDivider
                 />
                 <ListItem
                   title="Company"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.company, onChangeText: handleChange('company'), inputStyle}}
-                  onBlur={handleBlur('company')}
-                  value={values.company}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.company, onChangeText: handleChange('company'), inputStyle}}
+                  rightElement={<Input 
+                    errorMessage={errors.company}
+                    onChangeText={handleChange('company')}
+                    onBlur={handleBlur('company')}
+                    value={values.company}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
                   title="Phone number"
-                  containerStyle={S.listItemcontainerStyle}
+                  containerStyle={[S.listItemcontainerStyle, {height:null ,minHeight: 75}]}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.phone_number, onChangeText: handleChange('phone_number'), inputStyle}}
-                  onBlur={handleBlur('phone_number')}
-                  value={values.phone_number}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.phone_number, onChangeText: handleChange('phone_number'), inputStyle}}
+                  rightElement={<Input 
+                    errorMessage={errors.phone_number}
+                    onChangeText={handleChange('phone_number')}
+                    onBlur={handleBlur('phone_number')}
+                    value={values.phone_number}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
@@ -302,47 +334,75 @@ const AddShippingAddressScreenView = ({
                   title="Address"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.address, onChangeText: handleChange('address'), inputStyle}}
-                  onBlur={handleBlur('address')}
-                  value={values.address}
+                  // input={{
+                    // errorStyle : {position: "absolute", bottom: 0},
+                    // errorMessage:errors.address, onChangeText: handleChange('address'), inputStyle}}
+                  rightElement={<Input 
+                      errorMessage={errors.address}
+                      onChangeText={handleChange('address')}
+                      onBlur={handleBlur('address')}
+                      value={values.address}
+                      containerStyle={{
+                        width: '50%'
+                      }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
                   title="Address line 2"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.address_line_2,
-                    onChangeText: handleChange('address_line_2'),
-                    inputStyle,
-                  }}
-                  onBlur={handleBlur('address_line_2')}
-                  value={values.address_line_2}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.address_line_2,
+                  //   onChangeText: handleChange('address_line_2'),
+                  //   inputStyle,
+                  // }}
+                  rightElement={<Input 
+                      errorMessage={errors.address_line_2}
+                      onChangeText={handleChange('address_line_2')}
+                      onBlur={handleBlur('address_line_2')}
+                      value={values.address_line_2}
+                      containerStyle={{
+                        width: '50%'
+                      }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
                   title="Postcode"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.postal_code,onChangeText: handleChange('postal_code'), inputStyle}}
-                  onBlur={handleBlur('postal_code')}
-                  value={values.postal_code}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.postal_code,onChangeText: handleChange('postal_code'), inputStyle}}
+                  rightElement={<Input 
+                    errorMessage={errors.postal_code}
+                    onChangeText={handleChange('postal_code')}
+                    onBlur={handleBlur('postal_code')}
+                    value={values.postal_code}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
                   bottomDivider
                 />
                 <ListItem
                   title="City"
                   containerStyle={S.listItemcontainerStyle}
                   titleStyle={S.listItemTitle}
-                  input={{
-                    errorStyle : {position: "absolute", bottom: 0},
-                    errorMessage:errors.city,onChangeText: handleChange('city'), inputStyle}}
-                  onBlur={handleBlur('city')}
-                  value={values.city}
+                  // input={{
+                  //   errorStyle : {position: "absolute", bottom: 0},
+                  //   errorMessage:errors.city,onChangeText: handleChange('city'), inputStyle}}
+                  rightElement={<Input 
+                    errorMessage={errors.city}
+                    onChangeText={handleChange('city')}
+                    onBlur={handleBlur('city')}
+                    value={values.city}
+                    containerStyle={{
+                      width: '50%'
+                    }}
+                  />}
                   bottomDivider
                 />
                 <View
@@ -360,6 +420,7 @@ const AddShippingAddressScreenView = ({
         </ScrollView>
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 

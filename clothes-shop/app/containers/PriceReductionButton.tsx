@@ -45,6 +45,7 @@ const PriceReductionButton = ({
     unsubscribeToPriceReduce,
     subscribeToPriceReduce,
     item,
+    color = ' black',
     btnStyle = {},
 } : PriceReductionButtonProps) => {
     return (
@@ -54,16 +55,16 @@ const PriceReductionButton = ({
               onPress={() => unsubscribeToPriceReduce(item.id)}
               style={styles.wishlistBtn}
             >
-              <FontAwesome  name="chevron-down"  size={30} color='black' />
-              <Text style={[styles.btnText]}>{`Price reduction \nupdates`}</Text>
+              <FontAwesome  name="chevron-down"  size={30} color={color} />
+              <Text style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={() => subscribeToPriceReduce(item.id)}
               style={[styles.wishlistBtn, btnStyle]}
                 >
-              <FontAwesome name="angle-double-down" size={30} />
-              <Text style={[styles.btnText, {opacity: 0.5}]}>{`Price reduction \nupdates`}</Text>
+              <FontAwesome name="angle-double-down" size={30} color={color}/>
+              <Text style={[styles.btnText, {opacity: 0.5, color:color}]}>{`Price reduction \nupdates`}</Text>
             </TouchableOpacity>
         )}
       </View>

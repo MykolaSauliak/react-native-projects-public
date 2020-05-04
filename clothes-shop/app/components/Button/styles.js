@@ -16,6 +16,7 @@ export default StyleSheet.create({
     borderWidth: 1,
   },
   text: {
+    color:'white',
     textAlign: 'center',
     textAlignVertical: 'center',
   },

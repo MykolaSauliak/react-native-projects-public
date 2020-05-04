@@ -8,10 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header, Input} from 'react-native-elements';
+import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
+import {Input} from '../../../../components';
 import i18n from '../../../../i18n';
 import S from './SelectSellDescriptionWrite.style';
 import T from 'prop-types';

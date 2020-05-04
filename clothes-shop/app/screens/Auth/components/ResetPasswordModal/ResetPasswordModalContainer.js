@@ -38,15 +38,15 @@ export default compose(
     },
 
     resetPassword: props => async () => {
-      await props.auth.resetPassword.run({
-        email: props.email,
-      });
+      // await props.auth.resetPassword.run({
+      //   email: props.email,
+      // });
 
-      if (!props.isError) {
-        props.onChange('isSuccess', true);
-      }
+      // if (!props.isError) {
+      //   props.onChange('isSuccess', true);
+      // }
 
-      props.onChange('activeField', '');
+      // props.onChange('activeField', '');
     },
   }),
 

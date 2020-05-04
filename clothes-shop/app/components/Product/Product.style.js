@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 28,
+    marginBottom:15,
     fontFamily: 'OPTICenturyNova',
   },
 });

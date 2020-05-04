@@ -15,7 +15,8 @@ const Button = ({
   isLoading,
   title,
   buttonStyle,
-  titleStyle,
+  color,
+  titleStyle = {},
   ...props
 }) => (
   <View style={[s.container, containerStyle]}>

@@ -7,6 +7,8 @@ import {
     StyleSheet,
   } from 'react-native';
   import i18n from '../../i18n';
+  import { Button } from 'react-native-elements';
+import ButtonBlack from '../../components/Button/ButtonBlack';
 
 const styles = StyleSheet.create({
     cartBtn: {
@@ -30,20 +32,31 @@ const ShoppingCartButton = ({
     id,
     fromCart,
     toCart,
-    isInCart
+    isInCart,
+    containerStyle,
 }) => {
     return (
-        <View>
+        <View style={{flex:1}}>
             {isInCart({id}) == true ? (
-                <TouchableOpacity
-                onPress={() => fromCart(id)}
-                style={[styles.cartBtn, {backgroundColor: 'gray'}]}>
-                    <Text style={styles.buyBtn}>{i18n.t('product.removefromcart')}</Text>
-                </TouchableOpacity>
+                <ButtonBlack
+                    onPress={() => fromCart(id)}
+                    style={[styles.cartBtn, {backgroundColor: 'gray'}]}
+                    title={i18n.t('product.removefromcart')}
+                    titleStyle={styles.buyBtn}
+                    containerStyle={{paddingHorizontal: 3}}
+                    />
+                //     {/* <Text style={styles.buyBtn}>{i18n.t('product.removefromcart')}</Text> */}
+                // {/* </Button> */}
             ) : (
-                <TouchableOpacity onPress={() => toCart(id)} style={[styles.cartBtn]}>
-                    <Text style={styles.buyBtn}>{i18n.t('product.addtocart')}</Text>
-                </TouchableOpacity>
+                <ButtonBlack 
+                    onPress={() => toCart(id)}
+                    title={i18n.t('product.addtocart')}
+                    titleStyle={styles.buyBtn}
+                    containerStyle={{paddingHorizontal: 3}}
+                    />
+                // <TouchableOpacity onPress={() => toCart(id)} style={[styles.cartBtn]}>
+                //     <Text style={styles.buyBtn}>{i18n.t('product.addtocart')}</Text>
+                // </TouchableOpacity>
             )}
         </View>
     );

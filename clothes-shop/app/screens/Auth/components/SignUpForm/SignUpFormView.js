@@ -64,14 +64,14 @@ const SignUpForm = ({signUp, isSigningUp, onChangeTabIndex, formRef}) => (
               inputType="password"
               autoCapitalize="none"
             />
-            <View style={[s.textWithTouchableContainer, s.alignCenter]}>
+            {/* <View style={[s.textWithTouchableContainer, s.alignCenter]}>
               <Text style={[s.text]} smallSize gray>
                 {i18n.t('auth.termsAndConditions')}
               </Text>
               <TextTouchable smallSize>
                 {i18n.t('auth.termsAndConditionsLink')}
               </TextTouchable>
-            </View>
+            </View> */}
             <React.Fragment>
               <Button
                 // primary

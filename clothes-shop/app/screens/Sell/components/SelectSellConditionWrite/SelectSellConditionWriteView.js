@@ -11,6 +11,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {SearchBar, ListItem, Header, Input} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
+import conditions, {conditionDesc} from '../../../../constants/conditions';
 import globalStyles from '../../../../constants/styles';
 import ItemsList from '../../../../components/ItemsList';
 import ListItemWithDropDown from '../../../../components/ListItemWithDropDown';
@@ -78,6 +79,21 @@ const SelectSellConditionWriteView = ({
         {/* <Text style={{opacity:0.5, padding: 5,paddingHorizontal: 15, fontStyle: 'italic', fontSize: 15, marginVertical : 15, textAlign : 'left'}}>
                 </Text>  */}
         <ScrollView showsVerticalScrollIndicator={false}>
+          <ListItemWithDropDown
+            onPress={() => setCondition(constants.neverWornWithTag)}
+            title={constants.neverWornWithTag}
+            subtitle={conditionDesc.neverWornWithTag}
+            collapseTitle="Reasons for refusal"
+            collapseSubtitle={conditions.refusal.neverWornWithTag}
+          />
+          <ListItemWithDropDown
+            onPress={() => setCondition(constants.neverWorn)}
+            title={constants.neverWorn}
+            subtitle={conditionDesc.neverWorn}
+            collapseTitle="Reasons for refusal"
+            collapseSubtitle={conditions.refusal.neverWorn}
+
+          />
           <ListItemWithDropDown
             onPress={() => setCondition(constants.perfectCondition)}
             title="Very good condition"

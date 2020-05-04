@@ -3,13 +3,14 @@ import {dimensions, colors} from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: dimensions.indent,
-    paddingBottom: 0,
-    backgroundColor: colors.seller.background,
-    marginTop: dimensions.indent * 0.7,
-    minHeight: dimensions.indent * 7.6,
-    marginBottom: dimensions.smallIndent,
+    // paddingHorizontal: 15
+    // flex: 1,
+    // padding: dimensions.indent,
+    // paddingBottom: 0,
+    // // backgroundColor: colors.seller.background,
+    // marginTop: dimensions.indent * 0.7,
+    // minHeight: dimensions.indent * 7.6,
+    // marginBottom: dimensions.smallIndent,
   },
   mainContainer: {
     flexDirection: 'row',

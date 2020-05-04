@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -15,7 +14,7 @@ import {NavigationService} from '../../services';
 import ShippingCartIcon from '../../containers/ShippingCartIcon';
 import AvatarUpload from '../../containers/AvatarUpload';
 import UserInfo  from '../../components/UserInfo/UserInfo'
-import { BackHeader } from '../../components';
+import { BackHeader, Text } from '../../components';
 import ListItem from '../../components/ListItem/ListItem';
 import NotAuthorizedUser from '../../components/NotAuthorizedUser/NotAuthorizedUser'
 
@@ -57,6 +56,7 @@ const ProfileView = ({
   toSubscriptionsSettings,
   toWishlist,
   toFavorites,
+  toStats,
   toProfileDetails,
   toDetails,
   toAddresses,
@@ -156,28 +156,36 @@ const ProfileView = ({
         renderHeader={renderSheetHeader}
       /> */}
       <ScrollView>
-        <View style={{paddingVertical: 25}}>
+        <View style={{paddingVertical: 15,  backgroundColor:'white'}}>
           {isSignedIn === true && (
             <View
-              style={{aspectRatio: 3 / 1, width: '100%', flexDirection: 'row', alignItems : "center"}}>
-              <View style={{flex: 0.3}}>
-                <AvatarUpload />
+              style={{aspectRatio: 5 / 1, width: '100%', flexDirection: 'row', alignItems : "center",}}>
+              <View style={{flex: 0.2}}>
+                <AvatarUpload avatarStyle={{height: 50}}/>
               </View>
-              <View  style={{flex: 0.7}}>
+              <View  style={{flex: 0.8, paddingHorizontal: 15}}>
                 <UserInfo 
-                  email={loggedInUser.email} 
+                  // email={loggedInUser.email} 
                   first_name={loggedInUser.name} 
                   last_name={loggedInUser.last_name} 
-                  onLogout={onLogout}
+                  // onLogout={onLogout}
                   />
+                <TouchableOpacity 
+                  onPress={() => NavigationService.navigateToCustomUserProfile({
+                    user_id : loggedInUser.uid
+                  })}
+                  >
+                  <Text style={{color: colors.orange}}>VIEW MY PROFILE</Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}
-          {!isSignedIn && (<NotAuthorizedUser />)}
+          {!isSignedIn && (<View style={{padding: 15}}>
+            <NotAuthorizedUser /></View>)}
           <View
             style={{
               borderRadius: 18,
-              marginVertical: 25,
+              marginVertical: 5,
             }}>
             <ListItem
               disabled={!isSignedIn}
@@ -189,6 +197,7 @@ const ProfileView = ({
               gray
               bold
               // titleStyle={[activeColor, S.title]}
+              paddingBottom={10}
               title={i18n.t('profile.myvestiaire')}
             />
             <ListItem
@@ -200,31 +209,31 @@ const ProfileView = ({
             <ListItem
               disabled={!isSignedIn}
               onPress={toMyItems}
-              titleStyle={activeColorStyle}
+              // titleStyle={activeColorStyle}
               title={i18n.t('profile.myitems')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toMyNegotiations}
-              titleStyle={activeColorStyle}
+              // titleStyle={activeColorStyle}
               title={i18n.t('profile.priceoffersent')}
             />
             <ListItem
               gray
-              // leftIcon={{...activeColorStyle, name : "truck-delivery", type: "material-community"}}
-              titleStyle={[activeColor, S.title]}
+              bold
+              paddingBottom={10}
               title={i18n.t('profile.mysaveditems')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toWishlist}
-              titleStyle={activeColorStyle}
+              // titleStyle={activeColorStyle}
               title={i18n.t('profile.mywishlist')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toFavorites}
-              titleStyle={[activeColorStyle]}
+              // titleStyle={[activeColorStyle]}
               title={i18n.t('profile.myfavorites')}
             />
             <ListItem
@@ -235,41 +244,26 @@ const ProfileView = ({
               //   type: 'material-community',
               // }}
               onPress={toAlerts}
-              titleStyle={activeColorStyle}
+              // titleStyle={activeColorStyle}
               title={i18n.t('profile.myalerts')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
+              containerStyle={{paddingVertical: 25}}  
             />
             {/*  Account details */}
             <ListItem
-              containerStyle={{backgroundColor: colors.gray}}
-              // leftIcon={{...activeColorStyle, name : "truck-delivery", type: "material-community"}}
-              titleStyle={[activeColor, S.title]}
+              gray
+              bold
+              paddingBottom={10}
               title={i18n.t('profile.myaccount')}
-              bottomDivider
               />
             <ListItem
-              // disabled={!isSignedIn}
-              // disabled={true}
-              // leftIcon={{...activeColorStyle, name: 'place', type: 'material'}}
               onPress={toDetails}
-              titleStyle={activeColorStyle}
+              disabled={!isSignedIn}
               title={i18n.t('profile.mydetails')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
               />
             <ListItem
-              // disabled={!isSignedIn}
-              // disabled={true}
-              // leftIcon={{...activeColorStyle, name: 'place', type: 'material'}}
               onPress={toAddresses}
-              titleStyle={activeColorStyle}
+              disabled={!isSignedIn}
               title={i18n.t('profile.addresses')}
-              containerStyle={{paddingVertical: 25}}
-              bottomDivider
-              chevron
               />
             {/* settings  */}
             {/* <ListItem
@@ -322,7 +316,17 @@ const ProfileView = ({
                             chevron
                             /> */}
             <ListItem
-              containerStyle={{backgroundColor: null}}
+              gray
+              bold
+              paddingBottom={10}
+              title={""}
+              />
+            {isSignedIn && (<ListItem
+              onPress={onLogout}
+              title={"Log out"}
+              />)}
+            <ListItem
+              containerStyle={{backgroundColor: colors.gray}}
               title={
                 'Vestiaire Collective has no association and/or affiliation with the brands whose product are offered for sale on its App.\nThe  authentication of said products is performed independently by Vestiaire Collective'
               }

@@ -4,7 +4,7 @@ import T from 'prop-types';
 import {Text, Button, IconFonts} from '../../../../../components';
 import s from '../styles';
 import i18n from '../../../../../i18n';
-import {colors} from '../../../../../constants/styles';
+import {colors} from '../../../../../styles';
 
 const RootModal = ({onCloseModal}) => (
   <View>

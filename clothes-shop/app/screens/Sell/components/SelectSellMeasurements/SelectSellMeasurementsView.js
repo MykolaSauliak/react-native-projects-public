@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header, Input} from 'react-native-elements';
+import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -18,7 +18,7 @@ import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import RNPickerSelect from 'react-native-picker-select';
 import {NavigationService} from '../../../../services';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, Input } from '../../../../components';
 
 const SelectSellMeasurementsView = ({
   subcategories,
@@ -92,31 +92,59 @@ const SelectSellMeasurementsView = ({
         />
         <ListItem
           leftElement={<Text>Height</Text>}
-          input={{
-            onChangeText: text => setHeight(text),
-            keyboardType: 'number-pad',
-            containerStyle: {
-              borderBottomColor: 'black',
-              borderBottomWidth: 2,
-              width: '100%',
-            },
-          }}
-          // rightElement={<TouchableOpacity>
-          //     <Text>Example</Text>
-          // </TouchableOpacity>}
+          rightElement={<Input 
+            // containerStyle={{width: '20%'}}
+            onChangeText={text => setHeight(text)}
+            keyboardType='number-pad'
+            maxLength={9}
+            containerStyle={{
+                borderBottomColor: 'black',
+                // borderBottomWidth: 2,
+                width: '50%',
+            }}
+              style={{
+                textAlign:'flex-start'
+            }}
+            />}
+          // input={{
+          //   onChangeText: text => setHeight(text),
+          //   keyboardType: 'number-pad',
+          //   containerStyle: {
+          //     borderBottomColor: 'black',
+          //     borderBottomWidth: 2,
+          //     width: '100%',
+          //   },
+          //   style: {
+          //     textAlign:'flex-start'
+          //   }
+          // }}
           bottomDivider
         />
         <ListItem
           leftElement={<Text>Width</Text>}
-          input={{
-            onChangeText: text => setWidth(text),
-            keyboardType: 'number-pad',
-            containerStyle: {
-              borderBottomColor: 'black',
-              borderBottomWidth: 2,
-              width: '100%',
-            },
-          }}
+          rightElement={<Input 
+            // containerStyle={{width: '20%'}}
+            onChangeText={text => setWidth(text)}
+            keyboardType='number-pad'
+            maxLength={9}
+            containerStyle={{
+                borderBottomColor: 'black',
+                // borderBottomWidth: 2,
+                width: '50%',
+            }}
+              style={{
+                textAlign:'flex-start'
+            }}
+            />}
+          // input={{
+          //   onChangeText: text => setWidth(text),
+          //   keyboardType: 'number-pad',
+          //   containerStyle: {
+          //     borderBottomColor: 'black',
+          //     borderBottomWidth: 2,
+          //     width: '100%',
+          //   },
+          // }}
           // rightElement={<TouchableOpacity>
           //     <Text>Example</Text>
           // </TouchableOpacity>}

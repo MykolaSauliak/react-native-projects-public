@@ -128,11 +128,14 @@ const SelectSellerView = ({
         containerStyle={{backgroundColor: 'white'}}
         rightElement={
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>{country ? country.name : ''}</Text>
+            {/* <Text>{country ? country.name : ''}</Text> */}
             <CountryPicker
               {...{
                 countryCode,
                 onSelect,
+                withCountryNameButton:true,
+                withAlphaFilter:true,
+                withFilter:true,
               }}
               // visible={}
             />

@@ -77,7 +77,7 @@ const FormInput = ({
         secureTextEntry={secureTextEntryStatus || secureTextEntry}
         onPressIcon={onPress}
         iconNameLeft={iconNameLeft}
-        iconName={iconName || (inputType === 'password' && 'eye')}
+        iconName={iconName }
         iconType={iconType}
         iconTintColor={
           secureTextEntryStatus

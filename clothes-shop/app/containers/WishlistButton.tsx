@@ -43,6 +43,7 @@ const WishlistButton = ({
     isInWishlist,
     item = {},
     btnStyle = {},
+    color = ' black'
 } : WishlistButtonProps) => {
     return (
       <View style={{justifyContent:'space-around', backgroundColor: null}}>
@@ -51,16 +52,16 @@ const WishlistButton = ({
               onPress={() => fromWishlist(item.id)}
               style={[styles.wishlistBtn, btnStyle]}
             >
-              <AntDesign name="star" size={30} color='black' />
-              <Text style={styles.btnText}>Wishlist</Text>
+              <AntDesign name="star" size={30} color={color} />
+              <Text style={[styles.btnText, {color:color}]}>Wishlist</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={() => toWishlist(item)}
               style={[styles.wishlistBtn, btnStyle]}
                 >
-              <AntDesign name="staro" size={30} />
-              <Text style={[styles.btnText, {opacity: 0.5}]}>Wishlist</Text>
+              <AntDesign name="staro" size={30} color={color}/>
+              <Text style={[styles.btnText, {opacity: 0.5, color:color}]}>Wishlist</Text>
             </TouchableOpacity>
         )}
       </View>

@@ -15,6 +15,8 @@ export default {
 
   priceCoef: 0.85,
 
+  neverWornWithTag: 'Never worn, with tag',
+  neverWorn: 'Never worn',
   perfectCondition: 'Perfect condition',
   goodCondition: 'Good condition',
   fairCondition: 'Fair condition',

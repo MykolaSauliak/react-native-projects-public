@@ -10,11 +10,11 @@ import {
     Animated,
   } from 'react-native';
 import FavoriteButton from '../../containers/FavoriteButton';
+import Chip from '../../components/Chip/Chip';
 import styles from './Product.style'
 import globalStyles from '../../constants/styles';
 import {
     DataTable,
-    Chip
   } from 'react-native-paper';
 import constants from '../../constants'
 import i18n from '../../i18n';
@@ -61,7 +61,7 @@ const E = ({
 };
 
 const Warantly = ({
-    warranty,
+    warranty = 0,
     waranty_icon
 }) => {
     return (
@@ -84,7 +84,7 @@ const Warantly = ({
                 </Text>
                 </View>
             )}
-          </View>
+        </View>
     );
 };
 
@@ -94,8 +94,8 @@ const Chips = ({
 }) => {
     return (
         <View style={{alignItems:'flex-start'}}>
-            {we_love && <Chip style={{marginTop: 2}} >We love</Chip>}
-            {vintage &&<Chip style={{marginTop: 2}}>Vintage</Chip>}
+            {we_love && <Chip>We love</Chip>}
+            {vintage &&<Chip>Vintage</Chip>}
             {/* {we_love && <Mark fontSize={15} title="we love" />}
             {vintage && <Mark fontSize={15} title="vintage" />} */}
         </View>
@@ -103,20 +103,22 @@ const Chips = ({
 };
 
 const ProductHeader = ({
-    type_name,
-    subtype_name,
-    brand_name,
-    category_name,
+    type_name =  "",
+    subtype_name= "",
+    brand_name = "",
+    category_name = "",
+    paddingHorizontal = 15,
+    children = () => null,
 }) => {
     return (
-        <View style={{flex: 0.7, marginTop: 20}}>
+        <View style={{ marginTop: 5, backgroundColor: 'white', paddingHorizontal, paddingVertical: 10}}>
             <Text style={[globalStyles.text, styles.productTitle]}>
-                {brand_name}
+                {`${brand_name}`}
             </Text>
-            <Text style={globalStyles.desc}>{category_name}</Text>
             <Text style={globalStyles.desc}>
-                {type_name} {subtype_name}
+                {`${category_name || ""} ${type_name || ""} ${subtype_name || ""}`}
             </Text>
+            {/* {children} */}
         </View>
     );
 };

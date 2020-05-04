@@ -14,6 +14,7 @@ import {
   Avatar,
 } from '..';
 import i18n from '../../i18n';
+import _ from 'lodash'
 
 const UserInfo = ({
   rating,
@@ -27,22 +28,24 @@ const UserInfo = ({
   reviewsCount,
 }) => {
   return (
-      <View style={[s.container, styleContainer]}>
-        <View style={s.mainContainer}>
-          <View style={s.infoContainer}>
+      <View 
+        style={[s.container, styleContainer]}
+        >
+        {/* <View style={s.mainContainer}> */}
+          {/* <View style={s.infoContainer}> */}
             <View style={s.name}>
-              <Text medium>{first_name}</Text>
+              <Text bigSize bold>{first_name}</Text>
             </View>
-            <View style={s.name}>
+            {!_.isEmpty(email) && (<View style={s.name}>
               <Text medium>{email}</Text>
-            </View>
+            </View>)}
             {onLogout && (
               <TouchableOpacity onPress={onLogout}>
                 <Text>log out</Text>
               </TouchableOpacity>
             )}
-          </View>
-        </View>
+          {/* </View> */}
+        {/* </View> */}
       </View>
   );
 };

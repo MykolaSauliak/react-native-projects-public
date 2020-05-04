@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   listItemcontainerStyle: {
-    height: 60,
+    height: 75,
     // justifyContent: 'center'
   },
   categoryBox: {

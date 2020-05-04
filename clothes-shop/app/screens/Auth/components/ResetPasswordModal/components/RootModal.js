@@ -4,7 +4,7 @@ import T from 'prop-types';
 import {Text, Button, InputForm, IconFonts} from '../../../../../components';
 import s from '../styles';
 import i18n from '../../../../../i18n';
-import {colors} from '../../../../../constants/styles';
+import {colors} from '../../../../../styles';
 
 const RootModal = ({
   onChange,
@@ -13,13 +13,13 @@ const RootModal = ({
   activeField,
   isValidEmail,
 }) => (
-  <View>
-    <IconFonts
+  <View style={{justifyContent:'center', height:'100%'}}>
+    {/* <IconFonts
       style={s.icon}
       name="padlock"
       size={80}
       tintColor={colors.icon.tintColorOrange}
-    />
+    /> */}
     <Text bold largeSize black style={s.heading}>
       {i18n.t('auth.resetPasswordHeading')}
     </Text>
@@ -36,9 +36,10 @@ const RootModal = ({
       keyboardType="email-address"
     />
     <Button
-      primary
+      // primary
       onPress={() => resetPassword()}
-      containerStyle={s.buttonContainer}
+      containerStyle={[s.buttonContainer, {backgroundColor: "black'"}]}
+      titleStyle={{color:'white'}}
       disabled={!isValidEmail}
       title={i18n.t('auth.sendResetEmail')}
     />

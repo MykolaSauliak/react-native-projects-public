@@ -24,16 +24,30 @@ type FavoriteButtonProps = {
 }
 
 const styles = StyleSheet.create({
+    container: {
+      flexDirection:'row',
+      justifyContent:'center', 
+      alignItems:'flex-start', 
+      backgroundColor: null
+    },
     wishlistBtn: {    
         // flex: 0.15,
         // backgroundColor: 'white',
         // width: 50,
         // borderRadius: 8,
         // height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
         // borderColor: 'black',
         // borderWidth: 0.8,
+    },
+    favoriteCount: {
+      borderRadius: 5,
+      fontSize: 18,
+      marginTop: -5,
+      backgroundColor: colors.gray,
+      // textAlign: 'center',
+      // padding: 2,
     },
     btnText: {
       fontSize: 14,
@@ -45,31 +59,37 @@ const FavoriteButton = ({
     toggleFavorite,
     isFavorite,
     item = {},
+    count = 0,
     btnStyle = {},
     containerStyle = {},
     iconSize = 25,
     activeTitle,
+    color = 'black',
+    textColor,
     unactiveTitle
 } : FavoriteButtonProps) => {
     return (
-      <View style={[{justifyContent:'space-around', backgroundColor: null},containerStyle]}>
+      <View style={[styles.container,containerStyle]}>
         {isFavorite({item}) == true ? (
             <TouchableOpacity
               onPress={() => toggleFavorite({id: item.id})}
               style={[styles.wishlistBtn, btnStyle]}
             >
-              <AntDesign name="heart" size={iconSize} color='black' />
-              <Text style={styles.btnText}>{activeTitle}</Text>
+              <AntDesign name="heart" size={iconSize} color={color} />
+              {activeTitle && <Text style={styles.btnText}>{activeTitle}</Text>}
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={() => toggleFavorite({id: item.id})}
               style={[styles.wishlistBtn, btnStyle]}
                 >
-              <AntDesign name="hearto" size={iconSize} />
-              <Text style={[styles.btnText, {opacity: 0.5}]}>{unactiveTitle}</Text>
+              <AntDesign name="hearto" size={iconSize} color={color}/>
+              {unactiveTitle && <Text style={[styles.btnText, {opacity: 0.5}]}>{unactiveTitle}</Text>}
             </TouchableOpacity>
         )}
+        <View style={{padding:5}}>
+          <Text style={[styles.favoriteCount, {color : textColor || color}]}>{item.favorite_count}</Text>
+        </View>
       </View>
     );
 };

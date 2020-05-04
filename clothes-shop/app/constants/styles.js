@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     textDecorationStyle: 'solid',
   },
   desc: {
-    fontSize: 15,
-    color: 'gray',
+    fontSize: 18,
+    color: 'black',
   },
   discount: {
     fontWeight: 'bold',

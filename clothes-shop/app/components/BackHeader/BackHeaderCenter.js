@@ -36,7 +36,7 @@ const BackHeader = ({goBack, containerStyle, title, ...restProps}) => (
     ]}
     centerComponent={{
         text: title,
-        style: {fontSize: 16, color: '#000'},
+        style: {fontSize: 18, color: '#000'},
       }}
     {...restProps}
   />

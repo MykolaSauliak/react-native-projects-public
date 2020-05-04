@@ -237,7 +237,7 @@ const Review = ({
     }
   };
 
-  console.log('shippingAddress', shippingAddress);
+  // console.log('shippingAddress', shippingAddress);
   return (
     <View style={{flex: 1, width: '100%'}}>
       <View style={{flex: 0.8, padding: 15}}>
@@ -250,6 +250,7 @@ const Review = ({
                     title="Pay"
                     />
                 <PaymentWebview 
+                  total={getTotalValue()}
                   onTokenRecieved={(token) => createOrder(token)}
                   />
             </View>

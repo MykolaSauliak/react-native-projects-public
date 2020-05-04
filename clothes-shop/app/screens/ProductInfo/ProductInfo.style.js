@@ -3,8 +3,17 @@ import colors from '../../styles/colors';
 import constants from '../../constants';
 
 const styles = StyleSheet.create({
+  favoriteRow: {
+    flexDirection: 'row',
+    alignItems:'center',
+    // backgroundColor:'white',
+    width: '100%',
+    paddingHorizontal:8,
+    height: 75,
+    marginTop: -15, 
+  },
   btnRow: {
-    height: 55,
+    maxHeight: 55,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -67,7 +76,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   buyBtn: {
-    color: 'white',
     fontSize: 13,
     // fontFamily: '1592 GLC Garamond',
   },
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
   itemDetailsBox: {
     borderRadius: 10,
     // backgroundColor: 'white',
-    padding: 10,
+    // padding: 10,
   },
   text: {
     fontWeight: 'bold',

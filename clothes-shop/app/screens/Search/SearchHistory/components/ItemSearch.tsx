@@ -4,7 +4,7 @@ import { ListItem,Icon } from "react-native-elements";
 import {withSearch } from "../../../../utils/enhancers";
 import constants from '../../../../constants';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { SearchItem, SearchState } from "../../../../types/Search";
+import { SearchItem, SearchState } from "../../../../types/Search.type.";
 import { NavigationService } from "../../../../services";
 import _ from 'lodash'
 
@@ -43,6 +43,7 @@ const ItemSearch = ({
   }
 
   const getSubTitle = (item : SearchItem) => {
+    console.log('item',item)
     let subtitle = ''
     // if(!item.searchState?.query){
       // subtitle += Object.values(item?.searchState?.refinementList || {})
@@ -56,18 +57,22 @@ const ItemSearch = ({
       .join(' - ')
     // }
 
-    let rangeString =  Object
-            .entries(item?.searchState?.range || {})
-            .filter(([k,v]) =>  !k.includes('time') && !k.includes('id'))
-            .filter(([k,v]) =>  v)
-            // .filter((k : string) => !k.includes('time') && !k.includes('id'))
-            // .filter((v:Range) => v)
-            .map(([k,v])  => Object.values(v).join(' - '))
-            .join(' , ') 
-    if(rangeString){
-      subtitle += '\nranges:' + rangeString 
+    // let rangeString =  Object
+    //         .entries(item?.searchState? || {})
+    //         .filter(([k,v]) =>  !k.includes('time') && !k.includes('id'))
+    //         .filter(([k,v]) =>  v)
+    //         // .filter((k : string) => !k.includes('time') && !k.includes('id'))
+    //         // .filter((v:Range) => v)
+    //         .map(([k,v])  => Object.values(v).join(' - '))
+    //         .join(' , ') 
+    let rangeString = ""
+    if(item?.searchState?.range?.price){
+      rangeString += `${item?.searchState?.range?.price.min}$  - ${item?.searchState?.range?.price.max}$ `
     }
-
+    // if(rangeString){
+    //   subtitle += '\nranges:' + rangeString 
+    // }
+    subtitle +='\n' + rangeString 
     let toggleString =  Object
             .entries(item?.searchState?.toggle || {})
             .filter(([k,v]) => v)

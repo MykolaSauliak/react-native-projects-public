@@ -12,11 +12,12 @@ import {
 } from 'react-native-paper';
 import {ListItem} from 'react-native-elements';
 import FollowButton from '../../containers/FollowButton/FollowButton';
+import { colors } from '../../styles';
 
 const SellerInfo = ({
-    name,
-    last_name,
-    sold_item,
+    name = "",
+    last_name = "",
+    sold_item = 0,
     avatar = "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     uid,
     reputation,
@@ -48,7 +49,7 @@ const SellerInfo = ({
           rightAvatar={{
             source: {uri: avatar},
           }}
-          rightElement={<FollowButton uid={uid}/>}
+          rightElement={<FollowButton uid={uid} containerStyle={{borderColor: colors.orange, borderWidth: 1, padding: 3, borderRadius: 3}} titleStyle={{color: colors.orange}}/>}
         />
         </View>)}
       </View>

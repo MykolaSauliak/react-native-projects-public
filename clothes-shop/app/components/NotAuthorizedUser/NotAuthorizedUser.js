@@ -20,7 +20,7 @@ const NotAuthorizedUser = ({
 };
 
 NotAuthorizedUser.defaultProps = {
-    onPress : NavigationService.navigateToAuth()
+    onPress : () => NavigationService.navigateToAuth()
 }
 
 export default NotAuthorizedUser;

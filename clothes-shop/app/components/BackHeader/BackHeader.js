@@ -20,7 +20,7 @@ const BackHeader = ({goBack, containerStyle, title, ...restProps}) => (
         </TouchableOpacity>
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 18,
             color: 'black',
             fontWeight: 'bold',
             paddingHorizontal: 5,

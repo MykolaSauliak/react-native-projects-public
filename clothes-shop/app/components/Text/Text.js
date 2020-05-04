@@ -30,7 +30,6 @@ const getFontSize = (
   xxsmallSize,
   smallSize,
   xsmallSize,
-  bold = 'bold',
 ) => {
   let fontSize = fontSizes.medium;
 
@@ -126,7 +125,7 @@ const enhance = compose(
         props.lightGray,
         props.green,
       ),
-      {fontWeight:bold? 'bold' :''},
+      {fontWeight: props.bold ? 'bold' : '100'},
       props.style,
     ],
   })),

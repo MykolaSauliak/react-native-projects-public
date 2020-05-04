@@ -53,6 +53,8 @@ export namespace Shop {
         warranty?: number,
         images: { src : string}[],
         price: number,
+        discount?: number,
+        discountEndTs?: number,
         currency: string,
         tags: {
             id: string,

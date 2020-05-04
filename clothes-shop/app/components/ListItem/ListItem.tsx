@@ -10,15 +10,19 @@ const ListItemComponent = ({
     gray = false,
     bold = false,
     disabled = false,
+    paddingHorizontal = 25,
+    paddingBottom = 25,
     ...props
 }) => {
     return (
         <ListItem
             disabled={disabled}
-            containerStyle={{padding:15, backgroundColor: gray ? colors.gray : 'white'}}
+            containerStyle={{paddingHorizontal, paddingVertical:25,paddingBottom, backgroundColor: gray ? colors.gray : 'white'}}
             titleStyle={{
-                fontSize: 22, 
+                fontSize: 18, 
                 fontWeight: bold ? 'bold' : '100',  
+                opacity : disabled ? 0.3 : 1,
+                // color : disabled ? colors.gray: 'black',
                 ...titleStyle
             }}
             bottomDivider

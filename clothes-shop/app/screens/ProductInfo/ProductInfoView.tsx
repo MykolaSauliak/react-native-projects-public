@@ -30,6 +30,10 @@ import Product from '../../components/Product/Product';
 import SellerInfo from '../../components/SellerInfo/SellerInfo';
 import ShoppingCartButton from '../../containers/ShoppingCartButton/ShoppingCartButton';
 import { payments } from "../../utils";
+import ButtonBlack from '../../components/Button/ButtonBlack';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import FavoriteButton from '../../containers/FavoriteButton'
+import { ActivityIndicator } from '../../components';
 
 type Props = {
   item: Shop.Product,
@@ -41,7 +45,7 @@ const ProductInfoView = ({
   item: {
     similar_items,
     favorite_count = 0,
-    images,
+    images = [],
     brand_name = '',
     brand_id,
     category_name,
@@ -75,11 +79,6 @@ const ProductInfoView = ({
     uid,
     reputation,
   },
-  imageModalVisible,
-  setImageModalVisible,
-  imageIndex,
-  setImageIndex,
-
   toNegotiation,
   setLastUpdate,
   lastUpdate, 
@@ -89,14 +88,19 @@ const ProductInfoView = ({
   purchaseOver = 150,
   discountCode = 'RFO11',
   AUTHENTICATION_FEES,
+
+  loading,
 } : Props) => {
 
   if(!AUTHENTICATION_FEES){
     AUTHENTICATION_FEES = (price * 0.1).toFixed(2)
   }
 
-  const imagesURI = images && images.map(i => ({uri: i.src}));
-  
+  let [activeImage, setActiveImage] = useState(0)
+
+  let imagesURI = images && images.map(i => ({uri: i.src}));
+  imagesURI = imagesURI || []
+
   const renderHeader = () => {
     return (
       <HeaderWithCart
@@ -107,67 +111,113 @@ const ProductInfoView = ({
 
   const _renderBottomBtns = () => (
     <View style={styles.btnRow}>
-      <TouchableOpacity
+      <ButtonBlack 
+        inverse={true}
+        title={isSignedIn ? i18n.t('product.makeanoffer') : 'Login to make an offer'}
+        onPress={toNegotiation}
+        disabled={!isSignedIn}
+        titleStyle={styles.buyBtn}
+        containerStyle={{borderColor: 'black', borderWidth: 1, marginRight: 2,}}
+        
+        />
+      {/* <TouchableOpacity
         disabled={!isSignedIn}
         onPress={toNegotiation}
         style={[styles.cartBtn, {borderWidth: 1, backgroundColor: 'white'}]}>
         <Text style={[styles.buyBtn, {color: 'black'}]}>
           {isSignedIn ? i18n.t('product.makeanoffer') : 'Login to make an offer'}
         </Text>
-      </TouchableOpacity>
-    <ShoppingCartButton id={id}/>
+      </TouchableOpacity> */}
+    <ShoppingCartButton  id={id}/>
     </View>
   );
 
   const paddingHorizontal = 15
-
+  if(loading){
+    return <ActivityIndicator />
+  }
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         {renderHeader()}
-        <View style={{flex: 1, backgroundColor: colors.gray, paddingVertical: 15, paddingHorizontal}}>
-            <GallerySwiper
-              images={imagesURI}
-              style={{height: constants.DEVICE_HEIGHT * 0.5}}
-              // Version *1.15.0 update
-              // onEndReached={() => {
-              //     // add more images when scroll reaches end
-              // }}
-              // Change this to render how many items before it.
-              // initialNumToRender={2}
-              // Turning this off will make it feel faster
-              // and prevent the scroller to slow down
-              // on fast swipes.
-              sensitiveScroll={false}
-              />
-            <View style={{paddingBottom: 50}}>
-                <Product.FavoriteRow item={item}/>
+        <View style={{flex: 1, backgroundColor: colors.gray, paddingVertical: 15}}>
+            <View style={{height: constants.DEVICE_HEIGHT * 0.4}}>
+              <GallerySwiper
+                images={imagesURI}
+                style={{height: constants.DEVICE_HEIGHT * 0.4}}
+                onPageSelected={(index : number) => setActiveImage(index)}
+                // Version *1.15.0 update
+                // onEndReached={() => {
+                //     // add more images when scroll reaches end
+                // }}
+                // Change this to render how many items before it.
+                // initialNumToRender={2}
+                // Turning this off will make it feel faster
+                // and prevent the scroller to slow down
+                // on fast swipes.
+                sensitiveScroll={false}
+                />  
+              </View>
+
+              <View style={{paddingBottom: 20}}>
+                <View
+                    style={styles.favoriteRow}
+                    > 
+                    <View style={{flex:1, justifyContent:'flex-start', marginLeft: -20}}>
+                      <Pagination
+                        dotsLength={images.length}
+                        activeDotIndex={activeImage}
+                        containerStyle={{ backgroundColor: null , margin: 0, padding: 0}}
+                        dotStyle={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: 4,
+                            marginHorizontal: 1,
+                            margin:0,
+                            backgroundColor: 'black'
+                        }}
+                        inactiveDotStyle={{
+                            // Define styles for inactive dots here
+                        }}
+                        inactiveDotOpacity={0.4}
+                        inactiveDotScale={0.6}
+                      />
+                    </View>
+                    <View style={{flex:1,flexDirection:'row',justifyContent:'flex-end', alignItems:'flex-start'}}>
+                      <FavoriteButton 
+                          containerStyle={{padding: 5}}
+                          item={item}
+                          count={item.favorite_count}
+                          color={colors.orange}
+                          />  
+                    </View>
+                </View>
                 <Product.Header   
+                    paddingHorizontal={paddingHorizontal}
                     type_name={type_name}
                     subtype_name={subtype_name}
                     brand_name={brand_name}
                     category_name={category_name}
+                >
+                  <Product.Chips 
+                    we_love={we_love} 
+                    vintage={vintage}
                     />
-                <Product.Chips 
-                  we_love={we_love} 
-                  vintage={vintage}
-                  />
+                </Product.Header>
                 <Product.Warantly 
                     warranty={warranty}
                     />
             </View>
-          
             <View
               style={[
                 styles.itemDetailsBox,
-                {backgroundColor: null, borderRadius: 10, marginVertical: 15,paddingHorizontal},
+                {backgroundColor: null, borderRadius: 10, marginVertical: 5,paddingHorizontal},
               ]}>
               {toTimestamp(discountEnd) > Date.now() / 1000 ? (
                 <>
                   <View
                     style={{
                       flexDirection: 'row',
-                      marginTop: 15,
                       alignItems: 'flex-end',
                     }}>
                     <Text
@@ -203,10 +253,10 @@ const ProductInfoView = ({
 
             <View style={{flexDirection:'row', backgroundColor:'white',padding: 15, marginVertical: 15}}>
               <View style={{flex:1}}>
-                  <PriceReductionButton item={item} />
+                  <PriceReductionButton item={item} color={colors.orange}/>
               </View>
               <View style={{flex:1}}>
-                  <WishlistButton item={item} />
+                  <WishlistButton item={item} color={colors.orange} />
               </View>
             </View>
             {/* item details */}
@@ -228,11 +278,11 @@ const ProductInfoView = ({
               id={id}
               collection="comments">
                   <CommentList 
-                  id={id}
-                  title="Comments"
-                  // comments={comments}
-                  containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}
-                  />
+                    id={id}
+                    title="Comments"
+                    // comments={comments}
+                    containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}
+                    />
             </CommentListProvider>
             <Suspense fallback={<Loading />}>
                 <DiscoverMoreProducts

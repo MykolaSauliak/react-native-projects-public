@@ -61,5 +61,6 @@ export {default as FormInput} from './FormInput/FormInput';
   export { default as BackHeaderCenter } from './BackHeader/BackHeaderCenter';
   export { default as GridList } from './GridList/GridList';
   export { default as Loading } from './Loading';
+  export { default as Input } from './Input/Input';
   export { default as PreviewRowCard } from './PreviewRowCard/PreviewRowCard';
   export { default as TabBarHorizontalScroll } from './TabBarHorizontalScroll';

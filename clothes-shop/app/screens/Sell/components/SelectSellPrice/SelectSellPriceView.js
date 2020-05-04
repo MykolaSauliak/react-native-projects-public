@@ -9,7 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header, Input} from 'react-native-elements';
+import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -18,7 +18,7 @@ import S from './SelectSellPrice.style';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import RNPickerSelect from 'react-native-picker-select';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, Input } from '../../../../components';
 
 const SelectSellPriceView = ({
   description,
@@ -73,7 +73,7 @@ const SelectSellPriceView = ({
         renderContent={renderContent}
         // renderHeader = {renderHeader}
       />
-      <View style={{flex: 1, paddingBottom: sheetInitialHeight}}>
+      <View style={{flex: 1, paddingBottom: sheetInitialHeight, }}>
         <BackHeaderCenter
           rightComponent={{
             icon: 'check',
@@ -87,7 +87,7 @@ const SelectSellPriceView = ({
         />
         {/* <Text style={{opacity:0.5, padding: 5,paddingHorizontal: 15, fontStyle: 'italic', fontSize: 15, marginVertical : 15, textAlign : 'left'}}>
                 </Text>  */}
-        <ListItem
+        {/* <ListItem
           topDivider
           leftElement={
             <View
@@ -108,10 +108,6 @@ const SelectSellPriceView = ({
               </Text>
             </View>
           }
-          // subtitleStyle={{opacity : 0.4}}
-          // subtitle={}
-          // input={{keyboardType: 'number-pad'}}
-          // leftElement={<Text>Unit</Text>}
           rightElement={
             <View
               style={{
@@ -130,7 +126,18 @@ const SelectSellPriceView = ({
             </View>
           }
           bottomDivider
-        />
+        /> */}
+        <View style={{padding: 10}}>
+          <Input 
+              onChangeText={price => setPrice(price)}
+              style={{fontSize: 16, padding: 0, borderBottomWidth: 3}}
+              keyboardType="number-pad"
+              />
+            <Text style={S.forYour}>{'For you:'}</Text>
+            <Text style={S.yourPrice}>
+              {price * constants.priceCoef} {currency}
+            </Text>
+        </View>
       </View>
     </View>
   );

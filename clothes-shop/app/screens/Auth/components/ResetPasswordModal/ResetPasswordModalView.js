@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import T from 'prop-types';
 import {Loader, IconFonts} from '../../../../components';
 import s from './styles';
-import {colors} from '../../../../constants/styles';
+import {colors} from '../../../../styles';
 import {RootModal, SuccessModal, ErrorModal} from './components';
 
 const ResetPasswordModal = ({

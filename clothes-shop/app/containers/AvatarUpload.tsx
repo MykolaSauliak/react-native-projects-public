@@ -33,6 +33,7 @@ type Props = {
 let AvatarUpload = ({
     loggedInUser,
     containerStyle,
+    avatarStyle = {},
     disabled = false
 } : Props) => {
 
@@ -60,7 +61,7 @@ let AvatarUpload = ({
           :<Image
             source={{uri: avatar}}
             resizeMode="contain"
-            style={S.avatar}
+            style={[S.avatar, avatarStyle]}
             />
         }
         
