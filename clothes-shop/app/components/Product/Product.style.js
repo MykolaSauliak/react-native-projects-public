@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   productTitle: {
-    fontSize: 28,
+    fontSize: 32,
     marginBottom:15,
     fontFamily: 'OPTICenturyNova',
   },

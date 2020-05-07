@@ -18,7 +18,7 @@ const SellerInfo = ({
     name = "",
     last_name = "",
     sold_item = 0,
-    avatar = "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    avatar,
     uid,
     reputation,
     errorMessage = "Can't fetch seller info",
@@ -47,7 +47,7 @@ const SellerInfo = ({
           subtitle={`${sold_item || 0} sold items`}
           // rightElement={}
           rightAvatar={{
-            source: {uri: avatar},
+            source: avatar ? {uri: avatar} : require('./avatar-placeholder-300x300.png'),
           }}
           rightElement={<FollowButton uid={uid} containerStyle={{borderColor: colors.orange, borderWidth: 1, padding: 3, borderRadius: 3}} titleStyle={{color: colors.orange}}/>}
         />

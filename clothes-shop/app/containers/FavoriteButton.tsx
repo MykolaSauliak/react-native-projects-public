@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
       flexDirection:'row',
       justifyContent:'center', 
       alignItems:'flex-start', 
-      backgroundColor: null
+      backgroundColor: 'white',
     },
     wishlistBtn: {    
         // flex: 0.15,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       fontSize: 18,
       marginTop: -5,
-      backgroundColor: colors.gray,
+      // backgroundColor: colors.gray,
       // textAlign: 'center',
       // padding: 2,
     },
@@ -87,7 +87,7 @@ const FavoriteButton = ({
               {unactiveTitle && <Text style={[styles.btnText, {opacity: 0.5}]}>{unactiveTitle}</Text>}
             </TouchableOpacity>
         )}
-        <View style={{padding:5}}>
+        <View style={{padding:5,}}>
           <Text style={[styles.favoriteCount, {color : textColor || color}]}>{item.favorite_count}</Text>
         </View>
       </View>

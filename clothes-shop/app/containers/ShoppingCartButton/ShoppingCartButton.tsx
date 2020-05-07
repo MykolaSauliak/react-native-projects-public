@@ -40,7 +40,7 @@ const ShoppingCartButton = ({
             {isInCart({id}) == true ? (
                 <ButtonBlack
                     onPress={() => fromCart(id)}
-                    style={[styles.cartBtn, {backgroundColor: 'gray'}]}
+                    style={[{backgroundColor: 'gray'}]}
                     title={i18n.t('product.removefromcart')}
                     titleStyle={styles.buyBtn}
                     containerStyle={{paddingHorizontal: 3}}

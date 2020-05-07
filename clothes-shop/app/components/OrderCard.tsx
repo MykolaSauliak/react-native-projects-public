@@ -81,8 +81,15 @@ const OrderCard = ({
                                     keyExtractor={(item, index) => index}
                                     renderItem={({item, index}) => (
                                         <ListItem 
-                                            containerStyle={{minHeight: 140}}
-                                            leftAvatar={{ source : {uri : item?.images[0].src}, containerStyle : {width: 75, height: 100,}, avatarStyle: { resizeMode: 'contain'}, rounded :false}}
+                                            containerStyle={{minHeight: 140,  backgroundColor: "white"}}
+                                            leftAvatar={{ 
+                                                source : {uri : item?.images[0].src}, 
+                                                // containerStyle : {backgroundColor: "white"}, 
+                                                // avatarStyle: {backgroundColor: null},
+                                                imageProps:  {resizeMode : 'repeat'}, 
+                                                rounded :false,
+                                                size: "large"
+                                            }}
                                             title={item.brand_name }
                                             subtitle={item.price + ' '  + (item.currency || 'USD')}
                                             />

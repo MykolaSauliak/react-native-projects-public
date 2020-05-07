@@ -34,6 +34,8 @@ import ButtonBlack from '../../components/Button/ButtonBlack';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import FavoriteButton from '../../containers/FavoriteButton'
 import { ActivityIndicator } from '../../components';
+import AuthenticationModal from "./components/AuthenticationModal";
+import ProductDetailsModal from "./components/ProductDetailsModal";
 
 type Props = {
   item: Shop.Product,
@@ -69,6 +71,7 @@ const ProductInfoView = ({
     discountEnd,
     we_love,
     vintage,
+    location = ""
   },
   sellerInfo: {
     avatar, 
@@ -97,6 +100,8 @@ const ProductInfoView = ({
   }
 
   let [activeImage, setActiveImage] = useState(0)
+  let [learnMoreVisible, setLearnMoreVisible] = useState(false)
+  let [detailsVisible, setDetailsVisible] = useState(false)
 
   let imagesURI = images && images.map(i => ({uri: i.src}));
   imagesURI = imagesURI || []
@@ -138,9 +143,16 @@ const ProductInfoView = ({
   }
   return (
     <>
+      <AuthenticationModal 
+        isModalVisible={learnMoreVisible} 
+        toggleModal={() => setLearnMoreVisible(!learnMoreVisible)}/>
+      <ProductDetailsModal 
+        {...item}
+        isModalVisible={detailsVisible} 
+        toggleModal={() => setDetailsVisible(!detailsVisible)}/>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         {renderHeader()}
-        <View style={{flex: 1, backgroundColor: colors.gray, paddingVertical: 15}}>
+        <View style={{flex: 1, backgroundColor: 'white', paddingVertical: 15}}>
             <View style={{height: constants.DEVICE_HEIGHT * 0.4}}>
               <GallerySwiper
                 images={imagesURI}
@@ -208,10 +220,11 @@ const ProductInfoView = ({
                     warranty={warranty}
                     />
             </View>
+            {/* price block */}
             <View
               style={[
                 styles.itemDetailsBox,
-                {backgroundColor: null, borderRadius: 10, marginVertical: 5,paddingHorizontal},
+                {backgroundColor: colors.gray, borderRadius: 10, marginVertical: 5,paddingHorizontal, paddingVertical: 15},
               ]}>
               {toTimestamp(discountEnd) > Date.now() / 1000 ? (
                 <>
@@ -235,19 +248,29 @@ const ProductInfoView = ({
                   {price} {constants.MONEY_SYMBOL}
                 </Text>
               )}
-              <Text>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
-                <ListItem 
+              <Text style={styles.feesText}>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
+              <ListItem 
                   leftIcon={{name :'shield-check-outline', type: "material-community", color: "#f25d22", size: 35}}
                   containerStyle={{backgroundColor:null, marginVertical: 10}}
                   titleStyle={{color:'#f25d22'}} 
                   // onPress={() => {}}
-                  title="Physical control and authentication by our experts"
-                  />
+                  title={
+                  <>
+                    <Text style={{color: colors.orange}}>Physical control and authentication by our experts</Text>
+                      <TouchableOpacity onPress={() => setLearnMoreVisible(true)}>
+                        <Text style={{fontWeight: 'bold'}}>Learn more</Text>
+                      </TouchableOpacity>
+                  </> 
+                  }
+                />
                 <View style={{marginVertical:25}}>
-                  <Text style={{fontSize: 20}}>{condition}</Text>
-                  <Text style={{fontSize: 20}}>{material}</Text>
-                  <View style={{height: 1, borderWidth:0.5, marginVertical: 10, opacity:0.2}}/>
-                  <Text style={{fontSize: 20}}>{description}</Text>
+                    <Text style={{fontSize: 20}}>{condition}</Text>
+                    <Text style={{fontSize: 20}}>{material}</Text>
+                    <View style={{height: 1, borderWidth:0.5, marginVertical: 10, opacity:0.2}}/>
+                    <Text style={{fontSize: 20}}>{description}</Text>
+                    <TouchableOpacity onPress={() => setDetailsVisible(!detailsVisible)}>
+                      <Text style={{color: colors.orange, textAlign: 'center'}}>View more</Text>
+                    </TouchableOpacity>
                 </View>
             </View> 
 
@@ -260,12 +283,12 @@ const ProductInfoView = ({
               </View>
             </View>
             {/* item details */}
-            <Product.Details  
+            {/* <Product.Details  
                 color={color}
                 material={material}
                 printed={printed}
                 condition={condition}
-                />
+                /> */}
             <SellerInfo 
               name={name}
               last_name={last_name}
@@ -274,12 +297,37 @@ const ProductInfoView = ({
               reputation={reputation}
               uid={uid}
               />
+            {/* info snippets */}
+            <ListItem 
+              leftIcon={{type: "evilicon", name:"check"}}
+              containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+              title="Quality control" 
+              chevron
+              />
+            <ListItem 
+              leftIcon={{type: "evilicon", name:"location"}}
+              containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+              title={location}
+              chevron
+              />
+            <ListItem 
+              leftIcon={{type: "material-icons", name:"local-shipping"}}
+              containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+              title="Shipping and returns"
+              chevron
+              />
+            <ListItem 
+              leftIcon={{type: "materialicons", name:"payment"}}
+              containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+              title="100% secure payment"
+              chevron
+              />
             <CommentListProvider 
               id={id}
               collection="comments">
                   <CommentList 
                     id={id}
-                    title="Comments"
+                    title="Chat"
                     // comments={comments}
                     containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}
                     />

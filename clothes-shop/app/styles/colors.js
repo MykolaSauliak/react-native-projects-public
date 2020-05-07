@@ -7,7 +7,7 @@ export default {
   gray: '#F5F5F5',
   silver: '#bobobo',
   lightGray: '#FAFAFA',
-  orange: '#FD8D3F',
+  orange: '#db742c',
   lightoOrange: 'rgba(253, 141, 63,0.5)',
   dark: '#484848',
   weLoveColor: '#ebebeb',

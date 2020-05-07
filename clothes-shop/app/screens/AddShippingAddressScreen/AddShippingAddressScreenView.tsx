@@ -319,6 +319,8 @@ const AddShippingAddressScreenView = ({
                         {...{
                           countryCode,
                           onSelect,
+                          withAlphaFilter : true,
+                          withFilter : true,
                         }}
                         visible={countryModalVisible}
                       />

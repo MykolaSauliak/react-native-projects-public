@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 35,
     paddingLeft: 15,
-    marginVertical: 10,
+    marginVertical: 15,
     // fontWeight: 'bold',
     // fontFamily: 'OPTICenturyNova',
   },
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   price: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   newPrice: {

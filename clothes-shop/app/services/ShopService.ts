@@ -10,6 +10,7 @@ import _ from 'lodash';
 import constants from '../constants'
 import moment from 'moment';
 import { User, Order } from '../types/types';
+import { Negotiation } from '../types/Negotiation.type';
 
 const collectionsNames = {
   negotiations : "negotiations",
@@ -666,6 +667,35 @@ class ShopService implements ShopServiceInterface {
     return res
   }
 
+  async getGoodWithNegotiations(id:string){
+    const user = auth().currentUser;
+    if (!user) {
+      return
+    }
+    let product: Shop.Product = await this.getGood(id)
+    if(!_.isEmpty(product)){
+      let negotation = await this.getNegotiation({product_id : product.id})
+      if(!_.isEmpty(negotation)){
+          let {price} = this.getNegotiationPrice(negotation)
+          if(price && price > 0){
+              product.price = price
+          }
+      }
+    }
+    return product;
+  }
+
+  getNegotiationPrice = (negiation : Negotiation) => {
+    let response = {
+        price : 0
+    }
+    if(negiation.answered_time > (Date.now() - constants.ONE_DAY_MILISECONDS)){
+      if(negiation.isAccepted){
+        response.price = negiation.offer_price
+      }
+    }
+    return response
+  }
   // async getUnreceivedItems(){
   //   let res =  await this.getGoods({
   //     [constants.clothes_fields.status] : Shop.Status.

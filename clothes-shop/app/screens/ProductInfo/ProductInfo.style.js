@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: -15, 
   },
+  feesText: {
+    opacity: 0.5
+  },
   btnRow: {
     maxHeight: 55,
     flexDirection: 'row',

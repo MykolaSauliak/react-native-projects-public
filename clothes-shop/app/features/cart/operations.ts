@@ -1,66 +1,74 @@
 // import ShopService from '../../services';
 import {getCartitems} from './selectors';
 import {setCartItems, setCount, setCartLoading} from './actions';
+import {getUser} from '../user/selectors';
 import {ShopService} from '../../services';
 import constants from '../../constants';
+import { Shop } from '../../types/Shop.type';
+import _ from 'lodash';
 
-const getAuthenticationFees = (cartItems = []) => {
-  let result = cartItems.length * constants.authentication_fees;
-  return result.toPrecision(2)
+type ProductWithCount  = Shop.Product &  {
+    count : number
+}
+
+const getAuthenticationFees = (cartItems : ProductWithCount[] = []) => {
+  let result = _.multiply(cartItems.length, constants.authentication_fees);
+  return _.round(result, 2)
 };
 
-const discountValid = (item) => {
-  return parseFloat(item.discount) > 0 && item.discountEndTs > (Date.now() / 1000)
+const discountValid = (item : ProductWithCount) => {
+  return item.discount 
+        && item.discountEndTs 
+        && item.discount > 0 
+        && item.discountEndTs > (Date.now() / 1000)
 }
 
-const getDiscountPrice = (item) => {
-  return ((100 - parseFloat(item.discount || 0)) / 100) * parseFloat(item.price)
+const getDiscountPrice = (item : ProductWithCount) => {
+  return  _.multiply(((100 - (item.discount || 0)) / 100),item.price)
 }
 
-const getTotalValue = (cartItems =[]) => {
+const getTotalValue = (cartItems : ProductWithCount[] =[]) => {
   let sum = 0;
-  cartItems.forEach(i => {
-    let price;
-    // if (discountValid(i)) {
-      price = (parseFloat(i.count) || 1) * getDiscountPrice(i);
-    // } else {
-    //   price = (parseFloat(i.count) || 1) * parseFloat(i.price);
-    // }
-    sum = sum + price;
+  cartItems.forEach((i : ProductWithCount )=> {
+    let cost = 0;
+    if(_.isEmpty(i.count)){
+      i.count  = 1
+    }
+    if (discountValid(i)) {
+      cost = _.multiply((i.count),getDiscountPrice(i))
+    } else {
+      cost = _.multiply((i.count), i.price)
+    }
+    sum = sum + cost;
   });
   //console.log('getTotalValue',sum)
   // if (!sum) {
   //   return 0;
   // }
-  return parseFloat(sum);
+  return _.round(sum,2);
 };
 
-const getTotalWithTaxes = cartItems => {
+const getTotalWithTaxes = (cartItems:ProductWithCount[]) => {
   let total = getTotalValue(cartItems);
   total = total + getAuthenticationFees(cartItems)
   return total;
 };
 
-export const updateCart = () => async (dispatch, getState) => {
+export const updateCart = () => async (dispatch : any, getState : any) => {
   let cartItems = getCartitems(getState());
+  let user = getUser(getState());
   // console.lg
-  cartItems = cartItems.filter(c => c && c.id);
-  console.log('cartItems updateInfo - ', cartItems);
-  // //console.log('componentDidUpdate cartItems',cartItems)
+  cartItems = cartItems.filter((c: ProductWithCount) => c && c.id);
+  // console.log('cartItems updateInfo - ', cartItems);
   if (cartItems.length == 0) {
     return;
   }
   dispatch(setCartLoading(true));
-  const promises = cartItems.map(item => {
+  const promises = cartItems.map((item  :ProductWithCount) => {
     return new Promise(resolve => {
-      ShopService.getGood(item.id)
+      ShopService.getGoodWithNegotiations(item.id)
         .then(product => {
-          //console.log('product',item.id,product)
-          // ifproduct){
           resolve({...item, ...product});
-          // }else{
-          //     resolve(null)
-          // }
         })
         .catch(_ => {
           resolve(null);
@@ -72,7 +80,7 @@ export const updateCart = () => async (dispatch, getState) => {
       TODO : Додати перевірку при оплаті, коли було
       останнє оновлення ціни
   */
-  let products = [];
+  let products : ProductWithCount[] = [];
   try {
     products = await Promise.all(promises);
   } catch (err) {
