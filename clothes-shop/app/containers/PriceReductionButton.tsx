@@ -64,7 +64,7 @@ const PriceReductionButton = ({
               style={[styles.wishlistBtn, btnStyle]}
                 >
               <FontAwesome name="angle-double-down" size={30} color={color}/>
-              <Text style={[styles.btnText, {opacity: 0.5, color:color}]}>{`Price reduction \nupdates`}</Text>
+              <Text style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
             </TouchableOpacity>
         )}
       </View>

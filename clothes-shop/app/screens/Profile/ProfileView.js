@@ -64,6 +64,7 @@ const ProfileView = ({
   toMyItems,
   toOrders,
   toMyNegotiations,
+  toHolidayMode ,
   toAuth,
   toPrivatePolicy,
 
@@ -219,6 +220,13 @@ const ProfileView = ({
               title={i18n.t('profile.priceoffersent')}
             />
             <ListItem
+              disabled={!isSignedIn}
+              onPress={toHolidayMode}
+              // titleStyle={activeColorStyle}
+              // title={i18n.t('profile.рщдшвфньщву')}
+              title={"Holiday mode"}
+            />
+            <ListItem
               gray
               bold
               paddingBottom={10}
@@ -346,6 +354,7 @@ ProfileView.defaultProps = {
     NavigationService.navigateToPushNotificationsSettings(),
   toSubscriptionsSettings: () =>
     NavigationService.navigateToSubscriptionsSettings(),
+  toHolidayMode: () => NavigationService.navigateToHolidayMode(),
   toWishlist: () => NavigationService.navigateToWishlist(),
   toStats: () => NavigationService.navigateToStats(),
   toFavorites: () => NavigationService.navigateToFavorites(),

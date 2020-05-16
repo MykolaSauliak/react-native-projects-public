@@ -1,13 +1,10 @@
 import SelectSellInformationView from './SelectSellInformationView';
 import {compose, withProps, withHandlers} from 'recompose';
 import {withSell} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
-  withProps(props => ({
-    // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
-    // models
-  })),
+  withSell({pick: [constants.material, constants.color, constants.printed]}),
   withHandlers({
     onPress: ({navigation, dispatch}) => model => {
       dispatch(setSelectedModel(model));
@@ -17,21 +14,6 @@ const enhance = compose(
       //     cars : navigation.getParam('cars','[]')
       // })
     },
-    // goBack: ({navigation}) => () => {
-    //     navigation.goBack();
-    // },
-    // goToSubcategoryChoose : ({navigation}) => () => {
-    //     navigation.navigate(screens.SelectSellSubcategory)
-    // },
-    // goToMaterialChoose : ({navigation}) => () => {
-    //     navigation.navigate(screens.SelectSellMaterial)
-    // },
-    // goToColorChoose : ({navigation}) => () => {
-    //     navigation.navigate(screens.SelectSellColor)
-    // },
-    // goToPrintChoose : ({navigation}) => () => {
-    //     navigation.navigate(screens.SelectSellPrinted)
-    // },
   }),
 );
 

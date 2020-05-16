@@ -143,6 +143,10 @@ class NavigationService {
     this.navigate(screens.Negotiations, props);
   }
 
+  navigateToHolidayMode(props) {
+    this.navigate(screens.HolidayMode, props);
+  }
+
   navigateToNotifications(props) {
     this.navigate(screens.Notifications, props);
   }
@@ -230,9 +234,13 @@ class NavigationService {
   navigateToFavorites(props) {
     this.navigate(screens.Favorites, props);
   }
+  
+  navigateToAlertCreate(props) {
+    this.navigate(screens.AlertCreate, props);
+  }
 
   navigateToSellProductOptionalSelect(props) {
-    this.navigate(screens.SelectSellOptionalInfo, props);
+    this.navigate(screens.SelectSellOptionalInformation, props);
   }
 
   /** end sell navigation */

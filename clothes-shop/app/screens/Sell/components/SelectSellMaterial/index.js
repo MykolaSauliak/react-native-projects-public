@@ -1,33 +1,12 @@
 import SelectSellMaterialView from './SelectSellMaterialView';
 import {compose, withProps, withHandlers, withState} from 'recompose';
-// import { connect } from "react-redux";
 import materials from '../../../../mockData/materials';
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
-// import {
-//     setSelectedSellBrand,
-//     setSelectedSellMaterial,
-// } from '../../../../features/seller/actions'
-// import {
-//     getSelectedCar,
-//     getSelectedCarMake,
-//     getSelectedType,
-//     getSelectedModel
-// } from '../../../../features/mycars/selectors'   // import { getCartitems } from '../../features/cart/selectors'
-
-// const mapStateToProps = (state) => ({
-//     selectedCarMake : getSelectedCarMake(state),
-//     selectedModel : getSelectedModel(state),
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     dispatch,
-//     // chooseMaterial: (m) => dispatch(setSelectedSellMaterial(m))
-// })
+import constants from '../../../../constants';
 
 const enhance = compose(
-  // connect(mapStateToProps,mapDispatchToProps),
-  withSell(),
+  withSell({pick: [constants.material]}),
   withState('searchText', 'setSearchText', ''),
   withState('materials', 'setMaterials', materials),
   withProps(props => ({

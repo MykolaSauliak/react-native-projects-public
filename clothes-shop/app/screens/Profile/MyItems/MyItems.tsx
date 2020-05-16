@@ -120,7 +120,8 @@ const MyItems = ({
           bottomDivider
           onPress={() => NavigationService.navigateToGrid({
             items : refusedItems,
-            title: "Refused items"
+            title: "Refused items",
+            listProps: {disabled: true, onPress: () => {}}
           })}
           />)}
         {!_.isEmpty(unreceivedItems) && (<ListItem 

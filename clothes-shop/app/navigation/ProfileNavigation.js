@@ -14,6 +14,7 @@ import {BackHeader} from '../components';
 import screens from '../constants/screens';
 import Favorites from '../screens/Profile/Favorites';
 import Stats from '../screens/Profile/Stats/Stats';
+import HolidayMode from '../screens/Profile/HolidayMode/HolidayMode';
 
 const ProfileStack = createStackNavigator(
   {
@@ -39,6 +40,7 @@ const ProfileStack = createStackNavigator(
       }),
     },
     [screens.Stats]: Stats,
+    [screens.HolidayMode]: HolidayMode,
     [screens.Wishlist]: Wishlist,
     [screens.Favorites]: Favorites,
     [screens.MyAlerts]: MyAlerts,

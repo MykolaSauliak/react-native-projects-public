@@ -4,10 +4,12 @@ import {
   } from 'react-native-paper';
 
 const Chip = ({
+    style = {},
+    textStyle = {},
     children = ""
 }) => {
     return (
-        <RNChip  style={{marginTop: 2, borderRadius: 0,borderColor:'black'}} >{children}</RNChip>
+        <RNChip textStyle={[textStyle]} style={[{marginTop: 2, borderRadius: 0,borderColor:'black'}, style]} >{children}</RNChip>
     );
 };
 

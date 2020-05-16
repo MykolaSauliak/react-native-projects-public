@@ -42,6 +42,14 @@ export const getSelectedSellCondition = state =>
   R.path(['seller', 'sellProduct', 'selectedSellCondition'], state);
 export const getSelectedSellPrice = state =>
   R.path(['seller', 'sellProduct', 'selectedSellPrice'], state);
+export const getSelectedSellVintage = state =>
+  R.path(['seller', 'sellProduct', 'vintage'], state);
+export const getSelectedSellSoldWith = state =>
+  R.path(['seller', 'sellProduct', 'soldWith'], state);
+export const getSelectedSellShippingCountry = state =>
+  R.path(['seller', 'sellProduct', 'shipping_country'], state);
+export const getSelectedSellShippingCountryCode = state =>
+  R.path(['seller', 'sellProduct', 'shipping_country_code'], state);
 export const getSeller = state => R.path(['seller', 'seller'], state);
 export const getDrafts = state => R.path(['seller', 'drafts'], state);
 export const getDraftsLastUpdate = state =>

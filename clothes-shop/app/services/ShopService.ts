@@ -1033,6 +1033,25 @@ class ShopService implements ShopServiceInterface {
 
   }
 
+  async setHolidayMode(holidaymode: boolean){
+    const user = auth().currentUser;
+    if(!user || !user.uid){
+      return 
+    }
+    let succesfull = false
+    try{
+      const response = await usersRef.doc(user.uid).update({
+        holidaymode,
+      })
+      succesfull = true
+    }catch(err){
+      
+    }finally{
+      return succesfull
+    }
+
+  }
+
   async updateInfo(){
       // //console.log('updateInfo for cart ...')
       // let cartItems = getCartitems(getState())

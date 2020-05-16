@@ -12,11 +12,13 @@ import {
 } from 'react-native-paper';
 import colors from '../styles/colors';
 import FilterRow from '../components/FilterRow'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const S = StyleSheet.create({
     listAccordion: {
         backgroundColor: 'white',
-        // borderColor: colors.gray,
+        borderBottomColor: colors.black,
+        borderBottomWidth: 0.5,
         // shadowColor:'black',
         // shadowRadius:5,
         // borderTopWidth: 2,
@@ -60,34 +62,39 @@ const AccordionList = ({
             //   type =>
             //     type && type.category_ids && type.category_ids.includes(category_id),
             // )}
+            contentContainerStyle={{flex:1}}
             data={items}
             renderItem={({item}) => (
-            <View style={[S.listAccordion]}>
-                {
-                    !item.data || item.data.length == 0
-                    ?(
-                      <FilterRow 
-                        onPress={() => onItemPress(item)}
-                        title={item?.title || item.label} 
-                        count={item.count}
-                        />
-                    )
-                    :(<List.Accordion
-                        title={item?.title || item.label}
-                        titleStyle={{fontWeight: 'bold'}}
-                        >
-                            {
-                            item.data && item.data.map((subItem : Item) => (
-                                <TouchableOpacity
-                                    onPress={() => subItem.onPress ? subItem.onPress(subItem) : onSubItemPress(subItem)}>                               }>
-                                    <List.Item title={subItem.title} />
-                            </TouchableOpacity>
-                            ))
-                        }
-                    </List.Accordion>
-                    )
-                }
-            </View>
+            <ScrollView contentContainerStyle={{backgroundColor: colors.gray}}>
+                <View style={[S.listAccordion]}>
+                    {
+                        !item.data || item.data.length == 0
+                        ?(
+                        <FilterRow 
+                            onPress={() => onItemPress(item)}
+                            title={item?.title || item.label} 
+                            count={item.count}
+                            />
+                        )
+                        :(<List.Accordion
+                            title={item?.title || item.label}
+                            titleStyle={{fontWeight: 'bold', color: 'black'}}
+                            // style={{borderColor:'black', borderBottomWidth: 1}}
+                            >
+                                {
+                                    item.data && item.data.map((subItem : Item) => (
+                                        <TouchableOpacity
+                                            onPress={() => subItem.onPress ? subItem.onPress(subItem) : onSubItemPress(subItem)}>
+                                            <List.Item title={subItem.title} />
+                                    </TouchableOpacity>
+                                    ))
+                                }
+
+                        </List.Accordion>
+                        )
+                    }
+                </View>
+            </ScrollView>
             )}
         />
     )

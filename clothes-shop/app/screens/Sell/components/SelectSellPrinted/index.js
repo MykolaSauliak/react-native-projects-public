@@ -3,34 +3,13 @@ import {compose, withProps, withHandlers, withState} from 'recompose';
 // import { connec/t } from "react-redux";
 import printed from '../../../../mockData/printed';
 import screens from '../../../../constants/screens';
-// import {
-//     setSelectedSellPrinted,
-// } from '../../../../features/seller/actions'
-// import {
-//     getSelectedCar,
-//     getSelectedCarMake,
-//     getSelectedType,
-//     getSelectedModel
-// } from '../../../../features/mycars/selectors'   // import { getCartitems } from '../../features/cart/selectors'
 import {withSell} from '../../../../utils/enhancers';
-
-// const mapStateToProps = (state) => ({
-//     selectedCarMake : getSelectedCarMake(state),
-//     selectedModel : getSelectedModel(state),
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     dispatch,
-// })
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
-  // connect(mapStateToProps,mapDispatchToProps),
+  withSell({pick: [constants.printed]}),
   withState('searchText', 'setSearchText', ''),
   withState('printed', 'setPrinted', printed),
-  withProps(props => ({
-    // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
-  })),
   withHandlers({
     onPress: ({setSelectedSellPrinted, navigation, dispatch}) => printed => {
       setSelectedSellPrinted(printed);

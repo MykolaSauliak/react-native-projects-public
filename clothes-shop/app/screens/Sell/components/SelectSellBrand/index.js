@@ -3,10 +3,11 @@ import {compose, withProps, withHandlers, withState} from 'recompose';
 import {withSell} from '../../../../utils/enhancers';
 import brands from '../../../../mockData/brands';
 import {NavigationService} from '../../../../services';
+import constants from '../../../../constants';
 const uuidv4 = require('uuid/v4');
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.brand]}),
   withState('searchText', 'setSearchText', ''),
   withState('brands', 'setBrands', brands),
   withProps(props => ({

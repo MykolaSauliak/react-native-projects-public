@@ -1,39 +1,14 @@
 import SelectSellColorView from './SelectSellColorView';
 import {compose, withProps, withHandlers, withState} from 'recompose';
-// import { connect } from "react-redux";
 import colors from '../../../../mockData/colors';
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
-// import {
-//     setSelectedSellBrand,
-//     setSelectedSellMaterial,
-//     setSelectedSellColor,
-// } from '../../../../features/seller/actions'
-// import {
-//     getSelectedCar,
-//     getSelectedCarMake,
-//     getSelectedType,
-//     getSelectedModel
-// } from '../../../../features/mycars/selectors'   // import { getCartitems } from '../../features/cart/selectors'
-
-// const mapStateToProps = (state) => ({
-//     selectedCarMake : getSelectedCarMake(state),
-//     selectedModel : getSelectedModel(state),
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     dispatch,
-//     // chooseItem: (c) => dispatch(setSelectedSellColor(c))
-// })
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
-  // connect(mapStateToProps,mapDispatchToProps),
+  withSell({pick: [constants.color]}),
   withState('searchText', 'setSearchText', ''),
   withState('colors', 'setColors', colors),
-  withProps(props => ({
-    // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
-  })),
   withHandlers({
     onPress: ({setSelectedSellColor, navigation, dispatch}) => color => {
       setSelectedSellColor(color);

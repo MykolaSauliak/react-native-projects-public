@@ -1,6 +1,7 @@
 export default {
   Auth: 'Auth',
   AuthStack: 'AuthStack',
+  AlertCreate: 'AlertCreate',
 
   SearchStack: 'SearchStack',
   MainStack: 'MainStack',
@@ -43,7 +44,7 @@ export default {
 
   SelectSeller: 'SelectSeller',
   AddShippingAddressScreen: 'AddShippingAddressScreen',
-  SelectSellOptionalInfo: 'SelectSellOptionalInfo',
+  SelectSellOptionalInformation: 'SelectSellOptionalInformation',
   SelectSellSubcategory: 'SelectSellSubcategory',
 
   CategoriesViewStack: 'CategoriesViewStack',
@@ -90,6 +91,7 @@ export default {
   AccountDetails: 'AccountDetails',
   ProfileStack: 'ProfileStack',
   MyOrders: 'MyOrders',
+  HolidayMode: 'HolidayMode',
 
   PriceOfferSent: 'PriceOfferSent',
   MyAlerts: 'MyAlerts',

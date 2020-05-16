@@ -13,6 +13,7 @@ import screens from '../../../../constants/screens';
 //     getSelectedModel
 // } from '../../../../features/mycars/selectors'   // import { getCartitems } from '../../features/cart/selectors'
 import {withSell} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 // const mapStateToProps = (state) => ({
 //     selectedCarMake : getSelectedCarMake(state),
@@ -24,7 +25,7 @@ import {withSell} from '../../../../utils/enhancers';
 // })
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.subcategory]}),
   // connect(mapStateToProps,mapDispatchToProps),
   withState('searchText', 'setSearchText', ''),
   withState('subcategories', 'setSubcategories', subcategories),

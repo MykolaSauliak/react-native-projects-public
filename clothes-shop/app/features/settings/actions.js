@@ -7,4 +7,17 @@ const setLoading = loading => dispatch => {
   });
 };
 
-export {setLoading};
+const setItem = (key, value) => dispatch => {
+  dispatch({
+    type: types.setItem,
+    payload: {
+      key,
+      value
+    },
+  });
+};
+
+export {
+  setLoading,
+  setItem
+};

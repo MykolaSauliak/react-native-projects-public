@@ -21,6 +21,7 @@ const GridList = ({
   toggleFavorite,
   horizontal,
   title = '',
+  titleStyle = {},
   ItemCard,
   loading,
   LoadingComponent,
@@ -41,7 +42,7 @@ const GridList = ({
   
   return (
     <View style={{flex:1}}>
-        {title.length > 0 && <Text style={styles.title}>{title}</Text>}
+        {title.length > 0 && <Text style={[styles.title, titleStyle]}>{title}</Text>}
         <FlatGrid
           // style={horizontal ? {height : '100%'} : null}
           horizontal={horizontal}

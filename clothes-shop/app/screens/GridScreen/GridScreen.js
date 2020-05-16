@@ -9,14 +9,15 @@ import { GridList } from '../../containers';
 
 const GridScreen = ({
     items,
-    title = 'List'
+    title = 'List',
+    listProps = {}
 }) => {
-    console.log('items',items[0])
+    // console.log('items',items[0])
 
     return (
         <View style={{flex:1}}>
             <BackHeader title={title} />
-            <GridList items={items} />
+            <GridList  items={items} {...listProps} />
         </View>
     );
 };

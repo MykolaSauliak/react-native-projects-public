@@ -1,33 +1,12 @@
 import SelectSellConditionWriteView from './SelectSellConditionWriteView';
 import {compose, withProps, withHandlers, withState} from 'recompose';
-// import { connect } from "react-redux";
-// import subcategories from '../../../mockData/subcategories'
 import screens from '../../../../constants/screens';
-// import {
-//     setSelectedSellCondition,
-// } from '../../../../features/seller/actions'
-// import {
-//     getSelectedSellCondition,
-// } from '../../../../features/seller/selectors'
 import {withSell} from '../../../../utils/enhancers';
-
-// const mapStateToProps = (state) => ({
-//     condition : getSelectedSellCondition(state),
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     dispatch,
-//     // setCondition : (text) => dispatch(setSelectedSellCondition(text)),
-// })
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
-  // connect(mapStateToProps,mapDispatchToProps),
+  withSell({pick: [constants.condition]}),
   withState('searchText', 'setSearchText', ''),
-  // withState('subcategories','setSubcategories',subcategories),
-  withProps(props => ({
-    // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
-  })),
   withHandlers({
     onPress: ({
       setSelectedSellSubcategory,

@@ -6,6 +6,7 @@ import {
     StyleSheet,
 } from "react-native";
 import { ListItem } from 'react-native-elements';
+import constants from '../../constants';
 
 const S = StyleSheet.create({
       title: {
@@ -52,8 +53,9 @@ const PreviewRowCard = ({
                 style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
                 <Image
                     source={{
-                        uri: getImageURI(),
+                        uri: getImageURI()
                     }}
+                    defaultSource={constants.defaultImage}
                     resizeMode="contain"
                     style={{width: '100%', height: 75}}
                 />

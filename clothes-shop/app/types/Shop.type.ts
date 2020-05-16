@@ -3,7 +3,9 @@ export namespace Shop {
 
     export interface Brand { 
         title: string,
-        image: string
+        image: {
+            src: string
+        }
     }    
 
     export interface SellProduct {
@@ -15,6 +17,7 @@ export namespace Shop {
         title : 'photo1' | 'photo2' | 'photo3' | 'photo4' | 'photo5',
         src : String,
     }
+    export type ProductUniverse = "man" | "woman" | "kids" | 'lifestyle'
     
     
     export enum Status {
@@ -23,6 +26,10 @@ export namespace Shop {
         'approved' ,
         'refused' ,
         'sold'
+    }
+
+    export enum SoldWith {
+        'dustbag' = 0, 
     }
 
     export enum SaleStatus {
@@ -61,6 +68,10 @@ export namespace Shop {
             title: string,
         },
         shipping_country: string,
+        universe?: ProductUniverse,
+        seller: {
+
+        },
         express_delivery: boolean,
         we_love: boolean,
         vintage: boolean,
@@ -68,9 +79,11 @@ export namespace Shop {
         sale_status: SaleStatus,
         status: Status
         status_updated_at : {  [key in Status] : string},
+        sold_with : {  [key in SoldWith] : boolean},
         approveNotificationSent: boolean,
         similar_items: string[],
         favorite_count: number,
+        no_negotiation?: boolean,
     }
     
     export interface Address {

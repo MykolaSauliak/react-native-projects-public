@@ -3,6 +3,8 @@ import colors from '../../styles/colors';
 import constants from '../../constants';
 
 const styles = StyleSheet.create({
+  chipContainer: {paddingVertical: -15, marginTop:10, alignItems:'center', flexDirection: 'row', flexWrap: 'wrap'},
+  chip: {marginHorizontal: 2, backgroundColor: 'white', padding:2},
   btnRow: {
     height: 55,
     flexDirection: 'row',
@@ -118,8 +120,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   productTitle: {
-    fontSize: 32,
-    marginBottom:15,
+    fontSize: 50,
+    // fontWeight: 'bold',
+    marginBottom:5,
     fontFamily: 'OPTICenturyNova',
   },
 });

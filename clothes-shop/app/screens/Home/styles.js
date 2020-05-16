@@ -71,18 +71,20 @@ const styles = StyleSheet.create({
     // marginHorizontal : 15,
     backgroundColor: colors.lightGray,
     paddingVertical: 5,
+    // marginVertical: 20,
   },
   listWhiteBox: {
     // padding: 15,
     // paddingHorizontal : 15,
-    paddingVertical: 18,
+    paddingBottom: 15,
     backgroundColor: 'white',
   },
   listTitle: {
-    fontSize: 32,
+    fontSize: 40,
     // fontWeight: 'bold',
     fontFamily: 'OPTICenturyNova',
     paddingLeft: 15,
+    paddingVertical: 15
   },
   cardTitle: {
     fontSize: 14,
@@ -99,8 +101,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   listCard: {
-    width: 120,
-    marginHorizontal: 5,
+    marginHorizontal: 2,
+    width: constants.DEVICE_WIDTH * 0.4, 
+    height: null, 
+    aspectRatio: 1/1.3, 
+    alignItems:'center'
   },
 });
 

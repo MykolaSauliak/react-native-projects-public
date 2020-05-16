@@ -23,3 +23,4 @@ export {default as withParamsToProps} from './withParamsToProps';
 export {default as withLastUpdate} from './withLastUpdate';
 export {default as withStateLoading} from './withStateLoading';
 export {default as withComments} from './withComments';
+export {default as withAlerts} from './withAlerts';

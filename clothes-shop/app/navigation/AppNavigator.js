@@ -7,6 +7,7 @@ import SearchStack from './SearchStack';
 import UserProfileStack from './UserProfileStack';
 import CartStack from './CartStack';
 import NegotiationNavigator from './NegotiationNavigator';
+import AlertNavigator from './AlertNavigator';
 import FilterSort from './FilterSortNavigation';
 import AddShippingAddressScreen from '../screens/AddShippingAddressScreen';
 import AuthNavigator from './AuthNavigator';
@@ -22,6 +23,7 @@ const switchNavigator = createStackNavigator(
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
     [screens.ListScreen]: ListScreen,
     [screens.GridScreen]: GridScreen,
+    [screens.AlertCreate]: AlertNavigator,
     [screens.MainStack]: MainTabNavigator,
     // [screens.ListScreen]: ListScreen,
     [screens.UserProfileStack]: UserProfileStack,

@@ -5,6 +5,7 @@ import * as countries from './countries';
 export default {
   authentication_fees: 9.99,
 
+  holidaymode: "holidaymode",
   LIST: 'LIST',
   TABLE: 'TABLE',
   ONE_DAY_MILISECONDS: 86400000,
@@ -25,6 +26,7 @@ export default {
   DEVICE_HEIGHT: Dimensions.get('window').height,
 
   TEST_IMAGE: require('../assets/test.png'),
+  defaultImage: require('../assets/images/defaultImage.png'),
   DEFAULT_AVATAR: 'http://placehold.it/200x200?text=1',
 
   PAYPAL_LOGO: require('../assets/images/paypal_logo.png'),
@@ -43,6 +45,36 @@ export default {
   trusted_seller: 'trusted_seller',
   vintage: 'vintage',
   expert_seller: 'expert_seller',
+  cardcertificate : 'cardcertificate',
+  originalbox : 'originalbox',
+  dustbag : 'dustbag',
+
+  selectedSellProduct: 'selectedSellProduct',
+  sellProduct: 'sellProduct',
+  drafts: "drafts",
+  subtype: "subtype",
+  type: "type",
+  brand: "brand",
+  material: "material",
+  category: "category",
+  subcategory: "subcategory",
+  color: "color",
+  printed: "printed",
+  photo1: "photo1",
+  photo2: "photo2",
+  photo3: "photo3",
+  photo4: "photo4",
+  photo5: "photo5",
+  description: "description",
+  measurements: "measurements",
+  condition: "condition",
+  price: "price",
+  vintage: "vintage",
+  soldWith: "soldWith",
+  seller: "seller",
+  shipping_country: "shipping_country",
+  shipping_country_code: "shipping_country_code",
+  draftLastUpdate: "draftLastUpdate",
 
   clothes_fields: {
     category_id: 'sold',

@@ -22,13 +22,14 @@ const SellerInfo = ({
     uid,
     reputation,
     errorMessage = "Can't fetch seller info",
-    paddingHorizontal = 15
+    paddingHorizontal = 15,
+    containerStyle = {},
 }) => {
     return (
-       <View style={[{ backgroundColor: 'white', paddingHorizontal, marginTop: 10, paddingVertical: 25}]}>
-        <Text style={globalStyles.listTitle}>
+       <View style={[{ backgroundColor: 'white', paddingHorizontal, marginTop: 10, paddingVertical: 15}, containerStyle]}>
+        {/* <Text style={globalStyles.listTitle}>
           Seller
-        </Text>
+        </Text> */}
         {
           !uid
         ?<Text style={{textAlign:'center',marginVertical: 10}}>{errorMessage}</Text>

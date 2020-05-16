@@ -27,7 +27,13 @@ export default {
   setSelectedSellCondition: 'setSelectedSellCondition',
   setSelectedSellPrice: 'setSelectedSellPrice',
 
+  // OPTIONAL INFORMATION
+  setSellVintage: 'setSellVintage',
+  setSellSoldWith: 'setSellSoldWith',
+
   setSeller: 'setSeller',
+  setShippingCountry: 'setShippingCountry',
+  setShippingCountryCode: 'setShippingCountryCode',
   setSellProduct: 'setSellProduct',
   addDraft: 'addDraft',
   removeFromDrafts: 'removeFromDrafts',

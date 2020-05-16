@@ -4,14 +4,12 @@ import types from '../../../../mockData/types';
 import subtypes from '../../../../mockData/subtypes';
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.type]}),
   withState('types', 'setTypes', types),
   withState('subtypes', 'setSubtypes', subtypes),
-  withProps(props => ({
-    // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
-  })),
   withHandlers({
     onItemPress: ({
       sellProduct,

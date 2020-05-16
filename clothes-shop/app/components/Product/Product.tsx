@@ -89,13 +89,13 @@ const Warantly = ({
 };
 
 const Chips = ({
-    we_love,
+    we_love = false,
     vintage
 }) => {
     return (
-        <View style={{alignItems:'flex-start'}}>
-            {we_love && <Chip>We love</Chip>}
-            {vintage &&<Chip>Vintage</Chip>}
+        <View style={styles.chipContainer}>
+            {<Chip textStyle={{fontSize: 13,  }} style={styles.chip}>We love</Chip>}
+            {vintage &&<Chip style={styles.chip}>Vintage</Chip>}
             {/* {we_love && <Mark fontSize={15} title="we love" />}
             {vintage && <Mark fontSize={15} title="vintage" />} */}
         </View>
@@ -107,6 +107,8 @@ const ProductHeader = ({
     subtype_name= "",
     brand_name = "",
     category_name = "",
+    material = "",
+    color = "",
     paddingHorizontal = 15,
     children = () => null,
 }) => {
@@ -116,9 +118,9 @@ const ProductHeader = ({
                 {`${brand_name}`}
             </Text>
             <Text style={globalStyles.desc}>
-                {`${category_name || ""} ${type_name || ""} ${subtype_name || ""}`}
+                {`${color || ""} ${material || ""} ${subtype_name || ""}`}
             </Text>
-            {/* {children} */}
+            {children}
         </View>
     );
 };

@@ -3,9 +3,10 @@ import {compose, withProps, withHandlers, withState} from 'recompose';
 import subcategories from '../../../../mockData/subcategories';
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.measurements]}),
   // connect(mapStateToProps,mapDispatchToProps),
   withState('searchText', 'setSearchText', ''),
   withState('subcategories', 'setSubcategories', subcategories),

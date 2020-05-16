@@ -298,6 +298,56 @@ export default createReducer(initialState, {
     });
     return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
   },
+  [types.setSellVintage]: (state, {payload}) => {
+    let sellProduct = state.sellProduct;
+    sellProduct.vintage = payload;
+    let drafts = state.drafts;
+    drafts.forEach((d, i) => {
+        if (d.id == sellProduct.id) {
+          drafts[i].vintage = payload;
+        }
+    });
+    return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
+  },
+  [types.setSellSoldWith]: (state, {payload: {key, value}}) => {
+    let sellProduct = state.sellProduct;
+    if(!sellProduct.soldWith){
+      sellProduct.soldWith = {}
+    }
+    sellProduct.soldwith[key] = value;
+    let drafts = state.drafts;
+    drafts.forEach((d, i) => {
+      if (d.id == sellProduct.id) {
+        if(!drafts[i].soldWith){
+          drafts[i].soldWith = {}
+        }
+        drafts[i].soldWith[key] = value;
+      }
+    });
+    return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
+  },
+  [types.setShippingCountry]: (state, {payload}) => {
+    let sellProduct = state.sellProduct;
+    sellProduct.shipping_country = payload;
+    let drafts = state.drafts;
+    drafts.forEach((d, i) => {
+      if (d.id == sellProduct.id) {
+        drafts[i].shipping_country = payload;
+      }
+    });
+    return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
+  },
+  [types.setShippingCountryCode]: (state, {payload}) => {
+    let sellProduct = state.sellProduct;
+    sellProduct.shipping_country_code = payload;
+    let drafts = state.drafts;
+    drafts.forEach((d, i) => {
+      if (d.id == sellProduct.id) {
+        drafts[i].shipping_country_code = payload;
+      }
+    });
+    return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
+  },
 
   [types.setSeller]: (state, {payload}) => {
     let drafts = state.drafts;

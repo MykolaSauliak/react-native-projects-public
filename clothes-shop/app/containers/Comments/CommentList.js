@@ -22,7 +22,6 @@ const CommentListContainer = ({
   // console.log('comments',comments)
   // console.log('id',id)
   // console.log('lastUpdate',lastUpdate)
-
   return (
     <CommentList
       {...props}

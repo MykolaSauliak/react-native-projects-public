@@ -15,6 +15,7 @@ import {
     withProps(({navigation}) => ({
         items: navigation.getParam('items', []),
         title: navigation.getParam('title', []),
+        listProps: navigation.getParam('listProps', {}),
     })),
   );
   

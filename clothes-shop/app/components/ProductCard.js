@@ -246,6 +246,7 @@ const ProductCard = ({
             source={{uri: images  && images[0] &&  images[0].src }}
             style={{height: 150, width: null, flex: 1}}
             resizeMode="contain"
+            defaultSource={constants.defaultImage}
           />
         </CardItem>
         <CardItem>
@@ -268,7 +269,7 @@ const ProductCard = ({
         </CardItem>
         <CardItem>
           <Left style={{height: 30}}>
-            {((seller && seller.shipping_country) || shipping_country) && (
+            {((seller && shipping_country) || shipping_country) && (
               <View style={S.locationBox}>
                 <MaterialIcons color={colors.sepiaDark} name="place" />
                 <Text style={S.text}>
@@ -280,7 +281,6 @@ const ProductCard = ({
         </CardItem>
       </TouchableOpacity>
     </Card>
-
     // <Card
     //   containerStyle={{margin: 4, flex:0.5}}
     //   // image={{uri: images ? images[0].src : ''}}

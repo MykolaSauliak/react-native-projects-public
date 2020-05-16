@@ -2,10 +2,10 @@ import SelectSellerView from './SelectSellerView';
 import {compose, withProps, withHandlers} from 'recompose';
 import screens from '../../../../constants/screens';
 import {withSell, withAddresses} from '../../../../utils/enhancers';
-
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.shipping_country, constants.shipping_country_code]}),
   withAddresses(),
   withHandlers({
     goBack: ({navigation}) => () => {

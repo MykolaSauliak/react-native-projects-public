@@ -11,6 +11,9 @@ export default createReducer(initialState, {
   [types.setShowStatusBar]: (state, {payload}) => {
     return {...state, showStatusBar: payload};
   },
+  [types.setItem]: (state, {payload : {key, value}}) => {
+    return {...state, [key]: value};
+  },
   [types.setLoading]: (state, {payload}) => {
     return {...state, loading: payload};
   },

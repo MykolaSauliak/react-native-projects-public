@@ -154,6 +154,37 @@ export const setSeller = payload => dispatch => {
     payload: payload,
   });
 };
+
+export const setSellVintage = payload => dispatch => {
+  dispatch({
+    type: types.setSellVintage,
+    payload: payload,
+  });
+};
+
+export const setSellSoldWith = (key, value) => dispatch => {
+  dispatch({
+    type: types.setSellSoldWith,
+    payload: {
+      key,
+      value
+    },
+  });
+};
+
+export const setShippingCountry = payload => dispatch => {
+  dispatch({
+    type: types.setShippingCountry,
+    payload: payload,
+  });
+};
+export const setShippingCountryCode = payload => dispatch => {
+  dispatch({
+    type: types.setShippingCountryCode,
+    payload: payload,
+  });
+};
+
 export const addDraft = payload => dispatch => {
   if (payload && !payload.id) {
     console.log('generate id');

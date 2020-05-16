@@ -67,11 +67,11 @@ const conditionComplete = obj => {
 };
 
 const sellerComplete = obj => {
-  const {seller} = obj;
+  const {seller, shipping_country} = obj;
   return (
     seller != null &&
     seller.personal_contact_information != null &&
     seller.phone != null &&
-    seller.shipping_country != null
+    shipping_country != null
   );
 };

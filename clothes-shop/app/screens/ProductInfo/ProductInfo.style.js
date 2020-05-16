@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
   },
   itemDetailsBox: {
     borderRadius: 10,
+    backgroundColor: colors.gray, 
+    borderRadius: 10, 
+    paddingTop: 15
     // backgroundColor: 'white',
     // padding: 10,
   },

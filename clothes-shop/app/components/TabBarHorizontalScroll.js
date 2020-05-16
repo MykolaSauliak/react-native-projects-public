@@ -14,7 +14,7 @@ const TabBarHorizontalScroll = ({
       <TabBar
         {...otherProps}
         scrollEnable
-        labelStyle={[labelStyle]}
+        // labelStyle={[labelStyle]}
         renderLabel={({route, focused, color}) => (
           <Text
             style={[{
@@ -22,7 +22,7 @@ const TabBarHorizontalScroll = ({
               opacity: focused ? 1 : 0.2,
               fontSize: 22,
               margin: 8,
-            }]}>
+            }, labelStyle]}>
             {route.title}
           </Text>
         )}

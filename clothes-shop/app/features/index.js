@@ -20,6 +20,7 @@ import notifications from './notifications';
 import favorite from './favorite';
 import history from './history';
 import filtersort from './filtersort';
+import alerts from './alerts';
 
 /** import sagas */
 // import cartSaga from './cart/sagas';
@@ -42,6 +43,7 @@ const config = {
     'history',
     'notifications',
     'filtersort',
+    'alerts',
   ],
   blacklist: ['comments'],
   storage: AsyncStorage,
@@ -64,6 +66,7 @@ const appReducer = {
   notifications,
   following,
   filtersort,
+  alerts,
 };
 
 export default persistCombineReducers(config, appReducer);

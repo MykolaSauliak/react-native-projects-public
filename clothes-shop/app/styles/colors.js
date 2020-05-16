@@ -4,10 +4,11 @@ export default {
 
   // gray : 'rgb(209, 209, 209)',
   black: 'black',
-  gray: '#F5F5F5',
+  gray: '#f5f2f2',
+  // gray: '#F5F5F5',
   silver: '#bobobo',
   lightGray: '#FAFAFA',
-  orange: '#db742c',
+  orange: '#cc815e',
   lightoOrange: 'rgba(253, 141, 63,0.5)',
   dark: '#484848',
   weLoveColor: '#ebebeb',

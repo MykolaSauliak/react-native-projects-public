@@ -38,6 +38,10 @@ const SelectSellerView = ({
 
   saveSeller,
   setSeller,
+  setShippingCountry,
+  setShippingCountryCode,
+  shipping_country,
+  shipping_country_code,
   // selectedAddress,
   shippingAddresses,
 
@@ -55,10 +59,10 @@ const SelectSellerView = ({
   let [phonecountry, setPhoneCountry] = useState('');
   let [phoneCode, setPhoneCode] = useState('');
 
-  const [countryCode, setCountryCode] = useState('FR');
+  // const [countryCode, setCountryCode] = useState('FR');
   const [country, setCountry] = useState({name: 'France'});
   const onSelect = country => {
-    setCountryCode(country.cca2);
+    setShippingCountryCode(country.cca2);
     setCountry(country);
   };
 
@@ -66,12 +70,15 @@ const SelectSellerView = ({
     // if(setSeller){
     let newSeller = {
       phone,
-      shipping_country: country ? country.name : '',
       country_code: getCountryCode(),
       personal_contact_information: address || addresses ? addresses[0] : {},
     };
+    let shipping_country = country ? country.name : ''
+    let shipping_country_code = countryCode
     console.log('newSeller', newSeller);
     setSeller(newSeller);
+    setShippingCountry(shipping_country)
+    setShippingCountryCode(shipping_country_code)
     onDone();
   };
 
@@ -131,7 +138,7 @@ const SelectSellerView = ({
             {/* <Text>{country ? country.name : ''}</Text> */}
             <CountryPicker
               {...{
-                countryCode,
+                countryCode: shipping_country_code,
                 onSelect,
                 withCountryNameButton:true,
                 withAlphaFilter:true,
@@ -156,7 +163,7 @@ const SelectSellerView = ({
               value={phoneCode}
               onSelectCountry={phonecountry => setPhoneCountry(phonecountry)}
               onChangePhoneNumber={code => setPhoneCode(code)}
-            />
+              />
             <Text>{getCountryCode()}</Text>
             <TextInput
               style={{

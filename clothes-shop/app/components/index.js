@@ -64,3 +64,5 @@ export {default as FormInput} from './FormInput/FormInput';
   export { default as Input } from './Input/Input';
   export { default as PreviewRowCard } from './PreviewRowCard/PreviewRowCard';
   export { default as TabBarHorizontalScroll } from './TabBarHorizontalScroll';
+  export { default as Checkbox } from './Checkbox/Checkbox';
+

@@ -30,7 +30,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {NavigationService} from '../../services';
 import { Loading } from '../../components';
-import logo from '../../assets/images/logo.png'
+// import logo from '../../assets/images/logo.png'
 import FastImage from 'react-native-fast-image'
 import {
   Placeholder,
@@ -41,6 +41,28 @@ import {
   Shine,
   ShineOverlay,
 } from 'rn-placeholder';
+import { Shop } from '../../types/Shop.type';
+
+const SimplifiedCard = ({
+  onPress = () => {},
+  source,
+  title
+}) => (
+  <TouchableOpacity
+    style={[S.listCard]}
+    onPress={onPress}
+    >
+    <View style={{backgroundColor: colors.gray,padding:10, }}>
+      <Image 
+        source={source}
+        resizeMode="contain"
+        style={{width: constants.DEVICE_WIDTH * 0.3, aspectRatio: 1/1,  }}
+        
+        />
+    </View>
+    <Text style={{marginVertical: 10}}>{title}</Text>
+</TouchableOpacity>
+)
 
 const HomeView = ({
   lists,
@@ -107,6 +129,7 @@ const HomeView = ({
       <View style={[S.listBox, {backgroundColor: colors.lightGray}]}>  
         <GridList 
           title="We love"
+          titleStyle={S.listTitle}
           items={weLoveProducts} 
           />
         <View style={{paddingHorizontal: 15}}>
@@ -126,21 +149,26 @@ const HomeView = ({
   const _renderPopularBrands = () => (
     <View style={[S.listWhiteBox]}>
       <Text style={S.listTitle}>{'Popular Brands'}</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {popular_brands.map(b => (
-          <TouchableOpacity onPress={() => onBrandCardPress(b)}>
-              <Card
-                key={b.title}
-                title={b.title}
-                titleStyle={S.cardTitle}
-                image={{uri: b.image.src}}
-                imageProps={{resizeMode : "contain"}}
-                containerStyle={{
-                  width: constants.DEVICE_WIDTH * 0.35,
-                  marginHorizontal: 5,
-                }}
+      <ScrollView style={{marginTop: 15}} horizontal showsHorizontalScrollIndicator={false}>
+        {popular_brands.map((b : Shop.Brand) => (
+            <SimplifiedCard 
+              onPress={() => onBrandCardPress(b)}
+              source={{uri: b.image.src}}
+              title={b.title}
               />
-          </TouchableOpacity>
+        // <TouchableOpacity onPress={() => onBrandCardPress(b)}>
+          //     <Card
+          //       key={b.title}
+          //       title={b.title}
+          //       titleStyle={S.cardTitle}
+          //       image={{uri: b.image.src}}
+          //       imageProps={{resizeMode : "contain"}}
+          //       containerStyle={{
+          //         width: constants.DEVICE_WIDTH * 0.35,
+          //         marginHorizontal: 5,
+          //       }}
+          //     />
+          // </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -150,11 +178,44 @@ const HomeView = ({
     <View style={[S.listBox]}>
       <GridList 
         title="New in"
+        titleStyle={S.listTitle}
         items={new_in_products}
         />
       {/* <Button title="view all" titleStyle={{ color: 'white'}} onPress={() => openList(constants.we_love)} buttonStyle={{backgroundColor:'#cc815e',}}/> */}
     </View>
   );
+
+  const _renderEssential = () => (
+    <View>
+        {
+          essentialList && essentialList.subtypes &&
+          <View key={essentialList.title} style={[S.listBox, {backgroundColor: 'white'}]}>
+            <Text style={S.listTitle}>{essentialList.title}</Text>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              contentContainerStyle={{paddingLeft: 15}}
+              >
+              {essentialList.subtypes && 
+                essentialList.subtypes.map((st, i) => (
+                  <SimplifiedCard 
+                    onPress={() => search(st.title, 
+                      {
+                        // title: st.title,
+                        refinementList: {
+                          type_id : st.id
+                        }
+                      }, 
+                    constants.clothes)}
+                    source={{uri: st.image ? st.image.src : ''}}
+                    title={st.title}
+                    />
+              ))}
+            </ScrollView>
+          </View>
+        }
+    </View>
+  )
 
   if(loading){
     return <View style={{flex:1, justifyContent:'center'}}>
@@ -191,7 +252,7 @@ const HomeView = ({
                 horizontal={true}
                 >
                 {lists.map((list : any, i  : number) => {
-                console.log('list',list)
+                // console.log('list',list)
                 return (
                   <TouchableOpacity
                     // onPress={() => NavigationService.navigateToFilterList({title:  'Test list'})}
@@ -217,7 +278,7 @@ const HomeView = ({
                         <FastImage
                           onLoadStart={(e) => loadedImages[i] = false}
                           onLoadEnd={(e) => loadedImages[i] = true}
-                          source={{uri: list.image}}
+                          source={typeof list.image == 'string' ? {uri: list.image} : list.image}
                           style={S.topListImage}
                           resizeMode="cover"
                         />
@@ -249,50 +310,10 @@ const HomeView = ({
                         entries={slides}
                         />}
             </FirestoreSlider>
-            <View>
-                {
-                  essentialList && essentialList.subtypes &&
-                  <View key={essentialList.title} style={S.listBox}>
-                    <Text style={S.listTitle}>{essentialList.title}</Text>
-                    <ScrollView
-                      showsHorizontalScrollIndicator={false}
-                      horizontal={true}
-                      containerStyle={{paddingLeft: 15}}
-                      >
-                      {essentialList.subtypes && 
-                        essentialList.subtypes.map((st, i) => (
-                          <TouchableOpacity
-                            // onPress={() => NavigationService.navigateToSearchResult({title :st.title,  options: {type_id:  st.id}})}
-                            onPress={() => search(st.title, 
-                              {
-                                // title: st.title,
-                                refinementList: {
-                                  type_id : st.id
-                                }
-                              }, 
-                            constants.clothes)}
-                            >
-                            <Card
-                              key={i}
-                              title={st.title}
-                              imageProps={{resizeMode: 'contain'}}
-                              image={{uri: st.image ? st.image.src : ''}}
-                              containerStyle={S.listCard}
-                            />
-                        </TouchableOpacity>
-
-                        // <View style={S.typeBox}>
-                        //     <Image source={{uri : t.image}} style={S.typeImage} resizeMode="contain"/>
-                        //     <Text>{t.title}</Text>
-                        // </View>
-                      ))}
-                    </ScrollView>
-                  </View>
-                }
-            </View>
-            {_renderWeLoveSection()}
-            {_renderFavoriteProducts()}
             {_renderPopularBrands()}
+            {_renderWeLoveSection()}
+            {_renderEssential()}
+            {_renderFavoriteProducts()}
             {_renderNewIn()}
           </View>
         </ScrollView>

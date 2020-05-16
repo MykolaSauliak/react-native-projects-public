@@ -4,6 +4,7 @@ import {compose, withProps, withHandlers} from 'recompose';
 // import models from '../../../mockData/models'
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 // import {  setSelectedModel } from '../../../../features/mycars/actions'
 // import {
 //     getSelectedSellCategory,
@@ -38,7 +39,7 @@ import {withSell} from '../../../../utils/enhancers';
 // })
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.description, constants.measurements]}),
   withProps(props => ({
     // cars : JSON.parse(props.navigation.getParam('cars',[]) || '[]'),
     // models

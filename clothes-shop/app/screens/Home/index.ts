@@ -6,7 +6,7 @@ import {
   lifecycle,
   withState,
 } from 'recompose';
-import main_list from '../../mockData/main_list.json';
+import main_list from '../../mockData/main_list';
 import popular_brands from '../../mockData/popular_brands.json';
 import middleList from '../../mockData/middle_list.json';
 import weLoveProducts from '../../mockData/weLoveProducts.json';
@@ -86,8 +86,8 @@ const enhance = compose(
       );
       const {items: new_in, new_in_count } = await ShopService.getGoods();
       const popular_brands = await ShopService.fetchPopulaBrands();
-      // const essentialList = await ShopService.fetchCollection({main_essential : true});
-      // this.props.setEssentialList(essentialList);
+      const essentialList = await ShopService.fetchCollection({main_essential : true});
+      this.props.setEssentialList(essentialList);
       this.props.setPopularBrand(popular_brands);
       this.props.setWeLoveProducts(we_love);
       this.props.setNewInProduct(new_in);

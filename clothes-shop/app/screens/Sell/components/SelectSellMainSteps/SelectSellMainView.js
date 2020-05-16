@@ -51,6 +51,7 @@ const SelectSellMainView = ({
 
   description,
   measurements,
+  shipping_country,
 
   condition,
   price,
@@ -97,7 +98,7 @@ const SelectSellMainView = ({
 
   const informationComplete = () => {
     return (
-      subcategory != null &&
+      // subcategory != null &&
       material != null &&
       color != null &&
       printed != null
@@ -139,7 +140,7 @@ const SelectSellMainView = ({
       seller != null &&
       seller.personal_contact_information != null &&
       seller.phone != null &&
-      seller.shipping_country != null
+      shipping_country != null
     );
   };
 
@@ -213,7 +214,7 @@ const SelectSellMainView = ({
       express_delivery: false,
 
       seller,
-      shipping_country: seller.shipping_country,
+      shipping_country,
     });
     if (succesfull) {
       NavigationService.navigateToDrafts();
@@ -235,7 +236,6 @@ const SelectSellMainView = ({
       <ListItem containerStyle={{backgroundColor: colors.lightGray}} disabled />
       <View>
         <ScrollView>
-          {}
           <ListItem
             containerStyle={{backgroundColor: 'white'}}
             leftElement={
@@ -252,6 +252,7 @@ const SelectSellMainView = ({
             title="Information"
             bottomDivider
             onPress={() => goToInformationSelect()}
+            chevron
           />
           <ListItem
             leftElement={
@@ -268,6 +269,7 @@ const SelectSellMainView = ({
             title="Photos"
             bottomDivider
             onPress={goToPhotosSelect}
+            chevron
           />
           <ListItem
             leftElement={
@@ -284,6 +286,7 @@ const SelectSellMainView = ({
             title="Description"
             bottomDivider
             onPress={goToDescriptionSelect}
+            chevron
           />
           <ListItem
             leftElement={
@@ -300,6 +303,7 @@ const SelectSellMainView = ({
             title="Condition & price"
             bottomDivider
             onPress={goToConditionSelect}
+            chevron
           />
           <ListItem
             leftElement={
@@ -315,10 +319,16 @@ const SelectSellMainView = ({
             }
             title="Seller"
             onPress={goToSellerSelect}
+            chevron
           />
           <ListItem
             containerStyle={{backgroundColor: colors.lightGray}}
             disabled
+          />
+          <ListItem
+            title={"Optional information"}
+            chevron
+            onPress={() => NavigationService.navigateToSellProductOptionalSelect()}
           />
           {/* <ListItem
                     // leftElement={<View>

@@ -36,6 +36,7 @@ import SelectSeller from '../screens/Sell/components/SelectSeller';
 import SelectSellCondition from '../screens/Sell/components/SelectSellCondition';
 import SelectSellConditionWrite from '../screens/Sell/components/SelectSellConditionWrite';
 import SelectSellPrice from '../screens/Sell/components/SelectSellPrice';
+import SelectSellOptionalInformation from '../screens/Sell/components/SelectSellOptionalInformation';
 
 import SubCategoriesView from '../screens/SubCategoriesView';
 import ProductList from '../screens/ProductList';
@@ -140,6 +141,7 @@ const SellStack = createStackNavigator(
     [screens.SelectSellConditionWrite]: SelectSellConditionWrite,
     [screens.SelectSellPrice]: SelectSellPrice,
     [screens.SelectSeller]: SelectSeller,
+    [screens.SelectSellOptionalInformation]: SelectSellOptionalInformation,
   },
   {
     defaultNavigationOptions: props => ({

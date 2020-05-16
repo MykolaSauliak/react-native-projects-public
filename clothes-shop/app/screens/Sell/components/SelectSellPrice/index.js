@@ -1,28 +1,11 @@
 import SelectSellPriceView from './SelectSellPriceView';
 import {compose, withProps, withHandlers, withState} from 'recompose';
-// import { connect } from "react-redux";
-// import subcategories from '../../mockData/subcategories'
 import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
-// import {
-//     setSelectedSellPrice,
-// } from '../../../../features/seller/actions'
-// import {
-//     getSelectedSellDescription,
-// } from '../../../../features/seller/selectors'
-
-// const mapStateToProps = (state) => ({
-//     description : getSelectedSellDescription(state),
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     dispatch,
-//     // setSellDescription : (text) => dispatch(setSelectedSellDescription(text)),
-//     setSellPrice : ({currency, price}) => dispatch(setSelectedSellPrice({currency, price})),
-// })
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: [constants.price]}),
   // connect(mapStateToProps,mapDispatchToProps),
   withState('searchText', 'setSearchText', ''),
   // withState('subcategories','setSubcategories',subcategories),
