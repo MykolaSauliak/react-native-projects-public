@@ -116,6 +116,7 @@ export default {
   SearchResult: 'SearchResult',
 
   /**stacks */
+  AlertStack: 'AlertStack',
   CartStack: 'CartStack',
   SearchResultStack: 'SearchResultStack',
   UserProfileStack: 'UserProfileStack',

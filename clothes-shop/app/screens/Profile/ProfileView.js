@@ -254,7 +254,7 @@ const ProfileView = ({
               onPress={toAlerts}
               // titleStyle={activeColorStyle}
               title={i18n.t('profile.myalerts')}
-              containerStyle={{paddingVertical: 25}}  
+              // containerStyle={{paddingVertical: 25}}  
             />
             {/*  Account details */}
             <ListItem

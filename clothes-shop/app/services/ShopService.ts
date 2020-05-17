@@ -11,6 +11,7 @@ import constants from '../constants'
 import moment from 'moment';
 import { User, Order } from '../types/types';
 import { Negotiation } from '../types/Negotiation.type';
+import { getUser } from "../features/user/selectors";
 
 const collectionsNames = {
   negotiations : "negotiations",
@@ -146,7 +147,7 @@ class ShopService implements ShopServiceInterface {
         //console.log('err',err)
         // Alert.alert()
     }finally{
-      console.log('wishlist',items.length)
+        console.log('wishlist',items.length)
         return items
     }
   }
@@ -1111,8 +1112,9 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return 
     }
-    let userDoc = await usersRef.doc(user.uid).get()
-    let userData : User = userDoc.data()
+    let userData =  getUser(this._store.getState())
+    // let userDoc = await usersRef.doc(user.uid).get()
+    // let userData : User = userDoc.data()
 
     let successfull = false
     let doc = commentsRef.doc()

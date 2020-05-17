@@ -27,15 +27,17 @@ const CommentCardContainer = ({
     user,
     likes = [],
     dislikes = [],
+    fromSeller,
     ...props
 } : Props) => {
-    console.log('loggedInUser',loggedInUser)
-    console.log('user',user)
-    console.log('snippet',snippet)
+    // console.log('loggedInUser',loggedInUser)
+    // console.log('user',user)
+    // console.log('snippet',snippet)
     return (
         <CommentCard 
             {...props}
             id={id}
+            fromSeller={fromSeller}
             user={user}
             snippet={snippet}
             likes={likes}

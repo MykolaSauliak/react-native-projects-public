@@ -28,7 +28,6 @@ const ProductDetailsModal = ({
     isModalVisible = false,
     toggleModal,
     description = "",
-    universe = "",
     brand_name = "",
     status_updated_at = {},
     category_name = "",
@@ -45,14 +44,14 @@ const ProductDetailsModal = ({
     // console.log(informationItemVisible)
     let HEIGHT = 65;
 
-    const [index, setIndex] = React.useState(informationItemVisible != null ? 1:0); // if not null go to information page
+    const [index, setIndex] = React.useState(informationItemVisible !== null ? 1:0); // if not null go to information page
     const [routes] = React.useState([
       { key: 'first', title: 'Description' },
       { key: 'second', title: 'Informations' },
     ]);
 
     React.useEffect(() => {
-        if(informationItemVisible){
+        if(informationItemVisible !== null){
             setTimeout(() => {setIndex(1)},150)
         }
     }, [informationItemVisible])
@@ -113,13 +112,13 @@ const ProductDetailsModal = ({
                             <DataTable.Cell numeric>{status_updated_at['approved'] || ""}</DataTable.Cell>
                         </DataTable.Row>}
 
-                        {!_.isEmpty(universe) && <DataTable.Row>
+                        {/* {!_.isEmpty(universe) && <DataTable.Row>
                             <DataTable.Cell>Universe</DataTable.Cell>
                             <DataTable.Cell numeric>{universe}</DataTable.Cell>
-                        </DataTable.Row>}
+                        </DataTable.Row>} */}
 
                         {!_.isEmpty(category_name) && <DataTable.Row>
-                            <DataTable.Cell>Category</DataTable.Cell>
+                            <DataTable.Cell>Universe</DataTable.Cell>
                             <DataTable.Cell numeric>{category_name}</DataTable.Cell>
                         </DataTable.Row>}
 

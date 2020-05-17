@@ -387,10 +387,11 @@ const ProductInfoView = ({
                 id={id}
                 collection="comments"
                 >
-                  <CommentList 
+                <CommentList 
                     id={id}
                     title="Chat"
                     chatModalVisible={chatVisibile}
+                    seller_id={uid}
                     onModalToggle={(value: boolean) => setChatVisible(value)}
                     // comments={comments}
                     containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}

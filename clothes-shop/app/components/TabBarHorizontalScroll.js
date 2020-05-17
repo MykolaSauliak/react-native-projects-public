@@ -3,14 +3,15 @@ import {ScrollView, Text} from 'react-native';
 import {TabBar} from 'react-native-tab-view';
 
 const TabBarHorizontalScroll = ({
-  scrollProps,
+  scrollProps = {},
+  scrollStyle = {},
   style = {},
   labelStyle = {},
   indicatorStyle = {},
   ...otherProps
 }) => {
   return (
-    <ScrollView {...scrollProps} horizontal showsHorizontalScrollIndicator={false}>
+    <ScrollView {...scrollProps} style={[{maxHeight: 65},scrollStyle]} horizontal showsHorizontalScrollIndicator={false}>
       <TabBar
         {...otherProps}
         scrollEnable
@@ -26,6 +27,7 @@ const TabBarHorizontalScroll = ({
             {route.title}
           </Text>
         )}
+        // contentContainerStyle={{height: 65}}
         indicatorStyle={[{backgroundColor: null,},indicatorStyle]}
         style={[{backgroundColor: null, color: 'black'}, style]}
       />

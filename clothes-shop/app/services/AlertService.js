@@ -2,6 +2,15 @@ import {Alert} from 'react-native';
 import i18n from '../i18n';
 
 class AlertService {
+  
+  static dropDown;
+  static setDropDown(dropDown) {
+      this.dropDown = dropDown;
+  }
+  static getDropDown() {
+      return this.dropDown;
+  }
+
   showAlert(title, subTitle, buttons, options) {
     Alert.alert(title, subTitle, buttons, options);
   }

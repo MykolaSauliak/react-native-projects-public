@@ -17,7 +17,7 @@ export namespace Shop {
         title : 'photo1' | 'photo2' | 'photo3' | 'photo4' | 'photo5',
         src : String,
     }
-    export type ProductUniverse = "man" | "woman" | "kids" | 'lifestyle'
+    export type ProductCategory = "man" | "woman" | "kids" | 'lifestyle'
     
     
     export enum Status {
@@ -43,7 +43,7 @@ export namespace Shop {
     export interface Product {
         id : string,
         created_time: number,
-        category_name: string,
+        category_name: ProductCategory,
         category_id: string,
         brand_id: string,
         brand_name: string,
@@ -68,7 +68,6 @@ export namespace Shop {
             title: string,
         },
         shipping_country: string,
-        universe?: ProductUniverse,
         seller: {
 
         },

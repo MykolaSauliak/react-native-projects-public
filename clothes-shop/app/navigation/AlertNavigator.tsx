@@ -5,10 +5,10 @@ import AlertCreate from '../screens/AlertCreate/AlertCreate';
 import screens from '../constants/screens';
 import {defaultNavigationOptions} from './NavigationOptions'
 
-const AuthStack = createStackNavigator({
+const AlertStack = createStackNavigator({
   [screens.AlertCreate]:AlertCreate
 }, {
   defaultNavigationOptions
 });
 
-export default AuthStack;
+export default AlertStack;

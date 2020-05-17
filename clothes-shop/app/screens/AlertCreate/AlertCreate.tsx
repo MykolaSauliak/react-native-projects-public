@@ -10,16 +10,18 @@ import {withAlerts} from '../../utils/enhancers'
 import {Alert} from '../../types/Alert.type'
 import shortid from 'shortid'
 import moment from 'moment';
-import { NavigationService } from '../../services';
+import { NavigationService, DropdownAlertService } from '../../services';
 import DropdownAlert from 'react-native-dropdownalert';
 
 const AlertCreate = ({
-    allAlert,
+    addAlert,
     navigation
 }) => {
 
     let dropDownAlertRef = React.useRef()
     let item = navigation.getParam('item', {})
+    console.log('item',item)
+
     const saveMyAlert = () => {
         let newAlert : Alert = {
             id: shortid.generate(),
@@ -27,30 +29,31 @@ const AlertCreate = ({
             created_date: moment().format('DD-MM-YYYY'),
             received_time: "every day",
             recieved_way: "by_notification",
-
             fields: {
-                universe: item.universe,
+                type_name: item.type_name,
                 category_name: item.category_name,
                 brand_name: item.brand_name,
             }
         }
-        console.log('new alert',newAlert)
-        allAlert(newAlert)
-        dropDownAlertRef?.current.alertWithType('success', '', 'The alert has been created');
+        // console.log('new alert',newAlert)
+        addAlert(newAlert)
+        DropdownAlertService.getDropDown().alertWithType('success', 'Success', 'The alert has been created', {}, 500);
         NavigationService.goBack()
     }
 
     return (
         <View style={{flex:1}}>
             <BackHeader title="Create an alert"/>
-            <DropdownAlert ref={ref => dropDownAlertRef = ref} />
+            <View style={{position: 'absolute'}}>
+                <DropdownAlert ref={dropDownAlertRef} />
+            </View>
             <View style={{flex:1}}>
                 <ScrollView>
                     <View style={{padding: 15, borderBottomColor: 'black', borderBottomWidth: 0.3}}>
                         <Text bold>My selection</Text>
                         <View style={{marginTop: 10,flexDirection: 'row', flexWrap: "wrap"}}>
-                            <Chip style={{marginHorizontal:3}}>{item.universe || 'woman'}</Chip>
-                            <Chip style={{marginHorizontal:3}}>{item.category_name}</Chip>
+                            {item.type_name && <Chip style={{marginHorizontal:3}}>{item.type_name}</Chip>}
+                            {item.category_name && <Chip style={{marginHorizontal:3}}>{item.category_name}</Chip>}
                             <Chip style={{marginHorizontal:3}}>{item.brand_name}</Chip>
                         </View>
                     </View>
@@ -76,14 +79,15 @@ const AlertCreate = ({
                         }
                         onSubItemPress={(item) => console.log('item',item)}
                         />
-                    <AccordionList items={
-                        [
-                            {
-                                id: "1",
-                                title: "Material", 
-                                data: materials.map((c:string) => ({title: c}) )
-                            }
-                        ]
+                    <AccordionList 
+                        items={
+                            [
+                                {
+                                    id: "1",
+                                    title: "Material", 
+                                    data: materials.map((c:string) => ({title: c}) )
+                                }
+                            ]
                         }
                         onSubItemPress={(item) => console.log('item',item)}
                         />
@@ -96,4 +100,4 @@ const AlertCreate = ({
     );
 };
 
-export default withAlerts(AlertCreate); 
+export default withAlerts()(AlertCreate); 

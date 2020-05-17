@@ -28,6 +28,7 @@ import {
   setShippingCountryCode,
   setSellVintage,
   setSellSoldWith,
+  setSellProperty,
 } from '../../features/seller/actions';
 import {
   getSelectedSellProduct,
@@ -227,6 +228,8 @@ const withSell = (options = {}) => BaseComponent => props => {
       // price={price}
       // seller={seller}
       setSelectedSellCategory={item => dispatch(setSelectedSellCategory(item))}
+      setSellProperty={(key,value) => dispatch(setSellProperty(key, value))}
+      setSelectedSellCategory={item => dispatch(set(item))}
       setSelectedSellSubcategory={item =>
         dispatch(setSelectedSellSubcategory(item))
       }

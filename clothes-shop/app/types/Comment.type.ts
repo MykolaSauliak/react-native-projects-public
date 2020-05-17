@@ -1,3 +1,5 @@
+import { User } from "./User.type";
+
 export interface Comment {
     "kind": string | "product#comment",
     "etag"?: string,
@@ -19,6 +21,7 @@ export interface Comment {
       "published_time": number,
       "updated_time": number
     },
+    "user"?: User,
     "likes": [],
     "dislikes": [],
   }

@@ -8,6 +8,7 @@ import PermissionService from './PermissionService';
 import AppStateService from './AppStateService';
 import SentryIoService from './SentryIoService';
 import PaypalService from './PaypalService';
+import {DropdownAlertService} from './DropdownAlertService';
 // import StripeService from './StripeService';
 
 export {
@@ -21,5 +22,6 @@ export {
   AppStateService,
   SentryIoService,
   PaypalService,
+  DropdownAlertService
   // StripeService,
 };

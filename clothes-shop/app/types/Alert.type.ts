@@ -5,6 +5,6 @@ export interface Alert {
     received_time : 'every day',
     recieved_way: 'by_notification' | 'by_email'
     fields : {
-        [key: string] : boolean
+        [key: string] : string
     }
 }

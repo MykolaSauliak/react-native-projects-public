@@ -1,6 +1,7 @@
 import React from 'react';
 import { View,Text } from "react-native";
 import { ListItem  } from "react-native-elements";
+import constants from '../constants';
 
 type Props = {
     user_id :string,
@@ -16,10 +17,11 @@ const UserRow = ({
     last_name,
     onPress = null,
 } : Props) => {
+    console.log('avatar',avatar)
     return (
         <ListItem 
             onPress={onPress}
-            leftAvatar={{source : {uri : avatar}}}
+            leftAvatar={{source : avatar ?  {uri : avatar} : constants.defaultImage}}
             title={`${name} ${last_name}`}
             />
     );

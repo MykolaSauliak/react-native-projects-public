@@ -34,6 +34,62 @@ class CommentListProvider extends Component<Props> {
             if(!id){
                 return 
             }
+            console.log('fetch comments')
+            let comments :Comment[] = []
+            this.setState(() => ({
+                loading: true
+            }))
+            try{
+                const querySnapshot  = await firestore()
+                .collection(collection)
+                .where('snippet.productId','==',id)
+                .get();
+                for(let doc of querySnapshot.docs){
+                    console.log('doc',doc.data())
+                    let commentData = doc.data()
+                    let userDoc = await firestore().collection('users').doc(commentData?.snippet.authorId).get()
+                    let {
+                        name, 
+                        last_name, 
+                        avatar,
+                        uid, 
+                        ...otherProps
+                    } = userDoc.data()
+                    comments = [...comments, 
+                            {
+                                ...commentData,
+                                user : {
+                                    name,
+                                    last_name,
+                                    avatar,
+                                    uid,
+                                }, 
+                        }
+                    ]
+                }
+            }catch(err){
+                console.log('ERROR DURING FETCH COMMENTS',err)
+            }finally{
+                console.log('set comment',comments)
+                this.props.setComments(id,comments)
+                this.setState(() => ({
+                    comments,
+                    loading: false
+                }))
+            }
+        }
+       
+    }
+
+    async componentDidMount(){
+            const {
+                collection,
+                id
+            } = this.props
+            if(!id){
+                return 
+            }
+            console.log('fetch comments')
             let comments :Comment[] = []
             this.setState(() => ({
                 loading: true
@@ -66,7 +122,7 @@ class CommentListProvider extends Component<Props> {
                     ]
                 }
             }catch(err){
-                console.log('ERROR',err)
+                console.log('ERROR DURING FETCH COMMENTS',err)
             }finally{
                 console.log('set comment',comments)
                 this.props.setComments(id,comments)
@@ -75,8 +131,6 @@ class CommentListProvider extends Component<Props> {
                     loading: false
                 }))
             }
-        }
-       
     }
 
     render() {

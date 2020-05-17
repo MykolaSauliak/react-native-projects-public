@@ -236,7 +236,7 @@ class NavigationService {
   }
   
   navigateToAlertCreate(props) {
-    this.navigate(screens.AlertCreate, props);
+    this.navigate(screens.AlertStack, props);
   }
 
   navigateToSellProductOptionalSelect(props) {

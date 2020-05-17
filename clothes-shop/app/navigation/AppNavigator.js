@@ -23,7 +23,7 @@ const switchNavigator = createStackNavigator(
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
     [screens.ListScreen]: ListScreen,
     [screens.GridScreen]: GridScreen,
-    [screens.AlertCreate]: AlertNavigator,
+    [screens.AlertStack]: AlertNavigator,
     [screens.MainStack]: MainTabNavigator,
     // [screens.ListScreen]: ListScreen,
     [screens.UserProfileStack]: UserProfileStack,

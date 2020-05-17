@@ -2,7 +2,7 @@ import types from './types';
 import {NotifService} from '../../services';
 
 const addAlert = (alert) => async dispatch => {
-  console.log('subscribeToPriceReduce', id);
+  // console.log('subscribeToPriceReduce', id);
 
   dispatch({
     type: types.addAlert,

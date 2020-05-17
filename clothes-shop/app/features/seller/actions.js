@@ -1,12 +1,21 @@
 import types from './types';
 const uuidv4 = require('uuid/v4');
 
+export const setSellProperty = (key, value) => dispatch => {
+  dispatch({
+    type: types.setSellProperty,
+    payload: {
+      key, value
+    },
+  });
+};
 export const setEmail = email => dispatch => {
   dispatch({
     type: types.setEmail,
     payload: email,
   });
 };
+
 export const setUser = user => dispatch => {
   dispatch({
     type: types.setUser,

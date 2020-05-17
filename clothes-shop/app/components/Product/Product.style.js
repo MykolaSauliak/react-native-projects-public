@@ -4,7 +4,7 @@ import constants from '../../constants';
 
 const styles = StyleSheet.create({
   chipContainer: {paddingVertical: -15, marginTop:10, alignItems:'center', flexDirection: 'row', flexWrap: 'wrap'},
-  chip: {marginHorizontal: 2, backgroundColor: 'white', padding:2},
+  chip: {marginHorizontal: 2,padding:5},
   btnRow: {
     height: 55,
     flexDirection: 'row',

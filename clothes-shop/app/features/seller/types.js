@@ -2,6 +2,8 @@ export default {
   setUser: 'setUser',
   setEmail: 'setEmail',
   setPhone: 'setPhone',
+  
+  setSellProperty: 'setSellProperty',
   setSelectedSellCategory: 'setSelectedSellCategory',
   setSelectedSellSubcategory: 'setSelectedSellSubcategory',
   setSelectedSellType: 'setSelectedSellType',

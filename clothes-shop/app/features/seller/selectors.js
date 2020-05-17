@@ -1,5 +1,8 @@
 import * as R from 'ramda';
 
+export const getSelectedSellProperty = (state, key) =>
+  R.path(['seller', 'sellProduct',key], state);
+
 export const getSelectedSellProduct = state =>
   R.path(['seller', 'sellProduct'], state);
 export const getSelectedSellCategory = state =>

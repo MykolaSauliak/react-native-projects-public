@@ -64,6 +64,9 @@ export default createReducer(initialState, {
   [types.setEmail]: (state, {payload}) => {
     return {...state, email: payload};
   },
+  [types.setSellProperty]: (state, {payload : {key, value}}) => {
+    return {...state, [key]: value};
+  },
   [types.setPhone]: (state, {payload}) => {
     return {...state, phone: payload};
   },

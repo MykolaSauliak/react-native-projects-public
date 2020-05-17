@@ -38,6 +38,7 @@ const AlertButton = ({
     btnStyle = {},
     color = ' black'
 } : AlertButtonProps) => {
+  // console.log('item',item)
     return (
       <View style={{justifyContent:'space-around', backgroundColor: null}}>
             <TouchableOpacity
