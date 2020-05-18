@@ -4,7 +4,7 @@ import {setPhone} from '../features/user/actions';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {Alert} from 'react-native';
-import {setUser as saveUserToStore} from '../features/user/actions';
+import {setUser as saveUserToStore, updateUser} from '../features/user/actions';
 import constants from '../constants';
 
 const usersRef = firestore().collection('users');
@@ -54,6 +54,7 @@ class AuthService {
             last_name = data.last_name;
             bio = data.bio;
             avatar = data.avatar;
+            receive_negotiation = data.receive_negotiation;
 
             await documentSnapshot.ref.update({
               last_active: Date.now(),
@@ -68,6 +69,7 @@ class AuthService {
             bio,
             uid: user.uid,
             email: user.email,
+            receive_negotiation
           }),
         );
       } else {
@@ -161,24 +163,24 @@ class AuthService {
 
   async loginByEmail({email, password}) {
     console.log('login by email');
-    let succesfull = false;
+    let successful = false;
     let errorMessage = '';
     try {
       await auth().signInWithEmailAndPassword(email, password);
-      succesfull = true;
+      successful = true;
     } catch (err) {
       errorMessage = err.message;
-      succesfull = false;
+      successful = false;
     } finally {
       return {
         errorMessage,
-        succesfull,
+        successful,
       };
     }
   }
 
   async signup({email, password, name, last_name}) {
-    let succesfull = false;
+    let successful = false;
     let errorMessage = '';
     try {
       const response = await auth().createUserWithEmailAndPassword(
@@ -208,7 +210,7 @@ class AuthService {
           email: user.email,
         }),
       );
-      succesfull = true;
+      successful = true;
     } catch (err) {
       errorMessage = err.message;
       // console.log(typeof err.message)
@@ -217,7 +219,7 @@ class AuthService {
       // console.log(Object.keys(err))
       console.log('ERROR DURING SIGNUP -', err);
     } finally {
-      return {succesfull, errorMessage};
+      return {successful, errorMessage};
     }
   }
 
@@ -258,6 +260,25 @@ class AuthService {
     } finally {
       console.log('new url', newUrl);
       return newUrl;
+    }
+  }
+
+  async updateUser(update) {
+    const user = auth().currentUser;
+    if (!user.uid) {
+      return;
+    }
+    let successfull = false
+    try {
+      this.store.dispatch(updateUser(update))
+      await usersRef.doc(user.uid).update(update);
+      successfull = true
+    } catch (err) {
+      console.log('ERROR DURING updateUser', err);
+    } finally {
+      return {
+        successfull
+      };
     }
   }
 

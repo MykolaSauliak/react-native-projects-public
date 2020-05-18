@@ -3,6 +3,7 @@ import types from './types';
 
 const initialState = {
   user: {},
+  lastUpdate: null,
   // email: null,
   // phone: null,
   // avatar: null,
@@ -21,7 +22,7 @@ export default createReducer(initialState, {
     return {...state, phone: payload};
   },
   [types.updateUser]: (state, {payload}) => {
-    return {...state, user: {...state.user, ...payload}};
+    return {...state, user: {...state.user, ...payload}, lastUpdate: Date.now()};
   },
   [types.setAvatar]: (state, {payload}) => {
     return {...state, user: {...state.user, avatar: payload}};

@@ -12,6 +12,7 @@ import moment from 'moment';
 import { User, Order } from '../types/types';
 import { Negotiation } from '../types/Negotiation.type';
 import { getUser } from "../features/user/selectors";
+import ImageResizer from 'react-native-image-resizer';
 
 const collectionsNames = {
   negotiations : "negotiations",
@@ -106,7 +107,7 @@ class ShopService implements ShopServiceInterface {
 
   async updateUserInfo(update: any){
     const user = auth().currentUser;
-    let succesfull = false
+    let successful = false
     if(!user || !user.uid){
       return 
     }
@@ -116,12 +117,12 @@ class ShopService implements ShopServiceInterface {
 
     try{
         const response = await usersRef.doc(user.uid).update({...update})
-        succesfull = true
+        successful = true
     }catch(err){
-        succesfull = false
+        successful = false
         console.log('updateUserInfo err',err)
     }finally{
-        return succesfull
+        return successful
     }
   }
 
@@ -130,8 +131,7 @@ class ShopService implements ShopServiceInterface {
     try{
         let query = clothesRef
               .where(constants.clothes_fields.user_id,'==',user_id)
-              .where(constants.clothes_fields.status,'==','approved')
-        
+              .where(constants.clothes_fields.status,'==',constants.clothes_fields.status_field.approved)
         if(createdAt){
             query = query.orderBy(createdAt).startAt(createdAt)
         }
@@ -203,7 +203,7 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return
     }
-    let succesfull = false
+    let successful = false
     try{
         const response = await wishlistRef
                               .doc(user.uid)
@@ -213,13 +213,13 @@ class ShopService implements ShopServiceInterface {
         // if(doc.exists){
         //   following = doc.data()
         // }
-        succesfull=true
+        successful=true
             // //console.log(doc.data())
     }catch(err){
         console.log('addToWishlist',err)
         // Alert.alert()
     }finally{
-        return succesfull
+        return successful
     }
   }
   
@@ -229,7 +229,7 @@ class ShopService implements ShopServiceInterface {
       if(!user || !user.uid){
         return
       }
-      let succesfull = false
+      let successful = false
       try{
           const response = await wishlistRef
                                 .doc(user.uid)
@@ -239,13 +239,13 @@ class ShopService implements ShopServiceInterface {
           // if(doc.exists){
           //   following = doc.data()
           // }
-          succesfull=true
+          successful=true
               // //console.log(doc.data())
       }catch(err){
           console.log('removeFromWishlist',err)
           // Alert.alert()
       }finally{
-          return succesfull
+          return successful
       }
   }
 
@@ -280,7 +280,7 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return
     }
-    let succesfull = false
+    let successful = false
     try{
         const response = await favoritesRef
                               .doc(user.uid)
@@ -297,13 +297,13 @@ class ShopService implements ShopServiceInterface {
         // if(doc.exists){
         //   following = doc.data()
         // }
-        succesfull=true
+        successful=true
             // //console.log(doc.data())
     }catch(err){
         console.log('ERROR addToFavorites',err)
         // Alert.alert()
     }finally{
-        return succesfull
+        return successful
     }
   }
 
@@ -312,7 +312,7 @@ class ShopService implements ShopServiceInterface {
       if(!user || !user.uid){
         return
       }
-      let succesfull = false
+      let successful = false
       try{
           const response = await favoritesRef
                                 .doc(user.uid)
@@ -327,13 +327,13 @@ class ShopService implements ShopServiceInterface {
           // if(doc.exists){
           //   following = doc.data()
           // }
-          succesfull=true
+          successful=true
               // //console.log(doc.data())
       }catch(err){
           console.log('ERROR removeFromFavorites',err)
           // Alert.alert()
       }finally{
-          return succesfull
+          return successful
       }
   }
 
@@ -344,7 +344,7 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return
     }
-    let succesfull = false
+    let successful = false
     try{
         await followingRef
                               .doc(user.uid)
@@ -359,13 +359,13 @@ class ShopService implements ShopServiceInterface {
         // if(doc.exists){
         //   following = doc.data()
         // }
-        succesfull=true
+        successful=true
             // //console.log(doc.data())
     }catch(err){
         console.log('addFollowing',err)
         // Alert.alert()
     }finally{
-        return succesfull
+        return successful
     }
   }
 
@@ -374,7 +374,7 @@ class ShopService implements ShopServiceInterface {
       if(!user || !user.uid){
         return
       }
-      let succesfull = false
+      let successful = false
       try{
         await followingRef
                               .doc(user.uid)
@@ -389,13 +389,13 @@ class ShopService implements ShopServiceInterface {
           // if(doc.exists){
           //   following = doc.data()
           // }
-          succesfull=true
+          successful=true
               // //console.log(doc.data())
       }catch(err){
           console.log('addFollowing',err)
           // Alert.alert()
       }finally{
-          return succesfull
+          return successful
       }
   }
 
@@ -607,6 +607,7 @@ class ShopService implements ShopServiceInterface {
             query = query.where(key,'==', options[key])
           }
         })
+      query = query.where('status','==', constants.clothes_fields.status_field.approved)
       if(time.createdAt){
         query = query.where('createdAt','>=',time.createdAt)
       }
@@ -797,7 +798,8 @@ class ShopService implements ShopServiceInterface {
   }
 
   async createProduct(options : Shop.Product){
-    let succesfull = false
+    let photoMaxWidth = 500
+    let successful = false
     Alert.alert('Wait, creating product...')
     const user = auth().currentUser
     if(!user){
@@ -805,26 +807,44 @@ class ShopService implements ShopServiceInterface {
     }
     let imagesPromises = []
     for(let i=1;i<6;i++){
+      const storageForDefaultApp = storage();
       let photo = options['photo'+i]
+      console.log('photo',photo)
       if(photo){
         imagesPromises.push(new Promise((resolve) => {
           try{
-            const storageForDefaultApp = storage();
-            storageForDefaultApp
-              .ref('images/'+ user.uid + '_' + Date.now())
-              .putFile(photo.path)
-              .then(async file => {
-                // console.log('file',file)
-                  let fullPath = file.metadata.fullPath
-                  let downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
-                  // console.log('downloaded link ',downloadedURL)
-                  resolve({
-                    title : 'photo'+i,
-                    src : downloadedURL   
-                  })
-              }).catch( err => {
-                resolve({name :'photo'+i, url : null})
-              })
+            // ImageResizer
+            //     .createResizedImage(photo.path, 1000, 1000, "PNG", 70)
+                // .then(response => {
+                //   console.log('crop image ...', response)
+
+                  storageForDefaultApp
+                    .ref('images/'+ user.uid + '_' + Date.now())
+                    .putFile(photo.path)
+                    .then(async file => {
+                      // console.log('file',file)
+                        let fullPath = file.metadata.fullPath
+                        let downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+                        // console.log('downloaded link ',downloadedURL)
+                        resolve({
+                          title : 'photo'+i,
+                          src : downloadedURL   
+                        })
+                    }).catch( err => {
+                      resolve({name :'photo'+i, url : null})
+                    })
+                  // response.uri is the URI of the new image that can now be displayed, uploaded...
+                  // response.path is the path of the new image
+                  // response.name is the name of the new image with the extension
+                  // response.size is the size of the new image
+                // })
+                // .catch(err => {
+                //   console.log('error during crop images',err)
+                //   // Oops, something went wrong. Check that the filename is correct and
+                //   // inspect err to get more details.
+                //   resolve({name :'photo'+i, url : null})
+                // });
+            
           }catch(err){
             console.log('ERROR',err)
           }  
@@ -833,6 +853,10 @@ class ShopService implements ShopServiceInterface {
     }
 
     const images : Shop.ProductImage[] = await Promise.all(imagesPromises)
+    if(images.map(i => i.src).filter( src => src).length < 5){
+      console.log('image not uploaded, throw error')
+      return
+    }
     try{
       const response = await clothesRef.add({
         ...options,
@@ -846,7 +870,7 @@ class ShopService implements ShopServiceInterface {
         createdAt : Date.now(),
         created_time : Date.now(),
         updatedAt : Date.now(),
-        status : "image_cropped",
+        status : constants.clothes_fields.status_field.image_cropped,
         express_delivery: false,
         we_love: false,
         vintage: false,
@@ -854,15 +878,15 @@ class ShopService implements ShopServiceInterface {
       await clothesRef.doc(response.id).update({
         id: response.id
       })
-      succesfull = true
+      successful = true
       Alert.alert('Submitted for review')
     }catch(err){
       // console.log('ERROR DURING CREATING PRODUCT ',err)
       Alert.alert('There was an loading error')
-      succesfull = false
+      successful = false
     }
     finally{
-      return succesfull
+      return successful
     }
   }
   /**
@@ -1001,35 +1025,35 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return 
     }
-    let succesfull = false
+    let successful = false
     try{
       const response = await negotiationsRef.doc(options.id).update({
         isAccepted : options.isAccepted,
         answered : true,
         answeredAt : Date.now(),
       })
-      succesfull = true
+      successful = true
     }catch(err){
       console.log('ERROR DURING updateNegotiation',err)
-      succesfull = false
+      successful = false
     }finally{
-      return succesfull
+      return successful
     }
   }
 
   async changePrice(id :string, price : number){
-    let succesfull = false
+    let successful = false
     try{
       const response = await clothesRef.doc(id).update({
         price,
         status: constants.clothes_fields.status_field.image_cropped
       })
-      succesfull = true
+      successful = true
       Alert.alert('Price updated')
     }catch(err){
       
     }finally{
-      return succesfull
+      return successful
     }
 
   }
@@ -1039,16 +1063,16 @@ class ShopService implements ShopServiceInterface {
     if(!user || !user.uid){
       return 
     }
-    let succesfull = false
+    let successful = false
     try{
       const response = await usersRef.doc(user.uid).update({
         holidaymode,
       })
-      succesfull = true
+      successful = true
     }catch(err){
       
     }finally{
-      return succesfull
+      return successful
     }
 
   }

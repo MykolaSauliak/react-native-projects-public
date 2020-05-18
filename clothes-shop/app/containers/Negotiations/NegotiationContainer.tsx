@@ -117,7 +117,7 @@ const NegotiationContainer = ({
         if (newNegotiation) {
           setNegotiation(newNegotiation);
         }
-        // console.log('onCreateNew neg',succesfull)
+        // console.log('onCreateNew neg',successful)
       } catch (err) {
         console.log('onCreateNew err', err);
         Alert.alert('Create new error',JSON.stringify(err))
@@ -163,8 +163,8 @@ const NegotiationContainer = ({
                 answered: true,
                 answeredAt: Date.now(),
               };
-              let succesfull = await ShopService.updateNegotiation(update);
-              if (succesfull) {
+              let successful = await ShopService.updateNegotiation(update);
+              if (successful) {
                 setNegotiation({
                   ...localNegotiation,
                   ...update,
@@ -203,8 +203,8 @@ const NegotiationContainer = ({
                 answered: true,
                 answeredAt: Date.now(),
               };
-              let succesfull = await ShopService.updateNegotiation(update);
-              if (succesfull) {
+              let successful = await ShopService.updateNegotiation(update);
+              if (successful) {
                 setNegotiation({
                     ...localNegotiation,
                     ...update,

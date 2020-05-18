@@ -4,6 +4,7 @@ export default {
   setPhone: 'setPhone',
   
   setSellProperty: 'setSellProperty',
+  setSellerProperty: 'setSellerProperty',
   setSelectedSellCategory: 'setSelectedSellCategory',
   setSelectedSellSubcategory: 'setSelectedSellSubcategory',
   setSelectedSellType: 'setSelectedSellType',

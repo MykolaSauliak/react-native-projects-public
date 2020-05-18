@@ -112,6 +112,10 @@ class NavigationService {
     this.navigateTo(screens.PriceOfferSent, props);
   }
 
+  navigateToNegotiationOptions(props) {
+    this.navigateTo(screens.NegotiationOptions, props);
+  }
+
   navigateToAlerts(props) {
     this.navigateTo(screens.MyAlerts, props);
   }

@@ -29,6 +29,7 @@ import {
   setSellVintage,
   setSellSoldWith,
   setSellProperty,
+  setSellerProperty
 } from '../../features/seller/actions';
 import {
   getSelectedSellProduct,
@@ -128,7 +129,7 @@ const withSell = (options = {}) => BaseComponent => props => {
           properties[constants.condition] =  useSelector(state => getSelectedSellCondition(state));
           break
         case constants.price:
-          properties[constants.price] =  useSelector(state => getSelectedSelPrice(state));
+          properties[constants.price] =  useSelector(state => getSelectedSellPrice(state));
           break
         case constants.vintage:
           properties[constants.vintage] =  useSelector(state => getSelectedSellVintage(state));
@@ -141,6 +142,9 @@ const withSell = (options = {}) => BaseComponent => props => {
           break
         case constants.shipping_country_code:
           properties[constants.shipping_country_code] =  useSelector(state => getSelectedSellShippingCountryCode(state));
+          break
+        case constants.seller:
+          properties[constants.seller] =  useSelector(state => getSeller(state));
           break
       }
     })
@@ -195,6 +199,9 @@ const withSell = (options = {}) => BaseComponent => props => {
     properties.vintage = vintage
     properties.soldWith = soldWith
     properties.seller = seller
+
+    properties.shipping_country =  useSelector(state => getSelectedSellShippingCountry(state));
+    properties.shipping_country_code = useSelector(state => getSelectedSellShippingCountryCode(state));
     // properties.draftLastUpdate = draftLastUpdate
   }
 
@@ -229,7 +236,9 @@ const withSell = (options = {}) => BaseComponent => props => {
       // seller={seller}
       setSelectedSellCategory={item => dispatch(setSelectedSellCategory(item))}
       setSellProperty={(key,value) => dispatch(setSellProperty(key, value))}
-      setSelectedSellCategory={item => dispatch(set(item))}
+      setSellerProperty={(key,value) => dispatch(setSellerProperty(key, value))}
+      
+      // setSelectedSellCategory={item => dispatch(set(item))}
       setSelectedSellSubcategory={item =>
         dispatch(setSelectedSellSubcategory(item))
       }

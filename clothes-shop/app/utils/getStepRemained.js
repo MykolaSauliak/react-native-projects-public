@@ -1,18 +1,23 @@
 export default function(draft) {
   let steps = 5;
   if (informationComplete(draft) == true) {
+    console.log('informationComplete')
     steps -= 1;
   }
   if (photosComplete(draft) == true) {
+    console.log('photosComplete')
     steps -= 1;
   }
   if (descriptionComplete(draft) == true) {
+    console.log('descriptionComplete')
     steps -= 1;
   }
   if (conditionComplete(draft) == true) {
+    console.log('conditionComplete')
     steps -= 1;
   }
   if (sellerComplete(draft) == true) {
+    console.log('sellerComplete')
     steps -= 1;
   }
   return steps;
@@ -26,7 +31,10 @@ const informationComplete = obj => {
     selectedSellPrinted: printed,
   } = obj;
   return (
-    subcategory != null && material != null && color != null && printed != null
+    // subcategory != null && 
+    material != null && 
+    color != null && 
+    printed != null
   );
 };
 
@@ -68,6 +76,7 @@ const conditionComplete = obj => {
 
 const sellerComplete = obj => {
   const {seller, shipping_country} = obj;
+  console.log('shipping_country',shipping_country)
   return (
     seller != null &&
     seller.personal_contact_information != null &&

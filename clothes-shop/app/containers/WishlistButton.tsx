@@ -61,7 +61,7 @@ const WishlistButton = ({
               style={[styles.wishlistBtn, btnStyle]}
                 >
               <AntDesign name="staro" size={30} color={color}/>
-              <Text style={[styles.btnText, {opacity: 0.5, color:color}]}>Wishlist</Text>
+              <Text style={[styles.btnText, {color:color}]}>Wishlist</Text>
             </TouchableOpacity>
         )}
       </View>

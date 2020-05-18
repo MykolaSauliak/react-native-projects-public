@@ -10,11 +10,13 @@ import {
 } from 'react-native';
 import {SearchBar, ListItem, Header} from 'react-native-elements';
 import colors from '../../../../styles/colors';
+import constants from '../../../../constants';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
 import { BackHeaderCenter } from '../../../../components';
+import _ from 'lodash'
 
 const S = StyleSheet.create({});
 
@@ -35,13 +37,14 @@ const SelectSellerView = ({
   goToPersonalContact,
   goToMaterialChoose,
   goToPrintChoose,
-
+  seller = {},
   saveSeller,
   setSeller,
   setShippingCountry,
   setShippingCountryCode,
   shipping_country,
   shipping_country_code,
+  setSellerProperty,
   // selectedAddress,
   shippingAddresses,
 
@@ -49,33 +52,49 @@ const SelectSellerView = ({
   addresses,
   // setNumberPhone,
 }) => {
-  // console.log('address',address)
-  // console.log('addresses',addresses)
-  /**
-   * carmakes - {title,image}
-   */
+
+  const getPhoneCountryCode = () => {
+    if (phoneInput.current) {
+      console.log('get code ...', phoneInput.current.getCountryCode());
+      return '+' + phoneInput.current.getCountryCode();
+    }
+    return '';
+  };
+
+  const getCountryCode = () => {
+    if (phoneInput.current) {
+      console.log('get code ...', phoneInput.current.getCountryCode());
+      return '+' + phoneInput.current.getCountryCode();
+    }
+    return '';
+  };
+
   let phoneInput = useRef('');
-  let [phone, setPhone] = useState('');
+  // let [phone, setPhone] = useState(seller.phone || "");
   let [phonecountry, setPhoneCountry] = useState('');
-  let [phoneCode, setPhoneCode] = useState('');
+  // let [phoneCode, setPhoneCode] = useState(seller.phone_country_code || 1);
 
   // const [countryCode, setCountryCode] = useState('FR');
-  const [country, setCountry] = useState({name: 'France'});
+  const [country, setCountry] = useState({name: 'France', cca2: "FR"});
+  
   const onSelect = country => {
+    // console.log('country.cca2',country.cca2)
     setShippingCountryCode(country.cca2);
+    setShippingCountry(country.name)
     setCountry(country);
   };
+
 
   const handleSubmit = () => {
     // if(setSeller){
     let newSeller = {
-      phone,
-      country_code: getCountryCode(),
+      phone: seller[constants.phone],
+      phone_country_code: seller.phoneCode,
       personal_contact_information: address || addresses ? addresses[0] : {},
     };
     let shipping_country = country ? country.name : ''
-    let shipping_country_code = countryCode
-    console.log('newSeller', newSeller);
+    let shipping_country_code = country ? country.cca2 : ''
+    // console.log('newSeller', newSeller);
     setSeller(newSeller);
     setShippingCountry(shipping_country)
     setShippingCountryCode(shipping_country_code)
@@ -104,8 +123,19 @@ const SelectSellerView = ({
     );
   };
 
-  console.log('phone', phone);
-  console.log('addresses', addresses);
+  
+  const complete = () => {
+    console.log('seller.phone',seller.phone)
+    console.log('seller phoneCode',seller.phoneCode)
+    console.log('addresscomplete',addresscomplete())
+    return addresscomplete()
+      && shipping_country_code !== null
+      && shipping_country !== null
+      && !_.isEmpty(seller.phoneCode)
+      && !_.isEmpty(seller.phone)
+  }
+  // console.log('phone', phone);
+  // console.log('addresses', addresses);
   // let filteredCars = cars.filter(c => c.carmake == selectedCarMake.title)
   // let models = []
   // filteredCars.map( c => {
@@ -117,15 +147,6 @@ const SelectSellerView = ({
   // // const models = filteredCars.map(c => ())
   // const DATA = convertForSectionList(models, 'type')
   // //console.log('DATA',DATA)
-
-  const getCountryCode = () => {
-    if (phoneInput.current) {
-      console.log('get code ...', phoneInput.current.getCountryCode());
-      return '+' + phoneInput.current.getCountryCode();
-    }
-    return '';
-  };
-
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
       <BackHeaderCenter
@@ -160,11 +181,20 @@ const SelectSellerView = ({
             <PhoneInput
               ref={phoneInput}
               style={{width: '25%'}}
-              value={phoneCode}
-              onSelectCountry={phonecountry => setPhoneCountry(phonecountry)}
-              onChangePhoneNumber={code => setPhoneCode(code)}
+              value={seller.phoneCode}
+              initialCountry={seller.phoneCountry}
+              onSelectCountry={phonecountry => {
+                // setPhoneCountry(phonecountry)
+                console.log('phonecountry',phonecountry)
+                setSellerProperty(constants.phoneCountry, phonecountry)
+                setSellerProperty(constants.phoneCode, phoneInput.current.getCountryCode())
+                // setPhoneCode(phoneInput.current.getCountryCode())
+              }}
+              onChangePhoneNumber={code => {
+                setSellerProperty(constants.phoneCode, code)
+              }}
               />
-            <Text>{getCountryCode()}</Text>
+            <Text>{seller[constants.phoneCode] || ""}</Text>
             <TextInput
               style={{
                 width: '65%',
@@ -172,7 +202,11 @@ const SelectSellerView = ({
                 borderBottomWidth: 1,
               }}
               keyboardType="number-pad"
-              onChangeText={text => setPhone(text)}
+              value={seller[constants.phone]}
+              onChangeText={text => {
+                setSellerProperty(constants.phoneCode, phoneInput.current.getCountryCode())
+                setSellerProperty(constants.phone, text)}
+              }
             />
           </View>
         }
@@ -196,7 +230,7 @@ const SelectSellerView = ({
           marginHorizontal: 25,
           marginVertical: 15,
         }}>
-        <Button color="black" onPress={handleSubmit} title="Submit" />
+        <Button disabled={!complete()} color="black" onPress={handleSubmit} title="Submit" />
       </View>
       {/* <ListItem
                     title="Payments"

@@ -7,6 +7,6 @@ export interface User {
     quick_shipping: boolean,
     last_active: number,
     sold_item: number,
-    no_negotiation: boolean,
+    receive_negotiation: 'all' | 'neither' | 'choose',
 }
 

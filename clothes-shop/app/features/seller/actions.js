@@ -9,6 +9,14 @@ export const setSellProperty = (key, value) => dispatch => {
     },
   });
 };
+export const setSellerProperty = (key, value) => dispatch => {
+  dispatch({
+    type: types.setSellerProperty,
+    payload: {
+      key, value
+    },
+  });
+};
 export const setEmail = email => dispatch => {
   dispatch({
     type: types.setEmail,

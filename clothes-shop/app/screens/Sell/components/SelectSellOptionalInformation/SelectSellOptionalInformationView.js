@@ -16,6 +16,7 @@ const SelectSellConditionView = ({
   soldWith = {}
 }) => {
   console.log('soldWith',soldWith)
+  console.log('constants.cardcertificate',constants.cardcertificate)
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
       <BackHeaderCenter

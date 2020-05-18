@@ -36,12 +36,12 @@ export default compose(
 
   withHandlers({
     signIn: ({email, password}) => async () => {
-      const {errorMessage, succesfull} = await AuthService.loginByEmail({
+      const {errorMessage, successful} = await AuthService.loginByEmail({
         email,
         password,
       });
-      console.log('succesfull', succesfull);
-      if (succesfull) {
+      console.log('successful', successful);
+      if (successful) {
         NavigationService.navigateToHome();
       } else {
         if (errorMessage) {

@@ -5,7 +5,7 @@ import screens from '../../../../constants/screens';
 import {withSell} from '../../../../utils/enhancers';
 
 const enhance = compose(
-  withSell(),
+  withSell({pick: []}),
   withState('categories', 'setCategories', categories),
   withProps(props => ({
     // carmakes : props.navigation.getParam('carmakes',[]),
@@ -18,7 +18,7 @@ const enhance = compose(
       navigation,
       dispatch,
     }) => category => {
-      // console.log('category',category)
+      console.log('category',category)
       // setSellProduct({})
       setSelectedSellCategory(category);
       navigation.navigate(screens.SelectSellType);

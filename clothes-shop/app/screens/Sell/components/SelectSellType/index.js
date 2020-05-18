@@ -7,7 +7,7 @@ import {withSell} from '../../../../utils/enhancers';
 import constants from '../../../../constants';
 
 const enhance = compose(
-  withSell({pick: [constants.type]}),
+  withSell({pick: [constants.type, constants.category]}),
   withState('types', 'setTypes', types),
   withState('subtypes', 'setSubtypes', subtypes),
   withHandlers({
@@ -18,8 +18,8 @@ const enhance = compose(
       setSelectedSellSubtype,
       dispatch,
     }) => ({type, subtype}) => {
-      console.log('type, subtype', type, subtype);
-      console.log('sellProduct', sellProduct);
+      // console.log('type, subtype', type, subtype);
+      // console.log('sellProduct', sellProduct);
       setSelectedSellType(type);
       setSelectedSellSubtype(subtype);
       // dispatch(setSelectedCarId(car_id))

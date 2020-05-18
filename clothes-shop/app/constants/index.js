@@ -76,6 +76,12 @@ export default {
   shipping_country_code: "shipping_country_code",
   draftLastUpdate: "draftLastUpdate",
 
+  compressImageMaxHeight: 1000,
+  compressImageMaxWidth: 1000,
+  phone: "phone",
+  phoneCode: "phoneCode",
+  phoneCountry: "phoneCountry",
+  
   clothes_fields: {
     category_id: 'sold',
     created_time: 'created_time',
@@ -89,7 +95,8 @@ export default {
     status : 'status',
     // isApproved: 'isApproved',
     status_field : {
-      image_cropped:  "image_cropped"
+      image_cropped:  "image_cropped",
+      approved:  "approved",
     },
   },
 
@@ -99,7 +106,7 @@ export default {
     answered : 'answered',
   },
 
-
+  rowHeight: 65,
   publishedAtFormat: 'DD MMMM YYYY',
   updatedAtFormat: 'DD MMMM YYYY',
 };

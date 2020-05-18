@@ -18,13 +18,13 @@ export default hoistStatics(
     withHandlers({
       signUp: props => async ({last_name, firstName, email, password}) => {
         try {
-          const {succesfull, errorMessage} = await AuthService.signup({
+          const {successful, errorMessage} = await AuthService.signup({
             email,
             password,
             name: firstName,
             last_name: last_name,
           });
-          if (succesfull) {
+          if (successful) {
             NavigationService.navigateToHome();
           } else {
             if (errorMessage) {

@@ -7,7 +7,12 @@ import constants from '../../../../constants';
 const uuidv4 = require('uuid/v4');
 
 const enhance = compose(
-  withSell({pick: [constants.brand]}),
+  withSell({pick: [
+    constants.brand,
+    constants.category,
+    constants.type,
+    constants.subtype,
+  ]}),
   withState('searchText', 'setSearchText', ''),
   withState('brands', 'setBrands', brands),
   withProps(props => ({

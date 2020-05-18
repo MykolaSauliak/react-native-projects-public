@@ -57,7 +57,7 @@ const SelectSellMainView = ({
   price,
 
   seller,
-
+  soldWith,
   updateSearch,
   placeholder,
   onPress,
@@ -170,7 +170,7 @@ const SelectSellMainView = ({
     //         seller,
     //     }
 
-    const succesfull = await ShopService.createProduct({
+    const successful = await ShopService.createProduct({
       material,
       category_name: category
         ? category.title
@@ -210,21 +210,21 @@ const SelectSellMainView = ({
       price: price.price,
       currency: price.currency,
       we_love: false,
-      vintage: false,
       express_delivery: false,
 
       seller,
       shipping_country,
+      vintage,
+      soldWith
     });
-    if (succesfull) {
+    if (successful) {
       NavigationService.navigateToDrafts();
       // setSellProduct({})
       // removeFromDrafts(selectedSellProduct.id)
     }
   };
   // console.log('complete',complete())
-  console.log('photo5', photo5);
-
+  // console.log('photo5', photo5);
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
       <BackHeaderCenter
@@ -232,6 +232,7 @@ const SelectSellMainView = ({
           ...selectedSellProduct,
           seller,
         })} Step(s) remained`}
+        goBack={() => NavigationService.navigateToDrafts()}
       />
       <ListItem containerStyle={{backgroundColor: colors.lightGray}} disabled />
       <View>

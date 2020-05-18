@@ -97,8 +97,8 @@ export default {
   MyAlerts: 'MyAlerts',
   MyItems: 'MyItems',
   MyAddresses: 'MyAddresses',
-
-  NegotiationsStack: 'NegotiationsStack',
+  
+  NegotiationOptions: 'NegotiationOptions',
   Negotiations: 'Negotiations',
 
   SignInForm: 'SignInForm',
@@ -117,6 +117,7 @@ export default {
 
   /**stacks */
   AlertStack: 'AlertStack',
+  NegotiationsStack: 'NegotiationsStack',
   CartStack: 'CartStack',
   SearchResultStack: 'SearchResultStack',
   UserProfileStack: 'UserProfileStack',

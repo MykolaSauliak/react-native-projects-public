@@ -1,5 +1,6 @@
 import createReducer from '../../utils/createReducer';
 import types from './types';
+import _ from 'lodash'
 
 const initialState = {
   user: {},
@@ -65,10 +66,24 @@ export default createReducer(initialState, {
     return {...state, email: payload};
   },
   [types.setSellProperty]: (state, {payload : {key, value}}) => {
-    return {...state, [key]: value};
+    let sellProduct = state.sellProduct;
+    let drafts = state.drafts;
+
+    sellProduct[key] = value;
+    drafts.forEach((d, i) => {
+      if (d.id == sellProduct.id) {
+        drafts[i][key] = value;
+      }
+    });
+    return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
+  },
+  [types.setSellerProperty]: (state, {payload : {key, value}}) => {
+    let seller = state.seller
+    seller[key] =  value
+    return {...state, seller, draftLastUpdate: Date.now()};
   },
   [types.setPhone]: (state, {payload}) => {
-    return {...state, phone: payload};
+    return {...state, phone: payload, };
   },
   [types.setSelectedSellCategory]: (state, {payload}) => {
     // console.log('setSelectedSellCategory',payload)
@@ -314,14 +329,15 @@ export default createReducer(initialState, {
   },
   [types.setSellSoldWith]: (state, {payload: {key, value}}) => {
     let sellProduct = state.sellProduct;
-    if(!sellProduct.soldWith){
+    if(_.isEmpty(sellProduct.soldWith)){
       sellProduct.soldWith = {}
     }
-    sellProduct.soldwith[key] = value;
+    console.log('sellProduct.soldWith',sellProduct.soldWith)
+    sellProduct.soldWith[key] = value;
     let drafts = state.drafts;
     drafts.forEach((d, i) => {
       if (d.id == sellProduct.id) {
-        if(!drafts[i].soldWith){
+        if(_.isEmpty(drafts[i].soldWith)){
           drafts[i].soldWith = {}
         }
         drafts[i].soldWith[key] = value;

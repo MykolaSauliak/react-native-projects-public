@@ -55,6 +55,7 @@ const ImagePickerRow = ({
   source = {},
   imgs = [],
   multiple = false,
+  quality = 0.6
 }) => {
   // let [image, setImage ] = useState({uri:  "https://via.placeholder.com/250x250?text=click-to-upload"})
   // let [images, setImages ] = useState([])
@@ -84,6 +85,9 @@ const ImagePickerRow = ({
   const uploadPictures = () => {
     ImagePicker.openPicker({
       multiple: true,
+      compressImageQuality: quality,
+      compressImageMaxHeight: constants.compressImageMaxHeight,
+      compressImageMaxWidth: constants.compressImageMaxWidth,
       // includeBase64: true
     }).then(imgs => {
       setImages([...images, ...imgs]);
@@ -93,10 +97,23 @@ const ImagePickerRow = ({
 
   const uploadPicture = () => {
     ImagePicker.openPicker({
+      mediaType: 'photo',
+      compressImageQuality: quality,
+      compressImageMaxHeight: constants.compressImageMaxHeight,
+      compressImageMaxWidth: constants.compressImageMaxWidth,
       // includeBase64: true
     }).then(image => {
-      setImage(image);
+      setImage(image); 
+      /**
+       * response params
+       * @path {String}
+       * @width {Number}
+       * @height {Number}
+       * @size {Number}
+       * @mime {string}
+       */
       // console.log(image);
+      console.log('image size',image.size)
       if (onImageUpload) {
         onImageUpload(image);
       }

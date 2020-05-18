@@ -28,7 +28,8 @@ const BackHeader = ({goBack, containerStyle, title, ...restProps}) => (
       {
         backgroundColor: 'white',
         minHeight: 70,
-        borderWidth: 0,
+        borderBottomWidth:0.3,
+        borderBottomColor:'black',
         paddingBottom: 5,
         // justifyContent: 'space-around',
       },
@@ -36,7 +37,7 @@ const BackHeader = ({goBack, containerStyle, title, ...restProps}) => (
     ]}
     centerComponent={{
         text: title,
-        style: {fontSize: 18, color: '#000'},
+        style: {fontSize: 18, color: '#000', fontWeight: 'bold'},
       }}
     {...restProps}
   />
