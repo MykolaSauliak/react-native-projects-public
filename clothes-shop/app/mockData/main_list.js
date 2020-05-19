@@ -22,6 +22,6 @@ export default [
         "title" : "Hot trends",
         "value" : "hot",
         "tag_id" : "fT48nDXlk5OSVAEU2M8Q",
-        "image" : require('../assets/images/shopping.webp')
+        "image" : require('../assets/images/shopping.gif')
     }
 ]
