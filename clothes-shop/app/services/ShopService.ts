@@ -1,10 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-import { Alert } from "react-native";
+import { Alert, AlertType } from "react-native";
 import {
   Shop, 
 } from '../types/Shop.type'
+import {Alert as AlerType} from '../types/Alert.type'
 import R from 'ramda';
 import _ from 'lodash';
 import constants from '../constants'
@@ -1238,7 +1239,49 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
+  /**
+   * For alerts
+   * 
+   */
+  async addAlert(alert: AlerType){
+      let successful = false
+      const user = auth().currentUser;
+      if(!user || !user.uid){
+        return {
+          successful : false,
+          error: {
+            message: 'Not authorized'
+          }
+        }
+      }
+      try{
+        let response = await firestore().collection('alerts').add({
+          ...alert,
+          user_id:  user.uid,
+        })
+        successful = true
+      }catch(err){
+        console.log('ERROR DURING ADD ALERT')
+      }finally{
+        return {
+          successful
+        }
+      }
+  }
 
+  async removeAlert(item: AlertType){
+      let successful = false
+      try{
+        let response = await firestore().collection('alerts').doc(item.id).delete()
+        successful = true
+      }catch(err){
+        console.log('ERROR DURING REMOVE ALERT')
+      }finally{
+        return {
+          successful
+        }
+      }
+  }
 }
 
 export default new ShopService();

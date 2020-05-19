@@ -10,6 +10,7 @@ const initialState = {
     */
   ],
   lastUpdate: null,
+  error: null,
 };
 
 export default createReducer(initialState, {
@@ -29,6 +30,9 @@ export default createReducer(initialState, {
   },
   [types.removeAllAlerts]: (state, {payload}) => {
     return {...state, alerts: []};
+  },
+  [types.setError]: (state, {payload}) => {
+    return {...state, error: payload};
   },
 });
 

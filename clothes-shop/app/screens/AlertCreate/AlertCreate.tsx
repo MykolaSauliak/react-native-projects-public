@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { BackHeader, Text, Button } from '../../components';
 import Chip from '../../components/Chip/Chip';
 import AccordionList from '../../components/AccordionList';
-import colors from '../../mockData/colors.json'
+import colorsData from '../../mockData/colors.json'
 import materials from '../../mockData/materials.json'
 import ButtonBlack from '../../components/Button/ButtonBlack';
 import {withAlerts} from '../../utils/enhancers'
@@ -12,11 +12,15 @@ import shortid from 'shortid'
 import moment from 'moment';
 import { NavigationService, DropdownAlertService } from '../../services';
 import DropdownAlert from 'react-native-dropdownalert';
+import { colors } from '../../styles';
 
 const AlertCreate = ({
     addAlert,
     navigation
 }) => {
+
+    let [color, setColor] = React.useState("")
+    let [material, setMaterial] = React.useState("")
 
     let dropDownAlertRef = React.useRef()
     let item = navigation.getParam('item', {})
@@ -33,6 +37,8 @@ const AlertCreate = ({
                 type_name: item.type_name,
                 category_name: item.category_name,
                 brand_name: item.brand_name,
+                color: color,
+                material: material,
             }
         }
         // console.log('new alert',newAlert)
@@ -49,48 +55,56 @@ const AlertCreate = ({
             </View>
             <View style={{flex:1}}>
                 <ScrollView>
-                    <View style={{padding: 15, borderBottomColor: 'black', borderBottomWidth: 0.3}}>
+                    <View style={styles.header}>
                         <Text bold>My selection</Text>
                         <View style={{marginTop: 10,flexDirection: 'row', flexWrap: "wrap"}}>
-                            {item.type_name && <Chip style={{marginHorizontal:3}}>{item.type_name}</Chip>}
-                            {item.category_name && <Chip style={{marginHorizontal:3}}>{item.category_name}</Chip>}
-                            <Chip style={{marginHorizontal:3}}>{item.brand_name}</Chip>
+                            {item.type_name && <Chip style={styles.chip}>{item.type_name}</Chip>}
+                            {item.category_name && <Chip style={styles.chip}>{item.category_name}</Chip>}
+                            {item.brand_name && <Chip style={styles.chip}>{item.brand_name}</Chip>}
                         </View>
                     </View>
-                    {/* <AccordionList items={
-                        [
-                            {
-                                id: "1",
-                                title: "Model", 
-                                data: colors.map((c:string) => ({title: c}) )
-                            }
-                        ]
-                        }
-                        onSubItemPress={(item) => console.log('item',item)}
-                        /> */}
-                    <AccordionList items={
-                        [
-                            {
-                                id: "1",
-                                title: "Colors", 
-                                data: colors.map((c:string) => ({title: c}) )
-                            }
-                        ]
-                        }
-                        onSubItemPress={(item) => console.log('item',item)}
-                        />
-                    <AccordionList 
-                        items={
+                    <View style={{flex:1, marginTop: 15}}>
+                        {/* <AccordionList items={
                             [
                                 {
                                     id: "1",
-                                    title: "Material", 
-                                    data: materials.map((c:string) => ({title: c}) )
+                                    title: "Model", 
+                                    data: colors.map((c:string) => ({title: c}) )
                                 }
                             ]
-                        }
-                        onSubItemPress={(item) => console.log('item',item)}
-                        />
+                            }
+                            onSubItemPress={(item) => console.log('item',item)}
+                            /> */}
+                        <AccordionList 
+                            subtitle={color && <Chip style={[styles.chip, {marginTop: 6}]}>{color}</Chip>}
+                            items={
+                            [
+                                {
+                                    id: "1",
+                                    title: "Colors", 
+                                    data: colorsData.map((c:string) => ({title: c}) )
+                                }
+                            ]
+                            }
+                            onSubItemPress={(item) => {
+                                setColor(item.title)
+                            }}
+                            />
+                        <AccordionList 
+                            subtitle={material && <Chip style={[styles.chip, {marginTop: 6}]}>{material}</Chip>}
+                            items={
+                                [
+                                    {
+                                        id: "1",
+                                        title: "Material", 
+                                        data: materials.map((c:string) => ({title: c}) )
+                                    }
+                                ]
+                            }
+                            onSubItemPress={(item) => setMaterial(item.title)}
+                            />
+                            
+                    </View>
                   </ScrollView>
             </View>
             <View style={{margin: 5}}>
@@ -101,3 +115,19 @@ const AlertCreate = ({
 };
 
 export default withAlerts()(AlertCreate); 
+
+const styles = StyleSheet.create({
+    chip: {
+        marginHorizontal:3,
+        backgroundColor: 'white',
+        borderColor: colors.orange,
+        borderWidth: 1,
+        color: colors.orange,
+        padding: 4,
+    },
+    header: {
+        padding: 15,
+        borderBottomColor: 'black', 
+        borderBottomWidth: 0
+    }
+})
