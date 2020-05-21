@@ -31,14 +31,14 @@ import RefinementList from '../../../containers/Search/RefinementList';
 import ToggleRefinement from '../../../containers/Search/ToggleRefinement';
 import SortBy from '../../../containers/Search/SortBy';
 import RangeSlider from '../../../containers/Search/RangeSlider';
-import InfiniteGridHits from '../../../containers/Search/InfiniteGridHits';
-import { FilterSortButton } from '../../../containers/Search';
-import RemoveAllAtUnmount from '../../../containers/Search/RemoveAll';
-import LoadingListener from '../../../containers/Search/LoadingListener';
+import ClearRefinements from '../../../containers/Search/ClearRefinements';
 import { BackHeader } from '../../../components';
 import constants from '../../../constants';
 import colors from '../../../styles/colors';
 import { SearchItem } from '../../../types/Search';
+import SeeResultButton from '../../../containers/Search/SeeResultButton';
+import { search } from '../../../features/search/actions';
+import LoadingIndicator from '../../../containers/Search/LoadingIndicator';
 const pluralize = require('pluralize')
 
 const VirtualRefinementList = connectRefinementList(() => null);
@@ -59,31 +59,6 @@ let HitsCount = ({ nbHits, textStyle ={}} : {nbHits: number, textStyle: any}) =>
 }
 
 HitsCount = connectStats(HitsCount)
-
-let ClearRefinements = ({ items, refine }) => (
-    <TouchableOpacity 
-        style={{flex:1, justifyContent:'center',alignItems:'center'}}
-        onPress={() => refine(items)} 
-        disabled={!items.length}>
-        <Text style={{color:'black', fontWeight: 'bold'}}> DELETE ALL</Text>
-    </TouchableOpacity>
-);
-
-ClearRefinements = connectCurrentRefinements (ClearRefinements);
-
-
-let ResultButton = ({ nbHits ,...props }) => (
-  <Button 
-    {...props}
-    containerStyle={{flex:1,height:'100%'}}
-    buttonStyle={{backgroundColor:'black'}}
-    // title={`See ${nbHits } ${pluralize('result',nbHits )}`}
-    title={`See ${pluralize('result',nbHits )}`}
-    titleStyle={{color:'white'}}
-    />
-);
-
-ResultButton = connectStats (ResultButton);
 
 
 const styles = StyleSheet.create({
@@ -139,7 +114,7 @@ class FilterSort extends Component<Props, State> {
             currentSearchItem,
             searchState,
             setSearchState,
-            updateSearch,
+            updateSearchItem,
         } = this.props;
 
         return (
@@ -148,8 +123,9 @@ class FilterSort extends Component<Props, State> {
                 indexName="clothes"
                 searchState={searchState}
                 onSearchStateChange={(state : any) => {
+                    console.log('state',state)
                     setSearchState(state)
-                    updateSearch(currentSearchItem?.id, state)
+                    updateSearchItem(currentSearchItem?.id, state)
                 }}
                 // root={this.root} 
                 >
@@ -157,7 +133,7 @@ class FilterSort extends Component<Props, State> {
                 <View style={{flex:1,backgroundColor:'white'}}>
                     <BackHeader 
                         title="Filter & Sort" 
-                        goBack={() => NavigationService.goBack()}
+                        goBack={() => NavigationService.navigateToTextSearch()}
                         rightComponent={<ClearRefinements />}
                         />
                     <ScrollView style={{flex:0.9,}}>
@@ -165,27 +141,48 @@ class FilterSort extends Component<Props, State> {
                             сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
                             title="Sort by" 
                             /> 
-                            <SortBy   
-                                defaultRefinement="clothes"
-                                items={[
-                                    { value: 'clothes', label: 'Featured' },
-                                    { value: 'clothes_lowest_price', label: 'Lowest price' },
-                                    { value: 'clothes_highest_price', label: 'Highest price' },
-                                    { value: 'clothes_popularity', label: 'Popularity' },
-                                ]}
-                                />
+                        <SortBy   
+                            defaultRefinement="clothes"
+                            items={[
+                                { value: 'clothes', label: 'Featured' },
+                                { value: 'clothes_lowest_price', label: 'Lowest price' },
+                                { value: 'clothes_highest_price', label: 'Highest price' },
+                                { value: 'clothes_popularity', label: 'Popularity' },
+                            ]}
+                            />
                         <ListItem 
                             сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
                             title="Filter by" 
                             /> 
-                        <RangeSlider max={999} min={0} attribute="price"/>
+                        <RangeSlider 
+                            defaultRefinement={{ min: 0, max: 9999 }}
+                            minValue={currentSearchItem?.searchState?.range?.price?.min}
+                            maxValue={currentSearchItem?.searchState?.range?.price?.max} 
+                            // max={999} 
+                            // min={0} 
+                            searchState={searchState}
+                            attribute="price"
+                            // precision={2}
+                            />
+                        <VirtualRange operator="and" attribute="created_time"/>
+                        {/* <VirtualRange attribute="price"/> */}
+                        <VirtualRefinementList operator="and" attribute="category_id"  />
+                        <VirtualRefinementList operator="and" attribute="type_id" />
+                        <VirtualRefinementList operator="and" attribute="subtype_id"  />
+                        <VirtualRefinementList operator="and" attribute="brand_name" />
+                        <VirtualRefinementList operator="and" attribute="color" />
+                        <VirtualRefinementList operator="and" attribute="material" />
+                        <VirtualRefinementList operator="and" attribute="condition" />
+                        <VirtualRefinementList operator="and" attribute="tag_ids"/>
+                        <VirtualRefinementList operator="and" attribute="location"/>
+                        <LoadingIndicator />
                         <RefinementList  
                             // searchState={this.state.searchState}
                             // onSearchStateChange={this.onSearchSt ateChange} 
                             // searchClient={searchClient}
-                            // searchState={searchState}
+                            searchState={searchState}
                             // onSearchStateChange={setSearchState}
-                            // defaultRefinement={brandRefinement}
+                            // defaultRefinement={[]}
                             operator="and" 
                             title="Brand" 
                             attribute="brand_name" 
@@ -194,7 +191,7 @@ class FilterSort extends Component<Props, State> {
                             // searchState={this.state.searchState}
                             // onSearchStateChange={this.onSearchStateChange} 
                             // searchClient={searchClient}
-                            // searchState={searchState}
+                            searchState={searchState}
                             // onSearchStateChange={setSearchState}
                             // defaultRefinement={brandRefinement}
                             operator="and" 
@@ -202,12 +199,12 @@ class FilterSort extends Component<Props, State> {
                             attribute="type_name" 
                             />
                         <RefinementList 
-                            // operator="and" 
+                            operator="and" 
                             title="Color" 
                             attribute="color" 
-                            // defaultRefinement={colorRefinement}
+                            defaultRefinement={[]}
                             // searchClient={searchClient}
-                            // searchState={searchState}
+                            searchState={searchState}
                             // onSearchStateChange={setSearchState}
                             // searchState={this.state.searchState}
                             // onSearchStateChange={this.onSearchStateChange}
@@ -216,9 +213,9 @@ class FilterSort extends Component<Props, State> {
                             operator="and"  
                             title="Material" 
                             attribute="material" 
-                            // defaultRefinement={materialRefinement}
+                            defaultRefinement={[]}
                             // searchClient={searchClient}
-                            // searchState={searchState}
+                            searchState={searchState}
                             // onSearchStateChange={setSearchState}
                             // searchState={this.state.searchState}
                             // onSearchStateChange={this.onSearchStateChange}
@@ -227,8 +224,8 @@ class FilterSort extends Component<Props, State> {
                             operator="and" 
                             title="Condition" 
                             attribute="condition" 
-                            // defaultRefinement={conditionRefinement}
-                            // searchState={searchState}
+                            defaultRefinement={[]}
+                            searchState={searchState}
                             // searchClient={searchClient}
                             // onSearchStateChange={setSearchState}
                             />
@@ -236,8 +233,8 @@ class FilterSort extends Component<Props, State> {
                             operator="and" 
                             title="Item location" 
                             attribute="location" 
-                            // defaultRefinement={locationRefinement}
-                            // searchState={searchState}
+                            defaultRefinement={[]}
+                            searchState={searchState}
                             // searchClient={searchClient}
                             // onSearchStateChange={setSearchState}
                             />
@@ -316,7 +313,7 @@ class FilterSort extends Component<Props, State> {
                             /> */}
                     </ScrollView>
                     <View style={{flex:0.1, padding: 10}}>
-                        <ResultButton 
+                        <SeeResultButton 
                             onPress={() => NavigationService.navigateToTextSearch()} />
                     </View>
                 </View>

@@ -4,7 +4,7 @@ import { ListItem,Icon } from "react-native-elements";
 import {withSearch } from "../../../../utils/enhancers";
 import constants from '../../../../constants';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { SearchItem, SearchState } from "../../../../types/Search.type.";
+import { SearchItem, SearchState } from "../../../../types/Search.type";
 import { NavigationService } from "../../../../services";
 import _ from 'lodash'
 
@@ -88,28 +88,28 @@ const ItemSearch = ({
   return (
     <View style={{padding: 15}}>
       <FlatList 
-        ListHeaderComponent={<Text style={{opacity: 0.5}}>
-          My last search
-        </Text>}
-        keyExtractor={(item,index) => item.id}
-        data={lastsearch}
-        renderItem={({item,index} : {item: SearchItem, index: number}) => (
-          <ListItem
-            onPress={() => {
-                setCurrentSearchItem(item)
-                NavigationService.navigateToTextSearch()
-            }}
-            title={getTitle(item)}
-            subtitle={getSubTitle(item)}
-            titleStyle={{fontWeight:'bold'}}
-            // subtitleStyle={{}}
-            rightElement={<TouchableOpacity onPress={() => removeFromLastSearch(item)}>
-              <Icon name="close" type="antdesign" />
-            </TouchableOpacity>}
-            bottomDivider
-            />
-        )}
-        /> 
+          ListHeaderComponent={<Text style={{opacity: 0.5}}>
+            My last search
+          </Text>}
+          keyExtractor={(item,index) => item.id}
+          data={lastsearch}
+          renderItem={({item,index} : {item: SearchItem, index: number}) => (
+            <ListItem
+              onPress={() => {
+                  setCurrentSearchItem(item)
+                  NavigationService.navigateToTextSearch({title: item.title})
+              }}
+              title={getTitle(item)}
+              subtitle={getSubTitle(item)}
+              titleStyle={{fontWeight:'bold'}}
+              // subtitleStyle={{}}
+              rightElement={<TouchableOpacity onPress={() => removeFromLastSearch(item)}>
+                <Icon name="close" type="antdesign" />
+              </TouchableOpacity>}
+              bottomDivider
+              />
+          )}
+          /> 
     </View>
   );
 };

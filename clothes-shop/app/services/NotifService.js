@@ -1,4 +1,4 @@
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import firestore from '@react-native-firebase/firestore';
 import messaging, {firebase} from '@react-native-firebase/messaging';
@@ -7,7 +7,7 @@ import {
   addNotification,
   setLastShowTs,
 } from '../features/notifications/actions';
-import {getShowHours, getLastShowTs} from '../features/notifications/selectors';
+import {getShowHours, getLastShowTs, isNotificationExists} from '../features/notifications/selectors';
 import moment from 'moment';
 import shortid from 'shortid';
 
@@ -50,49 +50,70 @@ class NotifService {
       //     // }
       //   },
       // );
-      this.unsubscribe = messaging().onMessage(async remoteMessage => {
-          let notification = remoteMessage.data
-          notification.created_time = Date.now();
+
+      const notificationHandler = async (remoteMessage) => {
+          const notification = remoteMessage.data
+          notification.created_time = notification.created_time || Date.now();
+          const notificationExists = isNotificationExists(notification, this._store.getState())
+          if(notificationExists){
+            console.log('notification exist')
+            return 
+          }
           this._store.dispatch(addNotification(notification));
-            PushNotification.localNotificationSchedule({
-              //... You can use all the options from localNotifications
-              id: notification.created_time,
-              autoCancel: false,
-              // bigText: notification.title,
-              message: notification.title,
-              smallIcon: notification?.rightImage || notification?.leftImage,
-              vibrate: true, // (optional) default: true
-              vibration: 300,
-              date: new Date(Date.now() + 100), // in 60 secs
-            });
-            try{
-              this._store.dispatch(setLastShowTs(type))
-            }catch(err){
-  
-            }
-          // }
-      });
-  
+          //   PushNotification.localNotificationSchedule({
+          //     //... You can use all the options from localNotifications
+          //     id: 0,
+          //     title: notification.title, // (optional)
+          //     message: notification?.subtitle || "", // (required)
+          //     largeIcon: notification?.leftImage || notification?.rightImage || "",
+          //     smallIcon: require('../assets/images/logo.png'),
+          //     vibrate: true, // (optional) default: true
+          //     vibration: 300,
+          //     date: new Date(Date.now() + 100), // 
+          //     //for ios
+          // });
+          try{
+            this._store.dispatch(setLastShowTs(type))
+          }catch(err){
+
+          }
+      } 
+
       await messaging().registerForRemoteNotifications();
-      const fcmToken = await messaging().getToken();
-      console.log('fcmToken', fcmToken);
-      const uid = auth().currentUser.uid;
-      console.log('uid', uid);
-      await firestore()
-        .doc(`users/${uid}`)
-        .set(
-          {
-            fcmToken: fcmToken,
-          },
-          {
-            merge: true,
-          },
-        );
+      messaging().getToken().then(fcmToken => {
+        this.saveTokenToDatabase(fcmToken)
+        console.log('fcmToken', fcmToken);
+      })
+      messaging().onTokenRefresh(token => {
+        this.saveTokenToDatabase(token);
+      });
+      
+      await messaging().setBackgroundMessageHandler(notificationHandler);
+      this.unsubscribe = messaging().onMessage(notificationHandler);
+
     } catch (err) {
       console.log('ERROR DURING FETHC UID AND STORE TOKEN', err);
     }
 
     
+  }
+
+  saveTokenToDatabase = async (fcmToken) => {
+      // Assume user is already signed in
+    const userId = auth().currentUser.uid;
+
+    // Add the token to the users datastore
+    await firestore()
+      .collection('users')
+      .doc(userId)
+      .set(
+        {
+          fcmToken: fcmToken,
+        },
+        {
+          merge: true,
+        },
+      );
   }
 
   showAlert(title, body) {

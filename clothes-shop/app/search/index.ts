@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch/lite';
+import algoliasearch from 'algoliasearch/reactnative';
 import config from '../../config';
 
 const searchClient = algoliasearch(

@@ -23,7 +23,7 @@ import SplashScreen from 'react-native-splash-screen'
 import {Brand} from '../../types/Shop'
 
 const enhance = compose(
-  withSearch(),
+  withSearch(constants.clothes),
   withReduxLoading(),
   withFavorite({listName: constants.clothes}),
   withState('lists', 'setLists', main_list),
@@ -68,7 +68,9 @@ const enhance = compose(
         refinementList: {
           brand_name:  [brand.title]
         }
-      }, constants.clothes)
+      }, {
+        goBack : () => NavigationService.navigateToHome()
+      })
       // NavigationService.navigateToSearchResult({
       //   title: brand.title,
       //   options: {brand_id: brand.id},

@@ -12,3 +12,4 @@ export const getSearchState = state => R.path(['search', 'searchState'], state);
 export const getCurrentSearchItem = state =>
   R.path(['search', 'currentSearchItem'], state);
 export const getLastUpdate = state => R.path(['search', 'lastUpdate'], state);
+export const getTriggerRefresh = state => R.path(['search', 'triggerRefresh'], state);

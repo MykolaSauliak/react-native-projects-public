@@ -203,7 +203,7 @@ const HomeView = ({
                       {
                         // title: st.title,
                         refinementList: {
-                          type_id : st.id
+                          type_id : [st.id]
                         }
                       }, 
                     constants.clothes)}

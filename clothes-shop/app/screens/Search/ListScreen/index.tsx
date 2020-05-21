@@ -7,10 +7,12 @@ import AccordionList from "../../../components/AccordionList";
 import { BackHeader } from '../../../components';
 import { NavigationService } from '../../../services';
 import { withSearch } from "../../../utils/enhancers";
+import _ from 'lodash'
 
 import algoliasearch from 'algoliasearch/lite';
 import config from '../../../../config';
 import {InstantSearch, connectRefinementList,ClearRefinements,  } from 'react-instantsearch-native';
+import constants from '../../../constants';
 
 const searchClient = algoliasearch(
   config.ALGOLIA_APP_ID,
@@ -31,16 +33,17 @@ type Props = {
 const ListScreenView = ({
   navigation,
   searchState,
+  updateSearchState,
+  refineLocal,
   setSearchState
 } : Props) => {
 
   let title = navigation.getParam('title','')
+  let attribute = navigation.getParam('attribute','')
   let items = navigation.getParam('items',[])
-  let onSubItemPress = navigation.getParam('onSubItemPress',() => {})
-  let onItemPress = navigation.getParam('onItemPress',() => {})
-
+  // let onSubItemPress = navigation.getParam('onSubItemPress',() => {})
+  // let onItemPress = navigation.getParam('onItemPress',() => {})
   // console.log('items',items)
-
   return (
     <InstantSearch
       searchClient={searchClient}
@@ -49,10 +52,18 @@ const ListScreenView = ({
       onSearchStateChange={setSearchState}
       >
       <View>
-        <BackHeader title={title} goBack={() => NavigationService.navigateToTextSearch()}/>
+        <BackHeader title={title} goBack={() => NavigationService.navigateToFilterSortScreen()}/>
         <AccordionList 
-          onItemPress={onItemPress}
-          onSubItemPress={onSubItemPress}
+          onItemPress={(item) => {
+              console.log('item',item)
+              if(_.isEmpty(item.value)){
+                updateSearchState(refineLocal({[attribute] : [...searchState.refinementList[attribute]]}, searchState))
+              }else{
+                updateSearchState(refineLocal({[attribute] : item.value}, searchState))
+              }
+              NavigationService.navigateToFilterSortScreen()
+          }}
+          // onSubItemPress={onSubItemPress}
           items={items}
           />
       </View>
@@ -61,4 +72,4 @@ const ListScreenView = ({
 };
 
 
-export default withSearch()(ListScreenView);
+export default withSearch(constants.clothes)(ListScreenView);

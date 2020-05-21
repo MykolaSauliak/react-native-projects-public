@@ -16,6 +16,7 @@ import {
 class RemoveAll extends Component {
 
     componentWillUnmount(){
+        console.log('RemoveAll unmount')
         this.props.refine(this.props.items)
     }
 

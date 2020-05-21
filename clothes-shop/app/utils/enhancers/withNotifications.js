@@ -11,6 +11,7 @@ import {
   unsubscribeToPriceReduce,
   subscribeToPriceReduce,
   removeAllNotification,
+  setViewedAll,
 } from '../../features/notifications/actions';
 
 const withNotifications = options => BaseComponent => props => {
@@ -39,6 +40,7 @@ const withNotifications = options => BaseComponent => props => {
       addNotification={item => dispatch(addNotification(item))}
       removeAllNotification={() => dispatch(removeAllNotification())}
       setViewed={({item, id}) => dispatch(setViewed({item, id}))}
+      setViewedAll={() => dispatch(setViewedAll())}
     />
   );
 };

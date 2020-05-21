@@ -81,9 +81,9 @@ export default {
   phone: "phone",
   phoneCode: "phoneCode",
   phoneCountry: "phoneCountry",
-  
+
   clothes_fields: {
-    category_id: 'sold',
+    category_id: 'category_id',
     created_time: 'created_time',
     express_delivery: 'express_delivery',
     we_love: 'we_love',
@@ -97,6 +97,14 @@ export default {
     status_field : {
       image_cropped:  "image_cropped",
       approved:  "approved",
+    },
+    sale_status_fields: {
+      'none':"none",
+      'sold':"sold",
+      'shipping': "shipping",
+      'delivery' : "delivery",
+      'authentication' : "authentication",
+      'payment' : "payment",
     },
   },
 

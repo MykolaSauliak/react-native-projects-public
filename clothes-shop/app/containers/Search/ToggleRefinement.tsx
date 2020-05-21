@@ -59,7 +59,7 @@ const ToggleRefinement = ({
   ...otherProps
 }) => {
   // console.log('ToggleRefinement label',label)
-  console.log('ToggleRefinement count',count)
+  // console.log('ToggleRefinement count',count)
   // console.log('ToggleRefinement currentRefinement',currentRefinement)
   // console.log('refine',refine)
   if(!currentRefinement && (!count.checked || count.checked <= 1)){

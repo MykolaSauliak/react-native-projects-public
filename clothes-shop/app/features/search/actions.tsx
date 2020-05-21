@@ -3,7 +3,7 @@ import { NavigationService } from "../../services";
 import { SearchState, SearchItem } from "../../types/Search";
 import {v4 as uuidv4} from 'uuid'
 
-const search = (title :string, searchState: SearchState, listname: string) => dispatch => {
+const search = (title :string, searchState: SearchState, listname: string, options = {}) => dispatch => {
   console.log('search')
   if(!listname){
     listname = 'defaults'
@@ -18,6 +18,7 @@ const search = (title :string, searchState: SearchState, listname: string) => di
   dispatch(setSearchState(searchState))
   NavigationService.navigateToTextSearch({
     title,
+    goBack: options.goBack
   })
 }
 
@@ -44,18 +45,26 @@ const removeLastSearch = () => dispatch => {
   })
 }
 
-const updateSearch = (listname: string, id: string, update : any) => dispatch => {
+const updateSearchItem = (listname: string, id: string, update : any) => dispatch => {
   // console.log('setSearchState',newState)
   if(!id){
     return
   }
   dispatch({
-    type: types.updateSearcState,
+    type: types.updateSearchItem,
     payload: {
       listname,
       id,
       update
     },
+  })
+}
+
+const updateSearchState = (update : any) => dispatch => {
+  // console.log('setSearchState',newState)
+  dispatch({
+    type: types.updateSearchState,
+    payload: update,
   })
 }
 
@@ -86,10 +95,30 @@ export const setSearchLoading = (loading : boolean) => dispatch => {
   });
 };
 
+const resetSearchState = () => dispatch => {
+  dispatch({
+    type: types.resetSearchState,
+  });
+};
+
+const refresh = () => dispatch => {
+  dispatch({
+    type: types.setTriggerRefresh,
+    payload: true
+  });
+  dispatch({
+    type: types.setTriggerRefresh,
+    payload: false
+  });
+};
+
 export {
   search,
   setSearchState,
-  updateSearch,
+  updateSearchItem,
+  updateSearchState,
   removeLastSearch,
-  setCurrentSearchItem
+  setCurrentSearchItem,
+  resetSearchState,
+  refresh,
 }

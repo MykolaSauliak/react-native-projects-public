@@ -11,9 +11,10 @@ import types from '../../../../mockData/types.json';
 import subtypes from '../../../../mockData/subtypes.json';
 import screens from '../../../../constants/screens';
 import {withSearch} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSearch(),
+  withSearch(constants.clothes),
   withState('subcategories', 'setSubcategories', []),
   withState('loading', 'setLoading', false),
   withState('types', 'setTypes', types),
@@ -24,11 +25,11 @@ const enhance = compose(
   withHandlers({
     onPress: props => item => {
       //console.log('subcategory', item)
-      props.navigation.navigate(screens.ProductListStack, {
-        title: item.title || item.name,
-        subcategory_id: item.id,
-        category_id: props.navigation.getParam('category_id', ''),
-      });
+      // props.navigation.navigate(screens.ProductListStack, {
+      //   title: item.title || item.name,
+      //   subcategory_id: item.id,
+      //   category_id: props.navigation.getParam('category_id', ''),
+      // });
     },
   }),
   lifecycle({

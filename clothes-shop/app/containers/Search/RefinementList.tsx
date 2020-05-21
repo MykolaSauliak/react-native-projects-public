@@ -3,45 +3,60 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import { NavigationService } from "../../services"
 import FilterRow from '../../components/FilterRow';
-import {InstantSearch, Configure,connectRefinementList,connectCurrentRefinements } from 'react-instantsearch-native';
+import {
+  InstantSearch, 
+  Configure,
+  connectRefinementList,
+  connectCurrentRefinements 
+} from 'react-instantsearch-native';
 import R from 'ramda';
 import {withSearch} from '../../utils/enhancers'
+import _ from 'lodash'
+import { searchClient } from '../../search';
+import constants from '../../constants';
 
 const RefinementList = ({
   items, 
-  refine,
-  attribute,
-  title,
-  subtitle,
+  refine = (rfnmt) => {},
+  refineLocal = (rfnmt) => {},
+  attribute= "",
+  title = "",
+  subtitle= "",
   currentRefinement,
   searchState,
+  updateSearchState,
   ...otherProps
-}) => {
+}) => { 
+  // console.log('refine',refine)
+  // console.log('attribute',attribute)
+  // console.log('RefinementList searchState',searchState)
 
-  console.log('RefinementList searchState',searchState)
   const getCurrentRefinement = () => {
     return R.path(['refinementList',attribute,0],searchState) || ''
   }
   
-  if(!items || items.length < 1){
+  if(_.isEmpty(items)){
     return null
   }
-  
+
+  function onPress(){
+    // console.log('searchState',searchState)
+    NavigationService.navigateToFilterList({
+        title, 
+        items,
+        attribute
+      })
+  }
+
   return (
      <FilterRow 
           title={title}
           subtitle={subtitle}
           // rightElement={<Text>{currentRefinement?.join(', ')}</Text>}
           rightElement={<Text>{getCurrentRefinement()}</Text>}
-          onPress={() => NavigationService.navigateToFilterList({
-            title, 
-            items,
-            onItemPress : (item) => { 
-                  refine(item.value)
-                  NavigationService.goBack()
-              }
-          })} 
+          onPress={onPress} 
         />
+
   )
 }
 
@@ -56,4 +71,4 @@ RefinementList.propTypes = {
   refine: PropTypes.func.isRequired,
 };
 
-export default withSearch()(connectRefinementList(RefinementList))
+export default connectRefinementList(withSearch(constants.clothes)(RefinementList))

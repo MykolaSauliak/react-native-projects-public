@@ -1,10 +1,11 @@
 import createReducer from '../../utils/createReducer';
 import types from './types';
+import _ from 'lodash'
 
 const initialState = {
   searchLoading: false,
-  searchState: {},
-  currentSearchItem: {},
+  searchState: {}, //
+  currentSearchItem: {}, // with id and searchState
   lastsearch: {
     default: [],
     clothes: [
@@ -38,31 +39,26 @@ export default createReducer(initialState, {
     };
     // return {...state, cartItems : {...state.cartItems.filter(id => id != payload), payload}}
   },
-  [types.updateSearcState]: (state, {payload: {update, id, listname}}) => {
+  [types.updateSearchItem]: (state, {payload: {update, id, listname}}) => {
     //console.log('add to cart -',payload)
     let lastsearch = state.lastsearch;
     lastsearch[listname] = lastsearch[listname] || [];
     lastsearch[listname] = lastsearch[listname].map(item => {
-      if (item.id == id) {
-        return {
-          ...item,
-          searchState: {
-            ...item.searchState,
-            ...update,
-          },
-        };
-      }
-      return item;
+        if (item.id == id) {
+          return {
+            ...item,
+            searchState: _.merge(item.searchState,update)
+          };
+        }
+        return item;
     });
+
     return {
       ...state,
       lastsearch,
       currentSearchItem: {
         ...state.currentSearchItem,
-        searchState: {
-          ...state.currentSearchItem?.searchState,
-          ...update,
-        },
+        searchState: _.merge(state.currentSearchItem?.searchState,update)
       },
     };
     // return {...state, cartItems : {...state.cartItems.filter(id => id != payload), payload}}
@@ -72,6 +68,15 @@ export default createReducer(initialState, {
     return {
       ...state,
       searchState: payload,
+      lastUpdate: Date.now(),
+    };
+    // return {...state, cartItems : {...state.cartItems.filter(id => id != payload), payload}}
+  },
+  [types.updateSearchState]: (state, {payload}) => {
+    //console.log('add to cart -',payload)
+    return {
+      ...state,
+      searchState: _.merge(state.searchState, payload),
       lastUpdate: Date.now(),
     };
     // return {...state, cartItems : {...state.cartItems.filter(id => id != payload), payload}}
@@ -111,5 +116,18 @@ export default createReducer(initialState, {
   },
   [types.setLoading]: (state, {payload}) => {
     return {...state, searchLoading: payload};
+  },
+  [types.setTriggerRefresh]: (state, {payload}) => {
+    return {...state, triggerRefresh: payload};
+  },
+  [types.resetSearchState]: (state, {payload}) => {
+    return {
+        ...state, 
+        searchState: {
+          ...state.searchState, 
+          refinementList: _.pickBy(state.searchState?.refinementList || {}, function(o){return o.includes('id')}), 
+          range: {}, 
+          toggle: {}}
+      };
   },
 });

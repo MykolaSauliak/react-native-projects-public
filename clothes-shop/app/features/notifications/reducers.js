@@ -67,6 +67,13 @@ export default createReducer(initialState, {
     // let cartItems = {...state.cartItems, [id] : count}
     return {...state, notifications};
   },
+  [types.setViewedAll]: (state, {payload: id}) => {
+    // //console.log('set count ...',id,count);
+    let notifications = state.notifications;
+    notifications = notifications.map(c => ({...c,viewed : true}));
+    // let cartItems = {...state.cartItems, [id] : count}
+    return {...state, notifications};
+  },
 });
 
 export {initialState};

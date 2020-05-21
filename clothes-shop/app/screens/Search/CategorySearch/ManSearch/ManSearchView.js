@@ -133,7 +133,7 @@ const ManSearchView = ({
               onPress={
                 () =>
                   search(
-                    'All',
+                    'Man - All',
                     {
                       refinementList: {
                         category_id: category_id,

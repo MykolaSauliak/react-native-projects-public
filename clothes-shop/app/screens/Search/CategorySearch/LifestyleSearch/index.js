@@ -11,9 +11,10 @@ import types from '../../../../mockData/types.json';
 import subtypes from '../../../../mockData/subtypes.json';
 import screens from '../../../../constants/screens';
 import {withSearch} from '../../../../utils/enhancers';
+import constants from '../../../../constants';
 
 const enhance = compose(
-  withSearch(),
+  withSearch(constants.clothes),
   withState('subcategories', 'setSubcategories', []),
   withState('loading', 'setLoading', false),
   withState('types', 'setTypes', types),

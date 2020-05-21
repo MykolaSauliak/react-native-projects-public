@@ -58,15 +58,19 @@ const SearchTabs = createMaterialTopTabNavigator(
 const CategorySearchStack = createStackNavigator({
     CategorySearchStack: {
       screen: SearchTabs,
-      navigationOptions: ({navigation}) => ({
-        header: ({navigation}) => (
-          <ClothesSearchHeader
-            onLeftButtonPress={() => NavigationService.navigateToHome()}
-            onCartClick={() => navigation.navigate(screens.CartStack)}
-            onSearchClick={() => navigation.navigate(screens.TextSearch)}
-          />
+      navigationOptions: ({navigation}) => {
+        const goBack = navigation.getParam('goBack',null)
+        return {
+          header: ({navigation}) => (
+            <ClothesSearchHeader
+              onLeftButtonPress={() => NavigationService.navigateToHome()}
+              onCartClick={() => navigation.navigate(screens.CartStack)}
+              onSearchClick={() => navigation.navigate(screens.TextSearch)}
+              showBack={!!goBack}
+              onBack={goBack}
+            />
         ),
-      }),
+      }}
     },
   });
 

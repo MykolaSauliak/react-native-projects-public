@@ -8,7 +8,6 @@ import ManSearch from '../screens/Search/CategorySearch/ManSearch';
 import ListScreen from '../screens/Search/ListScreen';
 import TextSearch from '../screens/Search/TextSearch';
 import SearchHistory from '../screens/Search/SearchHistory';
-import ClothesSearchHeader from '../containers/Headers/ClothesSearchHeader';
 import {BackHeader} from '../components';
 import screens from '../constants/screens';
 import colors from '../styles/colors';

@@ -17,6 +17,7 @@ import {List, Checkbox} from 'react-native-paper';
 import {NavigationService} from '../../../../services';
 import constants from '../../../../constants';
 import {search} from '../../../../features/search/actions';
+import ClothesSearchHeader from '../../../../components/ClothesSearchHeader';
 
 const category_id = 'g2llU0ofWnYUFdvSh7Tn';
 
@@ -56,8 +57,8 @@ const WomanSearchView = ({
                     item.title,
                     {
                       refinementList: {
-                        category_id: category_id,
-                        type_id: item.id,
+                        category_id: [category_id],
+                        type_id: [item.id],
                       },
                     },
                     constants.clothes,
@@ -80,9 +81,9 @@ const WomanSearchView = ({
                         item.title + ' - ' + st.title,
                         {
                           refinementList: {
-                            category_id: category_id,
-                            type_id: item.id,
-                            subtype_id: st.id,
+                            category_id: [category_id],
+                            type_id: [item.id],
+                            subtype_id: [st.id],
                           },
                         },
                         constants.clothes,
@@ -107,21 +108,24 @@ const WomanSearchView = ({
   );
 
   return (
-    <ScrollView>
       <View style={{flex: 1, backgroundColor: colors.gray}}>
+        {/* <ClothesSearchHeader
+              onLeftButtonPress={() => NavigationService.navigateToHome()}
+              onCartClick={() => navigation.navigate(screens.CartStack)}
+              onSearchClick={() => navigation.navigate(screens.TextSearch)}
+            /> */}
+        <ScrollView>
         <View style={[S.listAccordion]}>
           <List.Accordion title="New in" titleStyle={{fontWeight: 'bold'}}>
             <TouchableOpacity
               onPress={
                 () =>
-                  search(
-                    'Woman - All',
+                  search('Woman - All',
                     {
                       refinementList: {
-                        [constants.clothes_fields.category_id]: category_id,
+                        category_id: [category_id],
                       },
                     },
-                    constants.clothes,
                   )
                 // NavigationService.navigateToTextSearch({
                 //   title: 'All',
@@ -137,7 +141,7 @@ const WomanSearchView = ({
                     'Woman - Today',
                     {
                       refinementList: {
-                        [constants.clothes_fields.category_id]: category_id,
+                        [constants.clothes_fields.category_id]: [category_id],
                       },
                       range: {
                         [constants.clothes_fields.created_time]: {
@@ -165,7 +169,7 @@ const WomanSearchView = ({
                 'We love',
                 {
                   refinementList: {
-                    category_id: category_id,
+                    category_id: [category_id],
                   },
                   toggle: {
                     [constants.we_love]: true,
@@ -188,7 +192,7 @@ const WomanSearchView = ({
                   'Express Delivery',
                   {
                     refinementList: {
-                      category_id: category_id,
+                      category_id: [category_id],
                     },
                     toggle: {
                       [constants.express_delivery]: true,
@@ -211,8 +215,8 @@ const WomanSearchView = ({
             />
           </TouchableOpacity>
         </View>
+        </ScrollView>
       </View>
-    </ScrollView>
   );
 };
 

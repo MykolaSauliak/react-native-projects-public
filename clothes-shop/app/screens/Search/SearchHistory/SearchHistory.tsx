@@ -62,7 +62,7 @@ const SearchHistory = ({
                     query : text
                 }
                 search(text, {
-                    query : text
+                    query :  text
                 }, constants.clothes)
                 // addToLastSearch({
                 //     id: uuid4(),
@@ -104,7 +104,7 @@ const SearchHistory = ({
       second: SecondRoute,
     });
 
-    console.log('SearchHistory lastsearch',lastsearch)
+    // console.log('SearchHistory lastsearch',lastsearch)
 
     return (
         <View style={{flex: 1}}>

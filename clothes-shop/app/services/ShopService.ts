@@ -43,19 +43,19 @@ interface  ShopServiceInterface {
 }
 
 class ShopService implements ShopServiceInterface {
+
   _store = null;
 
   init(store){
-    if(this._store){
-      return
-    }
-
-    this._store = store
     const settings = {
       persistence: true,
       cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED,
     };
     firestore().settings(settings).catch(console.log)
+    if(this._store){
+      return
+    }
+    this._store = store
   }
 
   async addToken(token : string){

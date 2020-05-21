@@ -57,8 +57,8 @@ const LifestyleSearchView = ({
                     item.title,
                     {
                       refinementList: {
-                        category_id: category_id,
-                        type_id: item.id,
+                        category_id: [category_id],
+                        type_id: [item.id],
                       },
                     },
                     constants.clothes,
@@ -80,9 +80,9 @@ const LifestyleSearchView = ({
                       item.title,
                       {
                         refinementList: {
-                          category_id: category_id,
-                          type_id: item.id,
-                          subtype_id: st.id,
+                          category_id: [category_id],
+                          type_id: [item.id],
+                          subtype_id: [st.id],
                         },
                       },
                       constants.clothes,
@@ -110,10 +110,10 @@ const LifestyleSearchView = ({
               onPress={
                 () =>
                   search(
-                    'New in',
+                    'Lifestyle - New in',
                     {
                       refinementList: {
-                        [constants.clothes_fields.category_id]: category_id,
+                        [constants.clothes_fields.category_id]: [category_id],
                       },
                     },
                     constants.clothes,
@@ -129,10 +129,10 @@ const LifestyleSearchView = ({
               onPress={
                 () =>
                   search(
-                    'Today',
+                    'Lifestyle - Today',
                     {
                       refinementList: {
-                        category_id: category_id,
+                        category_id: [category_id],
                       },
                       range: {
                         [constants.clothes_fields.created_time]: {
@@ -163,7 +163,7 @@ const LifestyleSearchView = ({
                   'Express delivery',
                   {
                     refinementList: {
-                      category_id: category_id,
+                      category_id: [category_id],
                     },
                     toggle: {
                       [constants.clothes_fields.we_love]: true,
@@ -190,7 +190,7 @@ const LifestyleSearchView = ({
                   'Express delivery',
                   {
                     refinementList: {
-                      category_id: category_id,
+                      category_id: [category_id],
                     },
                     toggle: {
                       [constants.express_delivery]: true,

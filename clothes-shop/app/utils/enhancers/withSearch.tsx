@@ -4,37 +4,49 @@ import {
   getLastSearch,
   getSearchState,
   getLastUpdate,
-  getCurrentSearchItem
+  getCurrentSearchItem,
+  getTriggerRefresh,
 } from '../../features/search/selectors';
 import {
   addToLastSearch,
   removeFromLastSearch,
   setSearchState,
-  updateSearch,
+  updateSearchItem,
   removeLastSearch,
   search,
-  setCurrentSearchItem
+  setCurrentSearchItem,
+  updateSearchState,
+  resetSearchState,
+  refresh,
 } from '../../features/search/actions';
-import {SearchState, SearchItem} from '../../types/Search'
+import {
+  refine
+} from '../../features/search/operations';
+import {SearchState, SearchItem} from '../../types/Search.type'
 
-const mapStateToProps = (listname)=> (state,) => {
-  console.log('listname',listname)
+const mapStateToProps = (listname = 'defaults')=> (state,) => {
+  // console.log('listname',listname)
   return {
     lastsearch: getLastSearch(listname, state),
     searchState: getSearchState(state),
     currentSearchItem: getCurrentSearchItem(state),
-    lastSearchUpdate: getLastUpdate(state)
+    lastSearchUpdate: getLastUpdate(state),
+    triggerRefresh: getTriggerRefresh(state),
   }
 }
 
-const mapDispatchToProps = (listname) => (dispatch) => ({
+const mapDispatchToProps = (listname = 'defaults') => (dispatch) => ({
   setCurrentSearchItem: (item: SearchItem) => dispatch(setCurrentSearchItem(item)),
   removeLastSearch: () => dispatch(removeLastSearch()),
   addToLastSearch: item => dispatch(addToLastSearch(listname, item)),
-  updateSearch: (id, update) => dispatch(updateSearch(listname, id, update)),
+  updateSearchItem: (id: string, update : SearchState) => dispatch(updateSearchItem(listname, id, update)),
+  updateSearchState: (update : SearchState) => dispatch(updateSearchState(update)),
+  resetSearchState: () => dispatch(resetSearchState()),
   removeFromLastSearch: item => dispatch(removeFromLastSearch(listname, item)),
   setSearchState: item => dispatch(setSearchState(item)),
-  search: (title: string, searchState: SearchState, listname : string) => dispatch(search(title, searchState,listname)),
+  refresh: () => dispatch(refresh()),
+  refineLocal: refine,
+  search: (title: string, searchState: SearchState, options : any) => dispatch(search(title, searchState,listname, options)),
 });
 
 const withSearch = (listname = 'default') => Component =>

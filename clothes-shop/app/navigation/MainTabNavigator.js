@@ -7,39 +7,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
-
 import SearchHeader from '../components/SearchHeader';
-import ClothesSearchHeader from '../containers/Headers/ClothesSearchHeader';
 import NotificationIcon from '../containers/NotificationIcon';
 import Home from '../screens/Home';
 
-import Sell from '../screens/Sell';
-import SelectSellCategory from '../screens/Sell/components/SelectSellCategory';
-import SelectSellType from '../screens/Sell/components/SelectSellType';
-import SelectSellBrand from '../screens/Sell/components/SelectSellBrand';
-import SelectSellMainSteps from '../screens/Sell/components/SelectSellMainSteps';
-
-import SelectSellInformation from '../screens/Sell/components/SelectSellInformation';
-import SelectSellSubcategory from '../screens/Sell/components/SelectSellSubcategory';
-import SelectSellMaterial from '../screens/Sell/components/SelectSellMaterial';
-import SelectSellColor from '../screens/Sell/components/SelectSellColor';
-import SelectSellPrinted from '../screens/Sell/components/SelectSellPrinted';
-import SelectSellPhotos from '../screens/Sell/components/SelectSellPhotos';
-
-import SelectSellDescription from '../screens/Sell/components/SelectSellDescription';
-import SelectSellDescriptionWrite from '../screens/Sell/components/SelectSellDescriptionWrite';
-import SelectSellMeasurements from '../screens/Sell/components/SelectSellMeasurements';
-
-import SelectSeller from '../screens/Sell/components/SelectSeller';
-// import AddShippingAddressScreen from '../screens/AddShippingAddressScreen';
-
-import SelectSellCondition from '../screens/Sell/components/SelectSellCondition';
-import SelectSellConditionWrite from '../screens/Sell/components/SelectSellConditionWrite';
-import SelectSellPrice from '../screens/Sell/components/SelectSellPrice';
-import SelectSellOptionalInformation from '../screens/Sell/components/SelectSellOptionalInformation';
-
 import SubCategoriesView from '../screens/SubCategoriesView';
-import ProductList from '../screens/ProductList';
 import ProductInfo from '../screens/ProductInfo';
 import i18n from '../i18n';
 
@@ -48,25 +20,7 @@ import screens from '../constants/screens';
 import ProfileStack from './ProfileNavigation';
 import CategorySearchStack from './CategorySearchNavigation';
 import NotificationNavigator from './NotificationNavigator';
-
-const ProductListStack = createStackNavigator({
-  [screens.ProductList]: {
-    screen: ProductList,
-    navigationOptions: props => ({
-      header: (
-        <SearchHeader
-          showBack
-          showFilter
-          onSearchClick={() => props.navigation.navigate(screens.SearchScreen)}
-          placeholder={props.navigation.getParam('title', '')}
-          onBack={() => props.navigation.navigate(screens.SubCategoriesView)}
-          style={{maxHeight: 60}}
-          navigation={props.navigation}
-        />
-      ),
-    }),
-  },
-});
+import SellNavigation from './SellNavigation'
 
 const SubCategoriesViewStack = createStackNavigator({
   [screens.SubCategoriesView]: {
@@ -107,9 +61,9 @@ const HomeStack = createStackNavigator(
     [screens.SubCategoriesViewStack]: {
       screen: SubCategoriesViewStack,
     },
-    [screens.ProductListStack]: {
-      screen: ProductListStack,
-    },
+    // [screens.ProductListStack]: {
+    //   screen: ProductListStack,
+    // },
     [screens.ProductInfo]: {
       screen: ProductInfo,
       navigationOptions: props => ({
@@ -118,35 +72,6 @@ const HomeStack = createStackNavigator(
     },
   },
   {
-  },
-);
-
-const SellStack = createStackNavigator(
-  {
-    [screens.Sell]: Sell,
-    [screens.SelectSellCategory]: SelectSellCategory,
-    [screens.SelectSellType]: SelectSellType,
-    [screens.SelectSellBrand]: SelectSellBrand,
-    [screens.SelectSellMainSteps]: SelectSellMainSteps,
-    [screens.SelectSellInformation]: SelectSellInformation,
-    [screens.SelectSellSubcategory]: SelectSellSubcategory,
-    [screens.SelectSellMaterial]: SelectSellMaterial,
-    [screens.SelectSellColor]: SelectSellColor,
-    [screens.SelectSellPrinted]: SelectSellPrinted,
-    [screens.SelectSellPhotos]: SelectSellPhotos,
-    [screens.SelectSellDescription]: SelectSellDescription,
-    [screens.SelectSellDescriptionWrite]: SelectSellDescriptionWrite,
-    [screens.SelectSellMeasurements]: SelectSellMeasurements,
-    [screens.SelectSellCondition]: SelectSellCondition,
-    [screens.SelectSellConditionWrite]: SelectSellConditionWrite,
-    [screens.SelectSellPrice]: SelectSellPrice,
-    [screens.SelectSeller]: SelectSeller,
-    [screens.SelectSellOptionalInformation]: SelectSellOptionalInformation,
-  },
-  {
-    defaultNavigationOptions: props => ({
-      header: null,
-    }),
   },
 );
 
@@ -181,7 +106,7 @@ const BottomTabs = createBottomTabNavigator(
       }),
     },
     [screens.SellStack]: {
-      screen: SellStack,
+      screen: SellNavigation,
       navigationOptions: {
         tabBarIcon: ({focused, tintColor}) => {
           const iconName = focused ? 'pluscircle' : 'pluscircleo';

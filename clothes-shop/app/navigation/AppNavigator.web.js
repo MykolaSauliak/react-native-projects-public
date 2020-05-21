@@ -1,6 +1,5 @@
 // import { createBrowserApp } from '@react-navigation/web';
 import {createSwitchNavigator} from 'react-navigation';
-import SearchStack from './SearchStack';
 import MainTabNavigator from './MainTabNavigator';
 
 const switchNavigator = createSwitchNavigator({

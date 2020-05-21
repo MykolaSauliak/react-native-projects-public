@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {connectRange} from 'react-instantsearch-native';
+import {
+  connectRange, 
+  connectHits
+} from 'react-instantsearch-native';
 import {View, Text, Button, StyleSheet} from 'react-native';
 import {Input} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 // import Slider from '@react-native-community/slider';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import _ from 'lodash'
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,21 +36,40 @@ const styles = StyleSheet.create({
 });
 
 const RangeSlider = ({
-  min,
-  max,
+  min = 0,
+  max = 999,
   refine,
   currentRefinement,
+  minValue = 0,
+  maxValue = 0,
+  createURL ,
+  attribute,
+  hits,
   ...props
   // canRefine
 }) => {
+
   const [sliderOneChanging, setSliderOneChanging] = React.useState(false);
   const [sliderOneValue, setSliderOneValue] = React.useState([5]);
   const [multiSliderValue, setMultiSliderValue] = React.useState([3, 7]);
 
+  React.useEffect(() => {
+    // effect
+    // return () => {
+    //   cleanup
+    // if(!max){
+    //   console.log('hits', hits.length)
+    //   max = _.maxBy(hits, [attribute] )
+    // }
+    // console.log('max',max)
+    // }
+  }, [])
+
+
   const [
     nonCollidingMultiSliderValue,
     setNonCollidingMultiSliderValue,
-  ] = React.useState([min, max]);
+  ] = React.useState([minValue || min, maxValue || max]);
 
   const sliderOneValuesChangeStart = () => setSliderOneChanging(true);
 
@@ -101,7 +125,7 @@ const RangeSlider = ({
           min={min}
           max={max}
           step={1}
-          allowOverlap={false}
+          allowOverlap={true}
           snapped
           minMarkerOverlapDistance={40}
           // customMarker={CustomMarker}
@@ -137,4 +161,4 @@ const RangeSlider = ({
   );
 };
 
-export default connectRange(RangeSlider);
+export default connectHits(connectRange(RangeSlider));

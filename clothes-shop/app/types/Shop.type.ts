@@ -83,6 +83,8 @@ export namespace Shop {
         similar_items: string[],
         favorite_count: number,
         no_negotiation?: boolean,
+        quickShipping?: boolean,
+        conformedDesc?: boolean,
     }
     
     export interface Address {

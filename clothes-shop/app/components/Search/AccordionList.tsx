@@ -59,7 +59,7 @@ const AccordionList = ({
     items,
     subtitle,
     subtitleStyle= {},
-    onItemPress = () => {},
+    onItemPress,
     closeOnClick = true,
     onSubItemPress,
 } : Props) => {

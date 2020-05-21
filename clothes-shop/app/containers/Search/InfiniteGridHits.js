@@ -12,6 +12,8 @@ import {NavigationService} from '../../services';
 import {Loading} from '../../components/Loading';
 import GridList from '../GridList';
 import LoadingListener from './LoadingListener';
+import _ from 'lodash'
+import LoadingIndicator from './LoadingIndicator';
 
 const styles = StyleSheet.create({
   separator: {
@@ -29,9 +31,9 @@ const styles = StyleSheet.create({
 
 const InfiniteGridHits = ({hits, hasMore, refine, ...props}) => {
   let [loading, setLoading] = React.useState(false);
-  console.log('hits', hits);
+  // console.log('hits', hits);
 
-  if (!hits || hits.length < 1){
+  if (_.isEmpty(hits)){
     return (
       <View
         style={{
@@ -47,9 +49,7 @@ const InfiniteGridHits = ({hits, hasMore, refine, ...props}) => {
   
   return (
     <>
-      <LoadingListener
-        onLoadingChange={(loading) => setLoading(loading)}
-        />
+      <LoadingIndicator />
       <GridList
         loading={loading}
         keyExtractor={item => item.objectID}

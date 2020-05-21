@@ -65,7 +65,7 @@ describe('test search history', () => {
     };
 
     const newAction = {
-      type: types.updateSearch,
+      type: types.updateSearchItem,
       payload: {
         listname,
         id: initialSearchItem.id,

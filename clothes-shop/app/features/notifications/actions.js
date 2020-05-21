@@ -77,6 +77,12 @@ export const setViewed = ({item = {}, id}) => dispatch => {
   });
 };
 
+export const setViewedAll = () => dispatch => {
+  dispatch({
+    type: types.setViewedAll,
+  });
+};
+
 export const removeAllNotification = () => dispatch => {
   dispatch({
     type: types.removeAllNotification,

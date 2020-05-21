@@ -4,6 +4,10 @@ export default {
   setLoading: 'setLoading',
   setSearchState: 'setSearchState',
   removeLastSearch: 'removeLastSearch',
-  updateSearcState: 'updateSearcState',
+  updateSearchItem: 'updateSearchItem',
+  updateSearchState: 'updateSearchState',
   setCurrentSearchItem: 'setCurrentSearchItem',
+  resetSearchState: 'resetSearchState',
+ 
+  setTriggerRefresh: 'setTriggerRefresh',
 };
