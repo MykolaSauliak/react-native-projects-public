@@ -12,7 +12,10 @@ export const getFollowingSubscription = state =>
 export const isNotificationExists = (notification, state) => {
 
   const ntfcns =  R.path(['notifications', 'notifications'], state) || []
-  if(!ntfcns.find(function(o){ return o.id == notification.id}) && !ntfcns.find(function(o){return o.title == notification.title && o.subtitle == notification.subtitle})){
+  if(!ntfcns.find(function(o){ return o.id == notification.id}) 
+    && !ntfcns.find(function(o){return o.title == notification.title 
+      && o.subtitle == notification.subtitle 
+      && o.rightImage == notification.rightImage})){
     return false
   }
   return true

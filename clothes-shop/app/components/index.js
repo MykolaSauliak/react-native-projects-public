@@ -56,7 +56,7 @@ export {default as FormInput} from './FormInput/FormInput';
   } from './ReviewsList/ReviewsListView';
   
   export { default as Mark } from './Mark';
-  export { default as ProductCard } from './ProductCard';
+  export { default as ProductCard } from './ProductCard/ProductCard';
   export { default as BackHeader } from './BackHeader/BackHeader';
   export { default as BackHeaderCenter } from './BackHeader/BackHeaderCenter';
   export { default as GridList } from './GridList/GridList';

@@ -3,15 +3,21 @@ import {View} from 'react-native'
 import { Text } from '../../../../../components';
 import Chip from '../../../../../components/Chip/Chip';
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import { Alert } from "../../../../../types/Alert.type";
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { withAlerts } from '../../../../../utils/enhancers';
 
-const AlertRow = ({
+let AlertRow = ({
+    id,
     received_time,
     recieved_way,
     created_date = "",
     fields = {},
-}: Alert) => {
+    removeAlert,
+}: Alert & {
+    removeAlert: (item: {id: string}) => void
+}) => {
 
     const getReceivedTime = () => {
         return received_time.split('_').join(' ')
@@ -22,7 +28,10 @@ const AlertRow = ({
     
     return (<View style={{flexDirection: 'row', borderColor: 'black', borderTopWidth: 0.5, padding: 10}}>
         <View style={{flex:0.1, justifyContent: 'flex-start'}}>
-            <EvilIcons name="pencil" size={25} />
+            <TouchableOpacity onPress={() => removeAlert({id})}>
+                <AntDesign name="delete" size={25} />
+            </TouchableOpacity>
+            {/* <EvilIcons name="pencil" size={25} /> */}
         </View>
         <View style={{flex: 0.9, justifyContent: 'flex-start'}}>
             <Text bold>{`Alert created on ${created_date}`}</Text>
@@ -32,7 +41,7 @@ const AlertRow = ({
                         .entries(fields)
                         .filter(([k,v]) => v)
                         .map(([k,v]) => (
-                            <Chip textStyle={{fontSize: 9}} style={{marginHorizontal:3}}>{v}</Chip>
+                            <Chip textStyle={{fontSize: 12}} style={{marginHorizontal:3, borderColor: 'black', borderWidth: 1}}>{v}</Chip>
                         ))
                 }
                 {/* // <Chip style={{marginHorizontal:3}}>{fields.universe || 'woman'}</Chip>
@@ -42,8 +51,9 @@ const AlertRow = ({
             <Text><Text bold>Received : </Text>{`${getReceivedTime()} ${getReceivedWay()}`}</Text>
         </View>
     </View>)
-    
 }
+
+AlertRow = withAlerts()(AlertRow)
 
 const ItemLookingFor = ({
     alerts,

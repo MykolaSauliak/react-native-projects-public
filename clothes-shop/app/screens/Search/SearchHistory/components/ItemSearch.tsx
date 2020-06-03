@@ -72,14 +72,15 @@ const ItemSearch = ({
     // if(rangeString){
     //   subtitle += '\nranges:' + rangeString 
     // }
-    subtitle +='\n' + rangeString 
+    subtitle += rangeString.length >0 ? '\n' + rangeString : ""
     let toggleString =  Object
             .entries(item?.searchState?.toggle || {})
             .filter(([k,v]) => v)
             .map(([k,v]) => k)
             .join(' - ') 
     if(toggleString){
-      subtitle += '\ntoggles:' + toggleString 
+      subtitle += toggleString.length> 0 ? '\n' + toggleString:"" 
+      // subtitle += toggleString.length> 0 ?'\ntoggles:' + toggleString:"" 
     }
 
     return subtitle

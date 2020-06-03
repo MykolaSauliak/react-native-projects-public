@@ -4,8 +4,9 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { withFollowing} from '../../utils/enhancers';
+import { withFollowing, withAuth} from '../../utils/enhancers';
 import { color } from 'react-native-reanimated';
+import { compose } from 'redux';
 
 const FollowButton = ({
     uid,
@@ -14,7 +15,11 @@ const FollowButton = ({
     removeFromFollowing,
     titleStyle={},
     containerStyle = {},
+    loggedInUser,
 }) => {
+    if(loggedInUser?.uid == uid){
+        return null
+    }
     return (
         <View>
             {isUserFollowed({user_id: uid}) === false
@@ -28,4 +33,9 @@ const FollowButton = ({
     );
 };
 
-export default withFollowing()(FollowButton);
+const enhance = compose(
+    withAuth(),
+    withFollowing()
+)
+
+export default enhance(FollowButton);

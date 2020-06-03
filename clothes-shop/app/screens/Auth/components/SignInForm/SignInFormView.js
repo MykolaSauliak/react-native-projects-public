@@ -44,7 +44,7 @@ const SignInFormView = ({
           autoCapitalize="none"
         />
       </View>
-      <View style={s.textWithTouchableContainer}>
+      {/* <View style={s.textWithTouchableContainer}>
         <Text style={[s.text]} smallSize gray>
           {i18n.t('auth.resetPassword')}
         </Text>
@@ -54,7 +54,7 @@ const SignInFormView = ({
           onPress={() => onChange('isVisibleResetPasswordModal', true)}>
           {i18n.t('auth.resetPasswordLink')}
         </TextTouchable>
-      </View>
+      </View> */}
       <Button
         primary
         containerStyle={s.buttonContainer}

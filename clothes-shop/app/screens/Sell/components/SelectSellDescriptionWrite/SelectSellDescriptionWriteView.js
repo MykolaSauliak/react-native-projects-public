@@ -85,6 +85,7 @@ const SelectSellDescriptionWriteView = ({
         </Text>
         <Input
           value={description}
+          multiline
           placeholder="Describe your article"
           onChangeText={text => setSelectedSellDescription(text)}
         />

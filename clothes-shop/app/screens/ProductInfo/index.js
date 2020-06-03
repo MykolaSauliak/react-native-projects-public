@@ -26,7 +26,7 @@ const enhance = compose(
   withHistory(),
   withFollowing(),
   withAuth(),
-  withComments(),
+  // withComments(),
   // withLastUpdate(),
   withFavorite({listName: constants.clothes}),
   withState('loading', 'setLoading', false),
@@ -66,7 +66,7 @@ const enhance = compose(
         item: {
           ...item,
           // image: item.images ? item.images[0] : '',
-          seller: {user_id: item.user_id},
+          seller: {user_id: item.user_id}, // if sellerIndfo is null (?)
         },
         sellerUser: sellerInfo
       });

@@ -21,6 +21,7 @@ import {
 import constants from '../../constants';
 import SplashScreen from 'react-native-splash-screen'
 import {Brand} from '../../types/Shop'
+import { Shop } from '../../types/Shop.type';
 
 const enhance = compose(
   withSearch(constants.clothes),
@@ -56,7 +57,9 @@ const enhance = compose(
         toggle: {
           we_love: true
         }
-      }, constants.clothes)
+      }, 
+      // constants.clothes
+      )
       // NavigationService.navigateToSearchResult({
       //   title: 'We Love',
       //   options: {tag_ids: [constants.WE_LOVE_TAG]},
@@ -81,12 +84,17 @@ const enhance = compose(
     async componentDidMount() {
       this.props.setLoading(true);
       const {items: we_love, count } = await ShopService.getGoods(
-        {we_love:  true},
+        {
+          we_love:  true,
+          [constants.clothes_fields.status] : Shop.Status[2]
+        },
         // {tag_ids: [constants.WE_LOVE_TAG]},
         {},
         6,
       );
-      const {items: new_in, new_in_count } = await ShopService.getGoods();
+      const {items: new_in, new_in_count } = await ShopService.getGoods({
+        [constants.clothes_fields.status] : Shop.Status[2]
+      });
       const popular_brands = await ShopService.fetchPopulaBrands();
       const essentialList = await ShopService.fetchCollection({main_essential : true});
       this.props.setEssentialList(essentialList);

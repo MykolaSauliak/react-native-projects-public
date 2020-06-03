@@ -1,4 +1,4 @@
-declare namespace Notifications {
+// declare namespace Notifications {
     export interface Notification {
         id: string,
         type: string,
@@ -38,4 +38,4 @@ declare namespace Notifications {
         title : string,
         ts: number
     }
-} 
+// } 

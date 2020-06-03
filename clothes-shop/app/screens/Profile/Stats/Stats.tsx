@@ -23,6 +23,7 @@ import ButtonBlack from '../../../components/Button/ButtonBlack';
 import ProgressSteps from '../../../components/ProgressSteps/ProgressSteps'
 import Feather from "react-native-vector-icons/Feather";
 import Collapsible from 'react-native-collapsible';
+import CustomIcon from '../../../components/CustomIcon/CustomIcon';
 
 const SeeMore = ({
   title = "", 
@@ -54,33 +55,35 @@ const SeeMore = ({
 }
 
 const Stats = ({
-
+  loggedInUser
 }) => {
+    loggedInUser.conformity = loggedInUser.conformity || 0
+    loggedInUser.shipping = loggedInUser.shipping || 0
+    
     return (
         <View style={{flex:1}}>
             <BackHeader title="My stats"/>
             <ScrollView>
             <View
               style={{aspectRatio: 3 / 1, width: '100%', flexDirection: 'row', alignItems : "flex-start", paddingTop: 15}}>
-              <View style={{flex: 0.3}}>
-                <AvatarUpload disabled/>
-              </View>
-              <View  style={{flex: 0.7, justifyContent:'flex-start'}}>
-                <Text style={{...globalStyles.text, fontWeight: 'bold', lineHeight : 26}}>
-                    Start selling and become 
-                    a Trusted Seller!
-                  </Text>
-              </View>
+                <View style={{flex: 0.3}}>
+                  <AvatarUpload disabled/>
+                </View>
+                <View  style={{flex: 0.7, justifyContent:'flex-start'}}>
+                  <Text style={{...globalStyles.text, fontWeight: 'bold', lineHeight : 26}}>
+                      Start selling and become 
+                      a Trusted Seller!
+                    </Text>
+                </View>
             </View>
-
-            {/* <View style={{padding: 20, width: '100%'}}>
+            <View style={{padding: 20, width: '100%'}}>
                 <Text xmediumSize bold style={{paddingBottom: 10}}>To become Trusted Seller</Text>
                 <View style={{paddingLeft: 15}}>
                     <Text><Text bold>Volume:</Text> Sell 2 more items</Text>
                     <Text><Text bold>Conformity:</Text>Ensure item descriptions conform to reality</Text>
                     <Text><Text bold>Shipping:</Text> Sell 2 more items</Text>
                 </View>
-            </View> */}
+            </View>
             <View style={{flex:1, backgroundColor: colors.gray}}>
               <View style={{backgroundColor: 'white', marginTop: 14, paddingHorizontal: 20,}}>
                   <SeeMore 
@@ -94,7 +97,7 @@ const Stats = ({
                       color={colors.black}
                       borderWidth={0.5}
                       height={5}
-                      progress={0.0}
+                      progress={(loggedInUser.sold_count || 0) / 5}
                       containerStyle={{marginTop: 25, marginBottom: 25}}
                       pointerTitle={"0 items sold"}  
                       showLines={true}
@@ -102,15 +105,15 @@ const Stats = ({
                         {
                             progress: 0.4,
                             Component: <View style={{alignItems:'center'}}>
-                                <Feather name="award" size={25}  color={colors.orange} /> 
+                                <CustomIcon name="trusted" size={25}  color={colors.flint} /> 
                                 <Text bold smallSize style={{marginLeft: 1}}>2</Text>
                               </View>
                         },
                         {
                             progress: 1,
                             Component: <View style={{alignItems:'center'}}>
-                            <Feather name="award" size={25}  color={colors.orange} /> 
-                            <Text bold smallSize style={{marginLeft: 1}}>5</Text>
+                              <CustomIcon name="expert" size={25}  color={colors.red} /> 
+                              <Text bold smallSize style={{marginLeft: 1}}>5</Text>
                           </View>
                         }
                       ]}
@@ -128,23 +131,23 @@ const Stats = ({
                       unfilledColor={colors.gray}
                       color={colors.black}
                       borderWidth={0.5}
-                      progress={0.0}
+                      progress={loggedInUser.conformity}
                       height={5}
                       containerStyle={{marginTop: 15, marginBottom: 25}}
-                      pointerTitle={"0 %"}  
+                      pointerTitle={`${loggedInUser.conformity} %`}  
                       showLines={true}
                       bedges={[
                         {
                             progress: 0.8,
                             Component: <View style={{alignItems:'center'}}>
-                                <Feather name="award" size={25}  color={colors.orange} /> 
+                                <CustomIcon name="trusted" size={25}  color={colors.flint} /> 
                                 <Text bold smallSize style={{marginLeft: 2}}>80%</Text>
                               </View>
                         },
                         {
                             progress: 0.9,
                             Component: <View style={{alignItems:'center'}}>
-                            <Feather name="award" size={25}  color={colors.orange} /> 
+                              <CustomIcon name="expert" size={25}  color={colors.red} /> 
                             <Text bold smallSize style={{marginLeft: 2}}>90%</Text>
                           </View>
                         }
@@ -162,24 +165,24 @@ const Stats = ({
                       unfilledColor={colors.gray}
                       color={colors.black}
                       borderWidth={0.5}
-                      progress={0}
+                      progress={loggedInUser.shipping}
                       height={5}
                       containerStyle={{marginTop: 15, marginBottom: 25}}
-                      pointerTitle={"0 %"}  
+                      pointerTitle={`${loggedInUser.shipping} %`}  
                       showLines={true}
                       bedges={[
                         {
                             progress: 0.8,
                             Component: <View style={{alignItems:'center'}}>
-                                <Feather name="award" size={25}  color={colors.orange} /> 
+                                <CustomIcon name="trusted" size={25}  color={colors.flint} /> 
                                 <Text bold smallSize style={{marginLeft: 5}}>80%</Text>
-                              </View>
+                            </View>
                         },
                         {
                             progress: 0.9,
                             Component: <View style={{alignItems:'center'}}>
-                            <Feather name="award" size={25}  color={colors.orange} /> 
-                            <Text bold smallSize style={{marginLeft: 5}}>90%</Text>
+                              <CustomIcon name="expert" size={25}  color={colors.red} /> 
+                              <Text bold smallSize style={{marginLeft: 5}}>90%</Text>
                           </View>
                         }
                       ]}

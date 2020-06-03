@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react';
 import { Alert } from "react-native";
 import { 
-  Negotiation,
+  Negotiation, Message,
 } from "../../types/Negotiation.type";
 import { 
   Shop,
@@ -15,6 +15,7 @@ import _ from 'lodash';
 import {
   withAuth
 } from '../../utils/enhancers'
+import constants from '../../constants';
 
 interface Props {
     product?: Shop.Product,
@@ -42,7 +43,7 @@ const NegotiationContainer = ({
     
     let [loading, setLoading] = React.useState(false)
     let [error, setError] = React.useState('')
-    let [localProduct, setProduct] = React.useState(product || {})
+    let [localProduct, setProduct] : {localProduct : Shop.Product, setProduct : Function} = React.useState(product || {})
     let [localNegotiation, setNegotiation] = React.useState(negotiation || {})
     let [localSellerUser, setSellerUser] = React.useState(sellerUser || {})
     let [localBuyerUser, setBuyerUser] = React.useState(buyerUser || loggedInUser)
@@ -62,11 +63,15 @@ const NegotiationContainer = ({
       }
     }, [product_id])
 
+
     useEffect(() => {
       async function fetchNegotiation(){
+        setLoading(true)
+        /**
+         * user go from notification or "price offer sent" screen, when we have negotiation id
+         */
         if(_.isEmpty(localNegotiation) && id){
-          setLoading(true)
-          let negotiation = await ShopService.getNegotiation({
+          const negotiation = await ShopService.getNegotiation({
             id,
           });
           // if(negotiation && (negotiation.user_id === this.props.user.uid || negotiation.seller_id === this.props.user.uid)){
@@ -84,8 +89,23 @@ const NegotiationContainer = ({
             setBuyerUser(buyerUser);
             // }
           }
-          setLoading(false);
         }
+      /**
+       * user go from product page
+       */
+        else if(_.isEmpty(localNegotiation) && product_id){
+          const negotiation = await ShopService.getNegotiation({
+              product_id: product_id,
+              user_id: loggedInUser.uid,
+            });
+            // if(negotiation && (negotiation.user_id === this.props.user.uid || negotiation.seller_id === this.props.user.uid)){
+            // if(!this.props.item.id){
+            if (negotiation) {
+              setNegotiation(negotiation);
+              // }
+            }
+        }
+        setLoading(false);
       }
       fetchNegotiation()
       return () => { 
@@ -94,33 +114,71 @@ const NegotiationContainer = ({
     }, [id, localProduct?.id])
 
 
-    const onCreateNew = async (priceOffer : number) => {
+    const onUpdatePrice = async (priceOffer : number) => {
       setLoading(true);
       // console.log('new neg options',options)
-      try {
-        let newNegotiation = {
-          createdAt: Date.now(),
-          created_time: Date.now(),
-          seller_id: localSellerUser.uid,
-          product_id: localProduct.id,
-          offer_price: priceOffer,
-          currency: localProduct.currency,
-          isAccepted: false,
-          answered: false,
-          brand_name: localProduct.brand_name || 'brand name test',
-          subtype_name: localProduct.subtype_name || 'subtype test',
-          image: localProduct.images
-            ? localProduct.images[0]
-            : 'https://pngimg.com/uploads/clown/clown_PNG23.png', //so we can sent notification later
-        };
-        newNegotiation = await ShopService.createNegotiation(newNegotiation);
-        if (newNegotiation) {
-          setNegotiation(newNegotiation);
+      if(!localNegotiation?.id){
+        try {
+          let newMessage : Message = {
+            offer_price: priceOffer,
+            created_time: Date.now(),
+            user_id: localBuyerUser.uid,
+            status: 'sent',
+          }
+          let newNegotiation = {
+            messages: [newMessage],
+            createdAt: Date.now(),
+            created_time: Date.now(),
+            seller_id: localSellerUser.uid,
+            product_id: localProduct.id,
+            offer_price: priceOffer,
+            starting_price: localProduct.price,
+            currency: localProduct.currency,
+            // isAccepted: false,
+            // answered: false,
+            status: 'sent',
+            brand_name: localProduct.brand_name || 'brand name test',
+            type_name: localProduct.type_name || 'subtype test',
+            subtype_name: localProduct.subtype_name || 'subtype test',
+            color: localProduct.color || '',
+            material: localProduct.material || '',
+            printed: localProduct.printed || '',
+            image: localProduct.images
+              ? localProduct.images[0]
+              : 'https://pngimg.com/uploads/clown/clown_PNG23.png', //so we can sent notification later
+          };
+          // console.log('newNegotiation',newNegotiation)
+          newNegotiation = await ShopService.createNegotiation(newNegotiation);
+          if (newNegotiation) {
+            setNegotiation(newNegotiation);
+          }
+          // console.log('onCreateNew neg',successful)
+        } catch (err) {
+          console.log('onCreateNew err', err);
+          Alert.alert('Create new error',JSON.stringify(err))
         }
-        // console.log('onCreateNew neg',successful)
-      } catch (err) {
-        console.log('onCreateNew err', err);
-        Alert.alert('Create new error',JSON.stringify(err))
+      }else{
+        let newMessage : Message = {
+          offer_price: priceOffer,
+          created_time: Date.now(),
+          user_id: loggedInUser.uid,
+          status: 'sent',
+        }
+        const update = {
+          id: localNegotiation.id,
+          status: 'sent',
+          offer_price: priceOffer,
+          messages: [...localNegotiation.messages,newMessage]
+        };
+        let successful = await ShopService.updateNegotiation(update);
+        await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
+        if (successful) {
+          setNegotiation({
+            ...localNegotiation,
+            ...update,
+          });
+        }
+
       }
       setLoading(false);
       setError('');
@@ -157,13 +215,20 @@ const NegotiationContainer = ({
           {
             text: 'Yes',
             onPress: async () => {
+              localNegotiation.messages = localNegotiation.messages || []
+              const newMessage : Message = {
+                status: 'accepted',
+                offer_price: localNegotiation.offer_price,
+                created_time :Date.now(),
+                user_id: loggedInUser.uid,
+              };
               const update = {
                 id: localNegotiation.id,
-                isAccepted: true,
-                answered: true,
-                answeredAt: Date.now(),
+                status: 'accepted',
+                messages: [...localNegotiation.messages,newMessage]
               };
               let successful = await ShopService.updateNegotiation(update);
+              await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
               if (successful) {
                 setNegotiation({
                   ...localNegotiation,
@@ -197,12 +262,20 @@ const NegotiationContainer = ({
           {
             text: 'Yes',
             onPress: async () => {
+              localNegotiation.messages = localNegotiation.messages || []
+              const newMessage : Message = {
+                status: 'declined',
+                offer_price: localNegotiation.offer_price,
+                created_time : Date.now(),
+                user_id: loggedInUser.uid,
+              };
               const update = {
                 id: localNegotiation.id,
-                isAccepted: false,
-                answered: true,
-                answeredAt: Date.now(),
+                status: 'declined',
+                messages: [...localNegotiation.messages,newMessage]
               };
+
+              await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
               let successful = await ShopService.updateNegotiation(update);
               if (successful) {
                 setNegotiation({
@@ -229,13 +302,15 @@ const NegotiationContainer = ({
        <NegotiationBox 
             product={localProduct}
             negotiation={localNegotiation}
+            maxPrice={localProduct.price * constants.negotiation_price_min_coef}
+            minPrice={localProduct.price}
             error={error}
-            onCreateNew={onCreateNew}
+            onUpdatePrice={onUpdatePrice}
             acceptOffer={acceptOffer}
             declineOffer={declineOffer}
             loading={loading}
             sellerUser={localSellerUser}
-            buyerUser={localBuyerUser}
+            user={localBuyerUser}
             />
     );
 };

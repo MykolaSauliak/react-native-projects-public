@@ -1,7 +1,7 @@
 import {Alert, Platform} from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import firestore from '@react-native-firebase/firestore';
-import messaging, {firebase} from '@react-native-firebase/messaging';
+import messaging, {firebase, AuthorizationStatus} from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import {
   addNotification,
@@ -11,10 +11,23 @@ import {getShowHours, getLastShowTs, isNotificationExists} from '../features/not
 import moment from 'moment';
 import shortid from 'shortid';
 
+
 class NotifService {
   static _store = null;
   static unsubscribe = null;
   lastId = 0;
+
+  
+  async requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === AuthorizationStatus.AUTHORIZED ||
+      authStatus === AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
 
   async init(store) {
     if (!this._store) {
@@ -80,6 +93,38 @@ class NotifService {
       } 
 
       await messaging().registerForRemoteNotifications();
+         // If your app is closed
+
+      const notificationOpen = await firebase.notifications().getInitialNotification();
+      if (notificationOpen) {
+        console.log('getInitialNotification:');
+        notificationHandler(notificationOpen)
+      }
+
+      this.notificationListener = firebase.notifications().onNotification((notification) => {
+        const localNotification = new firebase.notifications.Notification({
+          show_in_foreground: true,
+        })
+        .setNotificationId(notification.notificationId)
+        .setTitle(notification.title)
+        .setBody(notification.body)
+
+        firebase.notifications()
+          .displayNotification(localNotification)
+          .catch(err => console.error(err));
+    });
+      
+      // Assume a message-notification contains a "type" property in the data payload of the screen to open
+      messaging().onNotificationOpenedApp(remoteMessage => {
+        notificationHandler(remoteMessage)
+        // console.log(
+        //   'Notification caused app to open from background state:',
+        //   remoteMessage.notification,
+        // );
+        // navigation.navigate(remoteMessage.data.type);
+      });
+
+      await this.requestUserPermission();
       messaging().getToken().then(fcmToken => {
         this.saveTokenToDatabase(fcmToken)
         console.log('fcmToken', fcmToken);
@@ -100,7 +145,7 @@ class NotifService {
 
   saveTokenToDatabase = async (fcmToken) => {
       // Assume user is already signed in
-    const userId = auth().currentUser.uid;
+    const userId = auth().currentUser?.uid;
 
     // Add the token to the users datastore
     await firestore()

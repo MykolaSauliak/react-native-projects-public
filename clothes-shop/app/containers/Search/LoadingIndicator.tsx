@@ -6,10 +6,10 @@ import {
 import { Loading } from '../../components';
 
 const LoadingIndicator = connectStateResults(
-    ({ isSearchStalled }) =>
+    ({ isSearchStalled, children }) =>
       isSearchStalled ? (<View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <Loading />
-        </View>) : null
+        </View>) : <>{children}</>
   );
 
 export default LoadingIndicator;

@@ -15,7 +15,7 @@ import {Comment} from '../../types/Comment.type'
 
 const withComments = (listName?:string) => BaseComponent => props => {
   const dispatch = useDispatch();
-  let comments = useSelector(state => getComments(listName,state)) || [];
+  // let comments = useSelector(state => getComments(listName,state)) || [];
   let lastUpdate = useSelector(state => getLastUpdate(state)) || [];
   let allComments = useSelector(state => getAllComments(state)) || {};
 
@@ -23,7 +23,7 @@ const withComments = (listName?:string) => BaseComponent => props => {
   return (
     <BaseComponent
       {...props}
-      comments={comments}
+      // comments={comments}
       lastUpdate={lastUpdate}
       setComments={(listname = listName, items) : {items: Comment[], listname: string} => dispatch(setComments(listname,items))}
       getComments={(listname = listName) : {listname: string} => listname ? allComments[listname] : []}

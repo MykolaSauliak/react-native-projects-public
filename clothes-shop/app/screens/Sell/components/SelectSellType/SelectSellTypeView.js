@@ -65,11 +65,11 @@ const SelectSellTypeView = ({
               <View style={[S.listAccordion]}>
                 <List.Accordion
                   title={item.title}
-                  titleStyle={{fontWeight: 'bold'}}
+                  titleStyle={{fontWeight: 'bold', color:" black"}}
                   // left={props => <List.Icon {...props} icon="folder" />}
-                >
+                   > 
                   {subtypes
-                    .filter(sb => sb.type_id == item.id)
+                    .filter(sb => sb.type_ids && sb.type_ids.includes(item.id) && (sb.category_ids && sb.category_ids.includes(category.id)))
                     .map(sb => (
                       // <View style={{width: '100%',}}>
                       <TouchableOpacity

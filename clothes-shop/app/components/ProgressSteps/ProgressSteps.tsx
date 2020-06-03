@@ -32,8 +32,8 @@ const ProgressSteps = ({
     }
 
     const getBedgeStyle = (progress = 0, index = 0) => {
-        console.log(progress)
-        console.log(progressLayout)
+        // console.log(progress)
+        // console.log(progressLayout)
         const style = {zIndex: 1, position: "absolute", left: '-100%', alignItems: 'center'}
         if(!progressLayout.width){
             return style

@@ -6,6 +6,7 @@ import {ShopService} from '../../services';
 import constants from '../../constants';
 import { Shop } from '../../types/Shop.type';
 import _ from 'lodash';
+import {round} from '../../utils/formatPrice'
 
 type ProductWithCount  = Shop.Product &  {
     count : number
@@ -51,7 +52,13 @@ const getTotalValue = (cartItems : ProductWithCount[] =[]) => {
 const getTotalWithTaxes = (cartItems:ProductWithCount[]) => {
   let total = getTotalValue(cartItems);
   total = total + getAuthenticationFees(cartItems)
-  return total;
+  return round(total,2);
+};
+
+const getTotalWithTaxesFull = (cartItems:ProductWithCount[]) => {
+  let total = getTotalValue(cartItems);
+  total = total + getAuthenticationFees(cartItems)
+  return round(total*100,0);
 };
 
 export const updateCart = () => async (dispatch : any, getState : any) => {
@@ -92,4 +99,9 @@ export const updateCart = () => async (dispatch : any, getState : any) => {
   dispatch(setCartLoading(false));
 };
 
-export {getTotalWithTaxes, getAuthenticationFees, getTotalValue};
+export {
+  getTotalWithTaxes, 
+  getAuthenticationFees, 
+  getTotalValue,
+  getTotalWithTaxesFull
+};

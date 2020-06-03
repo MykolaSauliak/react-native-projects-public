@@ -5,6 +5,8 @@ export default {
   // gray : 'rgb(209, 209, 209)',
   black: 'black',
   gray: '#f5f2f2',
+  flint: '#6b675a',
+  red: '#c9391c',
   purple: '#f7e6fb',
   sellerComment: '#eff2cd',
   // gray: '#F5F5F5',

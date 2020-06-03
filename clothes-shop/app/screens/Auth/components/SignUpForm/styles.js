@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {colors, dimensions} from '../../../../constants/styles';
 import {isSmallDevice, isAndroid} from '../../../../utils';
+import constants from '../../../../constants';
 
 const smallDevice = isSmallDevice();
 const isAndroidDevice = isAndroid();
@@ -9,6 +10,7 @@ export default StyleSheet.create({
   container: {
     // flexGrow: 1,
     // backgroundColor: colors.signInSignUpForm.backgroundColor,
+    width: constants.DEVICE_WIDTH * 0.8,
     paddingHorizontal: dimensions.indent,
     backgroundColor: 'black',
     borderRadius: 15,

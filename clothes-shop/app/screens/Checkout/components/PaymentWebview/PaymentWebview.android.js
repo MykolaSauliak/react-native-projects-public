@@ -26,7 +26,7 @@ export default class PaymentModal extends Component<Props> {
             JSON.stringify({amount: total, currency: 'USD'}),
           );
         }
-      }, 1500);
+      }, 250);
     } catch (err) {
       console.log('err', err);
     }
@@ -34,8 +34,8 @@ export default class PaymentModal extends Component<Props> {
 
   handleEvent = event => {
     try {
-      let data = JSON.parse(event.nativeEvent.data || '{}');
-      // console.log('data',data)
+      const data = JSON.parse(event.nativeEvent.data || '{}');
+      console.log('data',data)
       if (data.token) {
         if (this.props.onTokenRecieved) {
           this.props.onTokenRecieved(data.token);
@@ -61,7 +61,7 @@ export default class PaymentModal extends Component<Props> {
     return (
       <WebView
         // source={myHtmlFile}
-        ref={webView => (this.webView = webView)}
+        ref={webView => this.webView = webView}
         source={{uri: 'file:///android_asset/stripe.html'}}
         style={{flex: 1}}
         onMessage={this.handleEvent}

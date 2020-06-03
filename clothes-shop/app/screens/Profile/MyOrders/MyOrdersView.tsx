@@ -29,7 +29,7 @@ const MyOrdersView = ({
           listKey={'orders'}
           keyExtractor={(item) => item.id}
           data={orders}
-          ListEmptyComponent={<Text>no orders</Text>}
+          ListEmptyComponent={<Text style={{textAlign: "center"}}>no orders</Text>}
           renderItem={({item} : {item: Order}) => <OrderCard {...item}/>}
           />
       }

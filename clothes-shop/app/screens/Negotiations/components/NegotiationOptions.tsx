@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Keyboard } from "react-native";
 import { Text, BackHeaderCenter } from '../../../components';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { colors } from '../../../styles';
@@ -14,6 +14,11 @@ const NegotiationOptions = ({
     loggedInUser,
     lastUpdate
 }) => {
+
+    React.useEffect(() => {
+        Keyboard.dismiss()
+    }, [])
+
     // let [checked, setChecked] = React.useState(loggedInUser[userFields.receive_negotiation.receive_negotiation])
     let radio_props = [
         {label: 'To receive price offers on all your items', value: userFields.receive_negotiation.all },

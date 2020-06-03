@@ -92,7 +92,7 @@ const ImagePickerRow = ({
     }).then(imgs => {
       setImages([...images, ...imgs]);
       // console.log(images);
-    });
+    })
   };
 
   const uploadPicture = () => {
@@ -117,7 +117,10 @@ const ImagePickerRow = ({
       if (onImageUpload) {
         onImageUpload(image);
       }
-    });
+    })
+    .catch(err => {
+      console.log('ERROR DURING IMAGE UPLOAD',err)
+    })
     // ImagePicker.showImagePicker(options, (response) => {
     //     // console.log('Response = ', response);
 

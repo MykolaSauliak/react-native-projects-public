@@ -109,6 +109,10 @@ export default {
   SurnameInputScreen: 'SurnameInputScreen',
   PhoneScreen: 'PhoneScreen',
 
+  CommentList : "CommentList",
+  
+  BrandChoose : "BrandChoose",
+  PriceInput : "PriceInput",
   /** userprofile*/
   UserProfile: 'UserProfile',
 

@@ -11,3 +11,8 @@ export default function formatPrice(n) {
   const suffix = 'M'[base - 1];
   return suffix ? `${round(n / pow(1000000, base), 2)} ${suffix}` : `${n}`;
 }
+
+
+export {
+  round
+}

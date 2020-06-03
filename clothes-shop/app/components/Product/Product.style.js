@@ -3,8 +3,14 @@ import colors from '../../styles/colors';
 import constants from '../../constants';
 
 const styles = StyleSheet.create({
-  chipContainer: {paddingVertical: -15, marginTop:10, alignItems:'center', flexDirection: 'row', flexWrap: 'wrap'},
-  chip: {marginHorizontal: 2,padding:5},
+  chipContainer: {
+    paddingVertical: -15, marginTop:10, alignItems:'center', flexDirection: 'row', flexWrap: 'wrap'
+},
+  chip: {
+    marginHorizontal: 2,
+    padding:5,
+    borderWidth: 1,
+  },
   btnRow: {
     height: 55,
     flexDirection: 'row',

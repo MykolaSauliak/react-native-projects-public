@@ -4,11 +4,14 @@ import * as countries from './countries';
 
 export default {
   authentication_fees: 9.99,
+  photo_quality: 0.8,
 
   holidaymode: "holidaymode",
   LIST: 'LIST',
   TABLE: 'TABLE',
   ONE_DAY_MILISECONDS: 86400000,
+  TWO_DAYS_MILISECONDS: 172800000,
+  negotiation_price_min_coef: 0.75,
 
   clothes: 'clothes',
   /** tags ids */
@@ -96,7 +99,9 @@ export default {
     // isApproved: 'isApproved',
     status_field : {
       image_cropped:  "image_cropped",
+      user_dismiss:  "user_dismiss",
       approved:  "approved",
+      sold:  "sold",
     },
     sale_status_fields: {
       'none':"none",

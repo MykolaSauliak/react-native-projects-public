@@ -39,7 +39,7 @@ const GridList = ({
   if(!ItemCard){
     ItemCard = ProductCard
   }
-  
+  console.log('items',items.length)
   return (
     <View style={{flex:1}}>
         {title.length > 0 && <Text style={[styles.title, titleStyle]}>{title}</Text>}

@@ -186,10 +186,10 @@ const HomeView = ({
   );
 
   const _renderEssential = () => (
-    <View>
+    <>
         {
           essentialList && essentialList.subtypes &&
-          <View key={essentialList.title} style={[S.listBox, {backgroundColor: 'white'}]}>
+          <View key={essentialList.title} style={[S.listWhiteBox]}>
             <Text style={S.listTitle}>{essentialList.title}</Text>
             <ScrollView
               showsHorizontalScrollIndicator={false}
@@ -214,7 +214,7 @@ const HomeView = ({
             </ScrollView>
           </View>
         }
-    </View>
+    </>
   )
 
   if(loading){

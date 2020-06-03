@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     // padding: 15,
     // paddingHorizontal : 15,
     paddingBottom: 15,
+    paddingLeft: 10,
     backgroundColor: 'white',
   },
   listTitle: {
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     fontFamily: 'OPTICenturyNova',
     paddingLeft: 15,
-    paddingVertical: 15
+    paddingVertical: 25
   },
   cardTitle: {
     fontSize: 14,

@@ -21,7 +21,7 @@ const RefinementList = ({
   refineLocal = (rfnmt) => {},
   attribute= "",
   title = "",
-  subtitle= "",
+  subtitle,
   currentRefinement,
   searchState,
   updateSearchState,

@@ -39,6 +39,7 @@ import { SearchItem } from '../../../types/Search';
 import SeeResultButton from '../../../containers/Search/SeeResultButton';
 import { search } from '../../../features/search/actions';
 import LoadingIndicator from '../../../containers/Search/LoadingIndicator';
+import FilterRow from '../../../components/FilterRow';
 const pluralize = require('pluralize')
 
 const VirtualRefinementList = connectRefinementList(() => null);
@@ -137,34 +138,8 @@ class FilterSort extends Component<Props, State> {
                         rightComponent={<ClearRefinements />}
                         />
                     <ScrollView style={{flex:0.9,}}>
-                        <ListItem 
-                            сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
-                            title="Sort by" 
-                            /> 
-                        <SortBy   
-                            defaultRefinement="clothes"
-                            items={[
-                                { value: 'clothes', label: 'Featured' },
-                                { value: 'clothes_lowest_price', label: 'Lowest price' },
-                                { value: 'clothes_highest_price', label: 'Highest price' },
-                                { value: 'clothes_popularity', label: 'Popularity' },
-                            ]}
-                            />
-                        <ListItem 
-                            сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
-                            title="Filter by" 
-                            /> 
-                        <RangeSlider 
-                            defaultRefinement={{ min: 0, max: 9999 }}
-                            minValue={currentSearchItem?.searchState?.range?.price?.min}
-                            maxValue={currentSearchItem?.searchState?.range?.price?.max} 
-                            // max={999} 
-                            // min={0} 
-                            searchState={searchState}
-                            attribute="price"
-                            // precision={2}
-                            />
-                        <VirtualRange operator="and" attribute="created_time"/>
+                    <VirtualRange operator="and" attribute="created_time"/>
+                        <VirtualRange operator="and" attribute="price"/>
                         {/* <VirtualRange attribute="price"/> */}
                         <VirtualRefinementList operator="and" attribute="category_id"  />
                         <VirtualRefinementList operator="and" attribute="type_id" />
@@ -175,142 +150,188 @@ class FilterSort extends Component<Props, State> {
                         <VirtualRefinementList operator="and" attribute="condition" />
                         <VirtualRefinementList operator="and" attribute="tag_ids"/>
                         <VirtualRefinementList operator="and" attribute="location"/>
-                        <LoadingIndicator />
-                        <RefinementList  
-                            // searchState={this.state.searchState}
-                            // onSearchStateChange={this.onSearchSt ateChange} 
-                            // searchClient={searchClient}
+                        {/* <RangeSlider 
+                            defaultRefinement={{ min: 0, max: 9999 }}
+                            minValue={currentSearchItem?.searchState?.range?.price?.min}
+                            maxValue={currentSearchItem?.searchState?.range?.price?.max} 
+                            // max={999} 
+                            // min={0} 
                             searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            // defaultRefinement={[]}
-                            operator="and" 
-                            title="Brand" 
-                            attribute="brand_name" 
-                            />
-                        <RefinementList  
-                            // searchState={this.state.searchState}
-                            // onSearchStateChange={this.onSearchStateChange} 
-                            // searchClient={searchClient}
-                            searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            // defaultRefinement={brandRefinement}
-                            operator="and" 
-                            title="Model" 
-                            attribute="type_name" 
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Color" 
-                            attribute="color" 
-                            defaultRefinement={[]}
-                            // searchClient={searchClient}
-                            searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            // searchState={this.state.searchState}
-                            // onSearchStateChange={this.onSearchStateChange}
-                            />
-                        <RefinementList 
-                            operator="and"  
-                            title="Material" 
-                            attribute="material" 
-                            defaultRefinement={[]}
-                            // searchClient={searchClient}
-                            searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            // searchState={this.state.searchState}
-                            // onSearchStateChange={this.onSearchStateChange}
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Condition" 
-                            attribute="condition" 
-                            defaultRefinement={[]}
-                            searchState={searchState}
-                            // searchClient={searchClient}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Item location" 
-                            attribute="location" 
-                            defaultRefinement={[]}
-                            searchState={searchState}
-                            // searchClient={searchClient}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        {/* <RefinementList 
-                            operator="and" 
-                            title="We love" 
-                            attribute="we_love" 
-                            // defaultRefinement={[we_love]}
-                            // searchState={searchState}
-                            // searchClient={searchClient}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Express Delivery" 
-                            attribute="express_delivery" 
-                            subtitle="Items shipped within 48 hours"
-                            // defaultRefinement={[express_delivery]}
-                            // searchState={searchState}
-                            // searchClient={searchClient}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Vintage" 
-                            attribute="vintage" 
-                            // defaultRefinement={[vintage]}
-                            />
-                        <RefinementList 
-                            operator="and" 
-                            title="Sold" 
-                            attribute="sold" 
-                            // defaultRefinement={[sold]}
+                            attribute="price"
+                            // precision={2}
                             /> */}
-                        <ToggleRefinement 
-                            // operator="and" 
-                            label="We love" 
-                            attribute="we_love" 
-                            value={true}
-                            />
-                        <ToggleRefinement 
-                            // operator="and" 
-                            label="Vintage" 
-                            attribute="vintage" 
-                            value={true}
-                            />
-                        {/* <ToggleRefinement 
-                            operator="and" 
-                            label="Vintage" 
-                            value={true}
-                            attribute="vintage" 
-                            defaultRefinement={vintage}
-                            // searchClient={searchClient}
-                            // searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        <ToggleRefinement 
-                            operator="and" 
-                            label="Express delivery" 
-                            attribute="express_delivry" 
-                            value={true}
-                            defaultRefinement={express_delivery}
-                            // searchClient={searchClient}
-                            // searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            />
-                        <ToggleRefinement 
-                            operator="and" 
-                            label="Sold" 
-                            value={true}
-                            attribute="sold" 
-                            defaultRefinement={sold}
-                            // searchClient={searchClient}
-                            // searchState={searchState}
-                            // onSearchStateChange={setSearchState}
-                            /> */}
+                        <LoadingIndicator />  
+                            <ListItem 
+                                сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
+                                title="Sort by" 
+                                /> 
+                            <SortBy   
+                                defaultRefinement="clothes"
+                                items={[
+                                    { value: 'clothes', label: 'Featured' },
+                                    { value: 'clothes_lowest_price', label: 'Lowest price' },
+                                    { value: 'clothes_highest_price', label: 'Highest price' },
+                                    { value: 'clothes_popularity', label: 'Popularity' },
+                                ]}
+                                />
+                            <ListItem 
+                                сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
+                                title="Filter by" 
+                                /> 
+                            <FilterRow 
+                                title="Price" 
+                                rightElement={searchState?.range?.price?.min && <Text>{`${searchState?.range?.price?.min} - ${searchState?.range?.price?.max}`}</Text>}
+                                onPress={() => NavigationService.navigateToPriceInput()}
+                                />
+
+                            <RefinementList  
+                                // searchState={this.state.searchState}
+                                // onSearchStateChange={this.onSearchSt ateChange} 
+                                // searchClient={searchClient}
+                                searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                // defaultRefinement={[]}
+                                operator="and" 
+                                title="Brand" 
+                                attribute="brand_name" 
+                                />
+                            <RefinementList  
+                                // searchState={this.state.searchState}
+                                // onSearchStateChange={this.onSearchStateChange} 
+                                // searchClient={searchClient}
+                                searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                // defaultRefinement={brandRefinement}
+                                operator="and" 
+                                title="Model" 
+                                attribute="type_name" 
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Color" 
+                                attribute="color" 
+                                defaultRefinement={[]}
+                                // searchClient={searchClient}
+                                searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                // searchState={this.state.searchState}
+                                // onSearchStateChange={this.onSearchStateChange}
+                                />
+                            <RefinementList 
+                                operator="and"  
+                                title="Material" 
+                                attribute="material" 
+                                defaultRefinement={[]}
+                                // searchClient={searchClient}
+                                searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                // searchState={this.state.searchState}
+                                // onSearchStateChange={this.onSearchStateChange}
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Condition" 
+                                attribute="condition" 
+                                defaultRefinement={[]}
+                                searchState={searchState}
+                                // searchClient={searchClient}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Item location" 
+                                attribute="location" 
+                                defaultRefinement={[]}
+                                searchState={searchState}
+                                // searchClient={searchClient}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            {/* <RefinementList 
+                                operator="and" 
+                                title="We love" 
+                                attribute="we_love" 
+                                // defaultRefinement={[we_love]}
+                                // searchState={searchState}
+                                // searchClient={searchClient}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Express Delivery" 
+                                attribute="express_delivery" 
+                                subtitle="Items shipped within 48 hours"
+                                // defaultRefinement={[express_delivery]}
+                                // searchState={searchState}
+                                // searchClient={searchClient}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Vintage" 
+                                attribute="vintage" 
+                                // defaultRefinement={[vintage]}
+                                />
+                            <RefinementList 
+                                operator="and" 
+                                title="Sold" 
+                                attribute="sold" 
+                                // defaultRefinement={[sold]}
+                                /> */}
+                            <ToggleRefinement 
+                                operator="and" 
+                                label="We love" 
+                                attribute="we_love" 
+                                value={true}
+                                defaultRefinement={searchState?.toggle?.we_love}
+                                />
+                            <ToggleRefinement 
+                                operator="and" 
+                                label="Vintage" 
+                                attribute="vintage" 
+                                value={true}
+                                />
+                            {/* <ToggleRefinement 
+                                operator="and" 
+                                label="Vintage" 
+                                value={true}
+                                attribute="vintage" 
+                                defaultRefinement={vintage}
+                                // searchClient={searchClient}
+                                // searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                /> */}
+                            <ToggleRefinement 
+                                operator="and" 
+                                label="Express delivery" 
+                                attribute="express_delivery" 
+                                subtitle="Items shipped within 48 hours"
+                                value={true}
+                                // defaultRefinement={express_delivery}
+                                // searchClient={searchClient}
+                                // searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            <ToggleRefinement 
+                                operator="and" 
+                                label="Sold" 
+                                attribute="status" 
+                                value="sold"
+                                // defaultRefinement={express_delivery}
+                                // searchClient={searchClient}
+                                // searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                />
+                            {/* <ToggleRefinement 
+                                operator="and" 
+                                label="Sold" 
+                                value={true}
+                                attribute="sold" 
+                                // defaultRefinement={sold}
+                                // searchClient={searchClient}
+                                // searchState={searchState}
+                                // onSearchStateChange={setSearchState}
+                                /> */}
+                        {/* </LoadingIndicator> */}
                     </ScrollView>
                     <View style={{flex:0.1, padding: 10}}>
                         <SeeResultButton 

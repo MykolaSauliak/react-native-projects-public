@@ -24,19 +24,11 @@ import {
   SceneMap,
 } from 'react-native-tab-view';
 import S from './styles';
-// import {GridList, UsersList } from './components';
-// import GridList from './components/GridList/GridList';
-// import StickyParallaxHeader from 'react-native-sticky-parallax-header'
-import ItemsForSale from './components/ItemsForSale/ItemsForSaleContainer'
 import {BackHeader, TabBarHorizontalScroll} from '../../components'
 import GridList from '../../containers/GridList'
-import UsersList from './components/UsersList/UsersList'
-import Wishlist from './components/Wishlist/WishlistContainer'
-import Favorites from './components/Favorites/FavoritesContainer'
 import getLastActive from '../../utils/getLastActive';
-// import Following from './components/Following/FollowingContainer'
-// import FollowedBy from './components/FollowedBy/FollowedByContainer'
 
+const ScrollableTabView = require('react-native-scrollable-tab-view');
 const initialLayout = { width: Dimensions.get('window').width };
 
 const UserProfileView = ({
@@ -59,7 +51,8 @@ const UserProfileView = ({
     avatar,
     uid,
     quick_shipping,
-    last_active
+    last_active,
+    sold_count,
   },
 
   followers,
@@ -85,6 +78,7 @@ const UserProfileView = ({
   locale,
 }) => {
   // console.log('userFollowing',userFollowing)
+  console.log('userItemsForSale',userItemsForSale.length)
   console.log('userFollowers',userFollowers)
   const FirstRoute = () => (
     // <View style={[{backgroundColor: '#673ab7'}]} />
@@ -134,7 +128,7 @@ const UserProfileView = ({
       // <View style={{backgroundColor: colors.gray}}>
       <View style={{padding: 15, paddingVertical: 5}}>
         <ListItem
-          leftAvatar={{source: {uri: avatar ? avatar.src ? avatar.src : avatar : ''}}}
+          leftAvatar={{source: {uri: avatar ? avatar.src ? avatar.src : avatar : ''}, size:'large'}}
           title={name}
           titleStyle={{color: 'black'}}
           containerStyle={{backgroundColor: null}}
@@ -143,6 +137,7 @@ const UserProfileView = ({
           style={{
             borderRadius: 8,
             borderColor: 'black',
+            borderWidth: 0.3,
             flexDirection: 'row',
             padding: 15,
           }}>
@@ -178,12 +173,12 @@ const UserProfileView = ({
 
           </View>
         </View>
-        <View style={{marginVertical: 10}}>
-          {last_active && <Text>Last active: {getLastActive(last_active)}</Text>}
-          <Text>
+        <View style={{marginVertical: 10, }}>
+          {last_active && <Text style={{lineHeight: 25}}>Last active: {getLastActive(last_active)}</Text>}
+          <Text style={{lineHeight: 25}}>
             {getActiveItemsForSale()} items for sale, {getItemsSold()} items sold
-          </Text>
-          {quick_shipping && <Text>Usually ships in 1-2 days</Text>}
+          </Text >
+          {quick_shipping && <Text style={{lineHeight: 25}}>Usually ships in 1-2 days</Text>}
         </View>
       </View>
     );
@@ -192,10 +187,27 @@ const UserProfileView = ({
   const isSignedIn = email && email.length > 0;
 
   return (
-    <ScrollView>
-      <BackHeader goBack={() => NavigationService.goBack()} title="User Profile"/>
-      <View style={{flex:1, backgroundColor: 'white'}}>
+    <ScrollView >
+      <BackHeader goBack={() => NavigationService.goBack()} 
+        title="User Profile"/>
+        <View style={{flex:1, backgroundColor: 'white'}}>
           {_renderForeground()}
+          {/* <ScrollableTabView
+                style={{flex:1, marginTop: 20, borderBottomWidth:0}}
+                tabBarTextStyle={{ fontSize: 16}}
+                tabBarActiveTextColor={colors.orange}
+                tabBarUnderlineStyle={{backgroundColor: null}}
+                initialPage={0}
+                >
+                <View style={{flex:1}} tabLabel="Items for sale" >
+                  <GridList loading={loading} items={userItemsForSale} />
+                </View>
+              <GridList tabLabel="Wishlist" loading={loading}  items={userWishlist} />
+              <GridList tabLabel="Favorites" loading={loading} items={userFavorites} />
+              {/* <FirstRoute tabLabel="Items for sale" />
+              <SecondRoute tabLabel="Wishlist" />
+              <ThirdRoute tabLabel="Favorites" /> */}
+          {/* </ScrollableTabView> */}
           <TabView
             renderTabBar={(props) => (
               <TabBarHorizontalScroll {...props}/>
@@ -228,10 +240,8 @@ UserProfileView.defaultProps = {
     src:
       'https://gravatar.com/avatar/0a1256786a9b48d91da99654586f01c9?s=200&d=mp&r=x',
   },
-  toPushNotificationsSettings: () =>
-    NavigationService.navigateToPushNotificationsSettings(),
-  toSubscriptionsSettings: () =>
-    NavigationService.navigateToSubscriptionsSettings(),
+  toPushNotificationsSettings: () => NavigationService.navigateToPushNotificationsSettings(),
+  toSubscriptionsSettings: () => NavigationService.navigateToSubscriptionsSettings(),
   toWishlist: () => NavigationService.navigateToWishlist(),
   toFavorites: () => NavigationService.navigateToFavorites(),
   toProfileDetails: () => NavigationService.navigateToProfileInfo(),

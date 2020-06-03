@@ -30,7 +30,8 @@ const SelectSellConditionView = ({
         />
       <ListItem 
         title="Packaging" 
-        containerStyle={{marginTop: 10, height: 20, backgroundColor: colors.gray}}
+        titleStyle={{color: "black"}}
+        //containerStyle={{marginTop: 10, height: 20, backgroundColor: colors.gray}}
         />
       <Checkbox 
         title="Card or certificate"

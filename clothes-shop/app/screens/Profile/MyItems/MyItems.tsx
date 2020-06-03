@@ -37,9 +37,9 @@ const MyItems = ({
     onPress={() => NavigationService.navigateToNegotiations({...item})}
     {...props}
     />
-  console.log('forSaleItems',forSaleItems.length)
-  console.log('soldItems',soldItems.length)
-  console.log('offerReceived',offerReceived.length)
+  // console.log('forSaleItems',forSaleItems.length)
+  // console.log('soldItems',soldItems.length)
+  // console.log('offerReceived',offerReceived.length)
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
       <BackHeader title="My items" />
@@ -72,7 +72,7 @@ const MyItems = ({
           />
         
         {(!_.isEmpty(priceReductionItems) 
-          || _.isEmpty(imageCroppedItems)) 
+          || !_.isEmpty(imageCroppedItems)) 
           && (<ListItem title="Items in progress" 
               titleStyle={{opacity: 0.5, fontSize: 12, textTransform: 'uppercase'}} 
               containerStyle={{paddingTop: 25}} 
@@ -98,12 +98,12 @@ const MyItems = ({
           />)
         }
 
-        <ListItem 
+        {(!_.isEmpty(refusedItems) || !_.isEmpty(unreceivedItems) || !_.isEmpty(soldItems)) && (<ListItem 
           title="Historical" 
           titleStyle={{opacity: 0.5, fontSize: 12, textTransform: 'uppercase'}} 
           containerStyle={{paddingTop: 25}} 
           bottomDivider
-          />
+          />)}
         {!_.isEmpty(soldItems) && (<ListItem 
             title={`Sold items (${soldItems.length})`}
             chevron 

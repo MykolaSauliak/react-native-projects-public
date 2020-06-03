@@ -37,6 +37,12 @@ const refine = (object = {}, state = {}) => {
             state.refinementList[key] =  state.refinementList[key] || []
             object[key].forEach( str =>  state.refinementList[key].includes(str) ? _.pull(state.refinementList[key], str) : state.refinementList[key].push(str) )
         }
+        else if(typeof object[key] === 'object' && object[key] !== null && object[key].min && object[key].max){
+          state.range = state.range || {}
+          state.range[key] =  state.range[key] || {}
+          state.range[key].min = object[key].min
+          state.range[key].max = object[key].max
+        }
         //TODO :for range and toggle values
     })
     return state;

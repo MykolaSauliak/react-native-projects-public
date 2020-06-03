@@ -45,6 +45,7 @@ const NegotiationsView = ({
   negotiation,
   sellerUser,
   loading,
+  id,
   isSignedIn
 } : NegotiationProps) => {
   // console.log('brand_name',brand_name)
@@ -65,6 +66,8 @@ const NegotiationsView = ({
       <NegotiationContainer 
           negotiation={negotiation}
           product={item}
+          product_id={item.id}
+          id={id}
           sellerUser={sellerUser}
           />
     </View>

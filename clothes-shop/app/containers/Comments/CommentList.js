@@ -25,6 +25,7 @@ const CommentListContainer = ({
   return (
     <CommentList
       {...props}
+      id={id}
       key={lastUpdate}
       lastUpdate={lastUpdate}
       comments={comments}

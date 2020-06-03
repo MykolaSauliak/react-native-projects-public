@@ -11,9 +11,11 @@ import _ from 'lodash';
 import constants from '../constants'
 import moment from 'moment';
 import { User, Order } from '../types/types';
-import { Negotiation } from '../types/Negotiation.type';
+import { Negotiation, Message } from '../types/Negotiation.type';
 import { getUser } from "../features/user/selectors";
-import ImageResizer from 'react-native-image-resizer';
+// import ImageResizer from 'react-native-image-resizer';
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 const collectionsNames = {
   negotiations : "negotiations",
@@ -46,16 +48,17 @@ class ShopService implements ShopServiceInterface {
 
   _store = null;
 
-  init(store){
+  async init(store){
+    if(!this._store){
+      this._store = store
+    }
+
     const settings = {
       persistence: true,
       cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED,
-    };
-    firestore().settings(settings).catch(console.log)
-    if(this._store){
-      return
     }
-    this._store = store
+    await firestore().settings(settings).catch(console.log)
+
   }
 
   async addToken(token : string){
@@ -505,6 +508,127 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
+  async hideProduct(id: string){
+    // const user = auth().currentUser;
+    let successful = false
+    // if(!user || !user.uid){
+    //   return 
+    // }
+    // if(!update){
+    //   return 
+    // }
+    if(!id){
+      return successful
+    }
+    try{
+        const response = await clothesRef.doc(id).update({status: constants.clothes_fields.status_field.user_dismiss})
+        successful = true
+    }catch(err){
+        successful = false
+        console.log('hideProduct err',err)
+    }finally{
+        return successful
+    }
+  }
+
+  async showProduct(id: string){
+    // const user = auth().currentUser;
+    let successful = false
+    // if(!user || !user.uid){
+    //   return 
+    // }
+    // if(!update){
+    //   return 
+    // }
+    if(!id){
+      return successful
+    }
+    
+    try{
+        const response = await clothesRef.doc(id)
+                    .update({
+                      status: constants.clothes_fields.status_field.approved
+                    })
+        successful = true
+    }catch(err){
+        successful = false
+        console.log('hideProduct err',err)
+    }finally{
+        return successful
+    }
+  }
+
+  async uploadPhoto({product_id}){
+      const user_id = auth().currentUser?.uid
+      let image = null
+      let errorMessage = ""
+      let successful = false
+      let result = {}
+      if(!user_id){
+        return {
+          image,
+          successful
+        }
+      }
+
+      try{
+        let imageSelected = await ImagePicker.openPicker({
+          mediaType: 'photo',
+          compressImageQuality: constants.photo_quality,
+          compressImageMaxHeight: constants.compressImageMaxHeight,
+          compressImageMaxWidth: constants.compressImageMaxWidth,
+          // includeBase64: true
+        })
+        /**
+         * response params
+         * @path {String}
+         * @width {Number}
+         * @height {Number}
+         * @size {Number}
+         * @mime {string}
+         */
+        // console.log(image);
+        console.log('image size',imageSelected.size)
+        if(!imageSelected.path){
+          Alert.alert('No image selected')
+          return {
+            image : null,
+            successful,
+            errorMessage: "No image selected"
+          }
+        }
+
+        const storageForDefaultApp = storage();
+        let file = await  storageForDefaultApp
+          .ref(`images/${user_id}/${product_id}/${Date.now()}`)
+          .putFile(imageSelected.path)
+            // console.log('file',file)
+        let fullPath = file.metadata.fullPath
+        let downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+        // console.log('downloaded link ',downloadedURL)
+        image.src = downloadedURL
+        // console.log('image',image.src)
+        await clothesRef.doc(product_id).update({
+          images: firestore.FieldValue.arrayUnion(image)
+        })
+        successful = true
+      }catch(err){
+        successful = false,
+        image,
+        errorMessage = JSON.stringify(err)
+      }
+      finally{
+        return {
+          image,
+          successful,
+          errorMessage
+        }
+      }
+      
+
+  }
+
+  /** for user */
   async getUser(user_id : string ){
     console.log('get user',user_id)
     if(!user_id){
@@ -589,9 +713,9 @@ class ShopService implements ShopServiceInterface {
         }
   }
 
-  async getGoods(options = {}, time = {}, limit){
+  async getGoods(options = {}, time = {}, limit = 0){
     // if()
-    // console.log('options',options)
+    console.log('options',options)
     // console.log('time',time)
     let goods = [];
     let count = null;
@@ -608,7 +732,7 @@ class ShopService implements ShopServiceInterface {
             query = query.where(key,'==', options[key])
           }
         })
-      query = query.where('status','==', constants.clothes_fields.status_field.approved)
+      // query = query.where('status','==', constants.clothes_fields.status_field.approved)
       if(time.createdAt){
         query = query.where('createdAt','>=',time.createdAt)
       }
@@ -636,51 +760,81 @@ class ShopService implements ShopServiceInterface {
   }
 
   async getMyItems(){
+    const user_id = auth().currentUser?.uid
+    if(!user_id){
+      return
+    }
     let res =  await this.getGoods({
+      user_id: user_id,
       [constants.clothes_fields.status] : Shop.Status[2]
     })
     return res
   }
 
   async getPriceReductionItems(){
+    const user_id = auth().currentUser?.uid
+    if(!user_id){
+      return
+    }
     let res =  await this.getGoods({
+      user_id,
       [constants.clothes_fields.status] : Shop.Status[1]
     })
     return res
   }
 
   async getNotConfirmedItems(){
-    let res =  await this.getGoods({
-      [constants.clothes_fields.status] : Shop.Status[0]
+    console.log('Shop.Status[0]',Shop.Status[0])
+    const user_id = auth().currentUser?.uid
+    if(!user_id){
+      return
+    }
+    const res =  await this.getGoods({
+      user_id,
+      [constants.clothes_fields.status] : 'image_cropped'
     })
+    console.log('res',res)
     return res
   }
 
   async getRefusedItems(){
+    const user_id = auth().currentUser?.uid
+    if(!user_id){
+      return
+    }
     let res =  await this.getGoods({
+      user_id,
       [constants.clothes_fields.status] : Shop.Status[3]
     })
     return res
   }
 
   async getSoldItems(){
+    const user_id = auth().currentUser?.uid
+    if(!user_id){
+      return
+    }
     let res =  await this.getGoods({
+      user_id,
       [constants.clothes_fields.status] : Shop.Status[4]
     })
     return res
   }
 
   async getGoodWithNegotiations(id:string){
-    const user = auth().currentUser;
-    if (!user) {
+    const user_id = auth().currentUser?.uid;
+    if (!user_id) {
       return
     }
     let product: Shop.Product = await this.getGood(id)
     if(!_.isEmpty(product)){
-      let negotation = await this.getNegotiation({product_id : product.id})
+      let negotation = await this.getNegotiation({
+        product_id : product.id,
+        user_id
+      })
       if(!_.isEmpty(negotation)){
           let {price} = this.getNegotiationPrice(negotation)
-          if(price && price > 0){
+          if(price && price > 0 && price < product.price){
               product.price = price
           }
       }
@@ -692,11 +846,14 @@ class ShopService implements ShopServiceInterface {
     let response = {
         price : 0
     }
-    if(negiation.answered_time > (Date.now() - constants.ONE_DAY_MILISECONDS)){
-      if(negiation.isAccepted){
-        response.price = negiation.offer_price
-      }
+    if(negiation.status == 'accepted'){
+      response.price = negiation.offer_price
     }
+    // if(negiation.answered_time > (Date.now() - constants.ONE_DAY_MILISECONDS)){
+    //   if(negiation.isAccepted){
+    //     response.price = negiation.offer_price
+    //   }
+    // }
     return response
   }
   // async getUnreceivedItems(){
@@ -726,34 +883,34 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
-  
-
   async createOrder({
     items,
     shippingAddress,
-    created_time,  
+    created_time = Date.now(),  
     payment_method, 
     amount,
     token,
     orderStatus  = 'confirmed',
+    payment_status = 'accepted',
     ...otherProps
   } : {token:string} & Order){
-
     const user = auth().currentUser;
-    
-    if (!user) {
+    if (!user?.uid) {
       return
     //  console.log('User email: ', user.email');
     }
     try{
-         
-      let orderDoc =  ordersRef.doc()
-      let chargeDoc = firestore().collection('stripe_customers').doc(user.uid).collection('charges').doc()
-      await orderDoc.set({
+      const orderDoc = ordersRef.doc()
+      const chargeDoc = firestore()
+                .collection(`stripe_customers/${user.uid}/charges`)
+                .doc()
+
+      const order : Shop.Order = {
+          ...otherProps,
           user_id : user.uid,
           email : user.email,
           // payment_email : email,
-          amount,
+          amount: amount / 100,
           charge_id : chargeDoc.id,
           id: orderDoc.id,
           items,
@@ -761,13 +918,15 @@ class ShopService implements ShopServiceInterface {
           created_time,  
           payment_method, 
           orderStatus,
-          ...otherProps
-      })
+      }
+      console.log('order',order)
+      // console.log('token',token) 
+      await orderDoc.set(order)
       await chargeDoc.set({
           id: chargeDoc.id,
-          amount:  Math.floor(amount),
+          amount:  amount,
           source:  token,
-      })
+      },{merge: true})
       return true
     }catch(err){
       return false
@@ -776,20 +935,29 @@ class ShopService implements ShopServiceInterface {
   }
 
   async getMyOrders(){
-    let orders = []
+    let orders : Shop.Order[] = []
     let count = 0
     try{
-      const user_id = auth().currentUser.uid;
+      const user_id = auth().currentUser?.uid;
+      if(!user_id){
+        return {
+          count,
+          items: orders
+        }
+      }
       // console.log('user_id',user_id)
-      const snapshot = await ordersRef.where('user_id','==',user_id).get()
+      const snapshot = await ordersRef
+              .where('user_id','==',user_id)
+              .orderBy('created_time')
+              .get()
       // console.log('snapshot',snapshot)
       snapshot.forEach(s => {
-        orders.push(s.data())
+          orders.push(s.data())
       })
       count = snapshot.size
       // console.log('orders length - ',orders.length)
     }catch(err){
-
+      console.log('ERROR DURING getMyOrders',err)
     }finally{
       return {
         count,
@@ -931,7 +1099,7 @@ class ShopService implements ShopServiceInterface {
       // if()
       console.log('options',options)
       // console.log('time',time)
-      let negotiations = [];
+      let negotiations : Negotiation[] = [];
       let count = null;
       try{
         let snapshot;
@@ -973,13 +1141,13 @@ class ShopService implements ShopServiceInterface {
   }
 
   async getSendNegotiations(){
-    let user = auth().currentUser
-    if(!user || !user.uid){
-      Alert.alert('Firstly login')
+    let user_id = auth().currentUser?.uid
+    if(!user_id){
+      // Alert.alert('Firstly login')
       return 
     }
     let response = await this.getNegotiations({
-      user_id : user.uid
+      user_id : user_id
     })
     return response
   }
@@ -999,16 +1167,16 @@ class ShopService implements ShopServiceInterface {
 
   async createNegotiation(options = {}){
     console.log('createNegotiation')
-    const user = auth().currentUser;
-    if(!user || !user.uid){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id){
       return 
     }
     let negotiation = null
     try{
         let doc = negotiationsRef.doc()
         const newDoc = {
+          user_id,
           id: doc.id, 
-          user_id : user?.uid,
           ...options
         }
         let responce = await doc.set(newDoc)
@@ -1022,20 +1190,39 @@ class ShopService implements ShopServiceInterface {
   }
 
   async updateNegotiation(options = {}){
-    const user = auth().currentUser;
-    if(!user || !user.uid){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id){
       return 
     }
     let successful = false
     try{
       const response = await negotiationsRef.doc(options.id).update({
-        isAccepted : options.isAccepted,
-        answered : true,
-        answeredAt : Date.now(),
+        ...options
       })
       successful = true
     }catch(err){
       console.log('ERROR DURING updateNegotiation',err)
+      successful = false
+    }finally{
+      return successful
+    }
+  }
+  
+  async addNegotiationMessage(negotiationId:string, message: Message){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id){
+      return 
+    }
+    let successful = false
+    try{
+      const response = await negotiationsRef
+        .doc(negotiationId)
+        .update({
+            messages : firestore.FieldValue.arrayUnion(message)
+        })
+      successful = true
+    }catch(err){
+      console.log('ERROR DURING addNegotiationMessage',err)
       successful = false
     }finally{
       return successful
@@ -1133,56 +1320,56 @@ class ShopService implements ShopServiceInterface {
    * comment section
    */
   async postComment(text : string, productId: string, parentId: srting) {
-    const user = auth().currentUser;
-    if(!user || !user.uid){
-      return 
-    }
-    let userData =  getUser(this._store.getState())
-    // let userDoc = await usersRef.doc(user.uid).get()
-    // let userData : User = userDoc.data()
-
-    let successfull = false
-    let doc = commentsRef.doc()
-    let ts = Date.now()
-    const newComment = {
-      id: doc.id,
-      snippet: {
-        productId,
-        authorId : user.uid,
-        textDisplay: text,
-        textOriginal: text,
-        parentId: parentId || "",
-        canRate : false,
-        moderationStatus : "onReview",
-        publishedAt: moment(new Date(ts)).format(constants.publishedAtFormat),
-        published_time: ts,
-        updatedAt: moment(new Date(ts)).format(constants.updatedAtFormat),
-        updated_time: ts,
-      },
-      user: {
-        uid: user.uid,
-        name: userData.name || "",
-        last_name: userData.last_name || "",
-        avatar: userData.avatar || "",
-      },
-      likes: [],
-      dislikes: []
-    }
-
-    try{
-        await doc.set({
-          ...newComment,
-          id: doc.id
-        })
-        successfull = true
-    }catch(err){
-      console.log('ERROR DURING POST COMMENT',err)
-    }finally{
-      return {
-        successfull,
-        item: newComment
+      const user = auth().currentUser;
+      if(!user || !user.uid){
+        return 
       }
-    }
+      let userData =  getUser(this._store.getState())
+      // let userDoc = await usersRef.doc(user.uid).get()
+      // let userData : User = userDoc.data()
+
+      let successfull = false
+      let doc = commentsRef.doc()
+      let ts = Date.now()
+      const newComment = {
+        id: doc.id,
+        snippet: {
+          productId,
+          authorId : user.uid,
+          textDisplay: text,
+          textOriginal: text,
+          parentId: parentId || "",
+          canRate : false,
+          moderationStatus : "onReview",
+          publishedAt: moment(new Date(ts)).format(constants.publishedAtFormat),
+          published_time: ts,
+          updatedAt: moment(new Date(ts)).format(constants.updatedAtFormat),
+          updated_time: ts,
+        },
+        user: {
+          uid: user.uid,
+          name: userData.name || "",
+          last_name: userData.last_name || "",
+          avatar: userData.avatar || "",
+        },
+        likes: [],
+        dislikes: []
+      }
+
+      try{
+          await doc.set({
+            ...newComment,
+            id: doc.id
+          })
+          successfull = true
+      }catch(err){
+        console.log('ERROR DURING POST COMMENT',err)
+      }finally{
+        return {
+          successfull,
+          item: newComment
+        }
+      }
   }
   
   async likeComment(id : string) {
@@ -1245,6 +1432,7 @@ class ShopService implements ShopServiceInterface {
    */
   async addAlert(alert: AlerType){
       let successful = false
+      let item = {}
       const user = auth().currentUser;
       if(!user || !user.uid){
         return {
@@ -1255,24 +1443,33 @@ class ShopService implements ShopServiceInterface {
         }
       }
       try{
-        let response = await firestore().collection('alerts').add({
+        let doc = firestore().collection('alerts').doc()
+       await doc.set({
           ...alert,
+          id: doc.id,
           user_id:  user.uid,
         })
+        item = {
+          ...alert,
+          id: doc.id,
+          user_id:  user.uid,
+        }
         successful = true
       }catch(err){
         console.log('ERROR DURING ADD ALERT')
       }finally{
         return {
-          successful
+          successful,
+          item
         }
       }
   }
 
   async removeAlert(item: AlertType){
+    console.log('remove alert ',item)
       let successful = false
       try{
-        let response = await firestore().collection('alerts').doc(item.id).delete()
+        let response = await firestore().collection('alerts').doc(item.id).delete().then()
         successful = true
       }catch(err){
         console.log('ERROR DURING REMOVE ALERT')

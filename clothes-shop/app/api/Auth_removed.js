@@ -173,7 +173,7 @@ class Auth {
     try {
       const response = await auth().signInWithEmailAndPassword(email, password);
       // console.log('auth().currentUser.uid - ', auth().currentUser.uid);
-      const documentSnapshot = await usersRef.doc(auth().currentUser.uid).get();
+      const documentSnapshot = await usersRef.doc(auth().currentUser?.uid).get();
 
       let name = '';
       let last_name = '';
@@ -227,7 +227,7 @@ class Auth {
         last_name,
         idcode: Date.now() + Math.random() + email[0],
         created_at: (Date.now() / 1000).toFixed(0),
-        uid: auth().currentUser.uid,
+        uid: auth().currentUser.?uid,
       });
       return true;
       // }else{

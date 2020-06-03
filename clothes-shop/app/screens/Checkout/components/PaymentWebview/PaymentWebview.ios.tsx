@@ -24,7 +24,7 @@ export default class PaymentModal extends Component<Props> {
             JSON.stringify({amount: total, currency: 'USD'}),
           );
         }
-      }, 1500);
+      }, 300);
     } catch (err) {
       console.log('err', err);
     }
@@ -32,7 +32,7 @@ export default class PaymentModal extends Component<Props> {
 
   handleEvent = event => {
     try {
-      let data = JSON.parse(event.nativeEvent.data || '{}');
+      const data = JSON.parse(event.nativeEvent.data || '{}');
       // console.log('data',data)
       if (data.token) {
         if (this.props.onTokenRecieved) {
@@ -50,6 +50,9 @@ export default class PaymentModal extends Component<Props> {
     // const INJECTED_JAVASCRIPT = `(function() {
     //     window.ReactNativeWebView.postMessage(JSON.stringify(window.location));
     // })();`;
+    const {
+      total
+    } = this.props;
     const runFirst = `
             window.ReactNativeWebView.postMessage('hi');
         `;
@@ -57,12 +60,13 @@ export default class PaymentModal extends Component<Props> {
     return (
       <WebView
         // source={myHtmlFile}
-        ref={webView => (this.webView = webView)}
+        ref={webView => this.webView = webView}
         source={require('./stripe.html')}
         style={{flex: 1}}
         onMessage={this.handleEvent}
         onError={error => console.log(error)}
         startInLoadingState={true}
+        injectedJavaScriptBeforeContentLoaded={"window.amount = " + total/100}
         // cacheEnabled={false}
         // injectedJavaScript={runFirst}
         // javaScriptEnabled={true}

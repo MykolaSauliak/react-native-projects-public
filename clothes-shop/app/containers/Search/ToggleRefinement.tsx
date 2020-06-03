@@ -3,6 +3,9 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import { ListItem } from "react-native-elements";
 import { connectToggleRefinement } from 'react-instantsearch-native';
+import _ from 'lodash'
+import { colors } from '../../styles';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -54,15 +57,16 @@ const ToggleRefinement = ({
   attribute,
   currentRefinement = false,
   label,
-  count,
+  count = {},
   subtitle = "",
   ...otherProps
 }) => {
+
   // console.log('ToggleRefinement label',label)
-  // console.log('ToggleRefinement count',count)
+  console.log('ToggleRefinement currentRefinement',count,attribute)
   // console.log('ToggleRefinement currentRefinement',currentRefinement)
   // console.log('refine',refine)
-  if(!currentRefinement && (!count.checked || count.checked <= 1)){
+  if(!currentRefinement && !count.unchecked){
     return null
   }
 
@@ -72,15 +76,18 @@ const ToggleRefinement = ({
         containerStyle={styles.filterContainer} 
         // title={label + ` (${count.checked || 0})`}
         title={label}
-        // subtitle={subtitle}
-        // rightElement={<Text>
-        //     {currentRefinement ? count.checked : (count.unchecked || 0)}
-        // </Text>}
+        subtitle={subtitle}
+        rightElement={<Text>
+           {currentRefinement ? "" : count.unchecked}
+        </Text>}
         switch={{ 
             value: currentRefinement,
             onValueChange: (value) =>  {
                 refine(!currentRefinement)
-        }}}
+            },
+            thumbColor: 'white',
+            trackColor: {false: colors.gray, true: colors.orange}
+        }}
         />
 //   return <View style={styles.container}>
 //     <View style={styles.title}>

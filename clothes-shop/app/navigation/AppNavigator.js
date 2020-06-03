@@ -7,11 +7,14 @@ import SearchStack from './SearchStack';
 import UserProfileStack from './UserProfileStack';
 import CartStack from './CartStack';
 import NegotiationNavigator from './NegotiationNavigator';
+import BrandChoose from '../screens/BrandChoose';
+import PriceInput from '../screens/PriceInput';
 import AlertNavigator from './AlertNavigator';
 import FilterSort from './FilterSortNavigation';
 import AddShippingAddressScreen from '../screens/AddShippingAddressScreen';
 import AuthNavigator from './AuthNavigator';
 import ListScreen from '../screens/ListScreen';
+import CommentList from '../screens/CommentList';
 import GridScreen from '../screens/GridScreen';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -33,7 +36,10 @@ const switchNavigator = createStackNavigator(
     [screens.FilterSort]: FilterSort,
     [screens.AuthStack]: AuthNavigator,
     [screens.NegotiationsStack]: NegotiationNavigator,
+    [screens.BrandChoose]: BrandChoose,
+    [screens.PriceInput]: PriceInput,
     [screens.CartStack]: CartStack,
+    [screens.CommentList]: CommentList,
   },
   {
     initialRouteName:  screens.MainStack,

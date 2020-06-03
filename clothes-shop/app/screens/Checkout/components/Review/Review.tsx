@@ -61,6 +61,7 @@ const Review = ({
   getTotalValue,
   getTotalWithTaxes,
   getAuthenticationFees,
+  getTotalWithTaxesFull,
   isInWishlist,
   isInCart,
 
@@ -91,15 +92,16 @@ const Review = ({
     return 0;
   };
 
-  const createOrder = async (token) => {
+  const createOrder = async (token : string) => {
+    // console.log('token',token)
     try{
       await ShopService.createOrder({
         shippingAddress,
         token,
-        amount : getTotalWithTaxes(),
+        amount : getTotalWithTaxesFull(),
         items: cartItems,
         payment_method : paymentMethod,
-        create_time : Date.now(),
+        created_time : Date.now(),
       })
       setPaymentModalVisible(false)
       resetCart()
@@ -250,8 +252,8 @@ const Review = ({
                     title="Pay"
                     />
                 <PaymentWebview 
-                  total={getTotalValue()}
-                  onTokenRecieved={(token) => createOrder(token)}
+                  total={getTotalWithTaxesFull()}
+                  onTokenRecieved={(token:string) => createOrder(token)}
                   />
             </View>
         </Modal>

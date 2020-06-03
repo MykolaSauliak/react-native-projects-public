@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {getAlerts} from '../../features/alerts/selectors';
+import {getAlerts, alertExists} from '../../features/alerts/selectors';
 import {addAlert, removeAlert} from '../../features/alerts/actions';
 import { Alert } from "../../types/Alert.type";
 
@@ -19,7 +19,14 @@ const withAlerts = (options = {}) => BaseComponent => props => {
       {...props}
       {...properties}
       alerts={alerts}
-      addAlert={(item : Alert) => dispatch(addAlert(item))}
+      addAlert={(item : Alert) => {
+        if(alertExists({alert : item, alerts})){
+
+        }else{
+          dispatch(addAlert(item))
+        }
+      }
+      }
       removeAlert={(item : Alert)  => dispatch(removeAlert(item))}
     />
   );

@@ -9,6 +9,9 @@ import { Order } from "../types/types";
 import i18n from '../i18n';
 import colors from '../styles/colors'
 import { ListItem } from 'react-native-elements';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import Entypo from "react-native-vector-icons/Entypo";
+import PreviewRowCard from './PreviewRowCard/PreviewRowCard';
 
 const S = StyleSheet.create({
     orderStatus: {
@@ -80,24 +83,36 @@ const OrderCard = ({
                                     data={items}
                                     keyExtractor={(item, index) => index}
                                     renderItem={({item, index}) => (
-                                        <ListItem 
-                                            containerStyle={{minHeight: 140,  backgroundColor: "white"}}
-                                            leftAvatar={{ 
-                                                source : {uri : item?.images[0].src}, 
-                                                // containerStyle : {backgroundColor: "white"}, 
-                                                // avatarStyle: {backgroundColor: null},
-                                                imageProps:  {resizeMode : 'repeat'}, 
-                                                rounded :false,
-                                                size: "large"
-                                            }}
-                                            title={item.brand_name }
-                                            subtitle={item.price + ' '  + (item.currency || 'USD')}
+                                        <PreviewRowCard 
+                                            id={item.id}
+                                            brand_name={item.brand_name}
+                                            type_name={item.type_name}
+                                            subtype_name={item.subtype_name}
+                                            images={item.images}
+                                            currency={item.currency}
+                                            description={item.description}
                                             />
+                                        // <ListItem 
+                                        //     containerStyle={{minHeight: 140,  backgroundColor: "white"}}
+                                        //     leftAvatar={{ 
+                                        //         source : {uri : item?.images[0].src}, 
+                                        //         // containerStyle : {backgroundColor: "white"}, 
+                                        //         // avatarStyle: {backgroundColor: null},
+                                        //         imageProps:  {resizeMode : 'repeat'}, 
+                                        //         rounded :false,
+                                        //         size: "large"
+                                        //     }}
+                                        //     title={item.brand_name }
+                                        //     subtitle={item.price + ' '  + (item.currency || 'USD')}
+                                        //     />
                                     )}
                                     />
                         }
                 </View>}
-                rightIcon={{ name : collapsed ? 'chevron-down' : 'chevron-up', type : "entypo"}}
+                Component={TouchableWithoutFeedback}
+                rightElement={<View style={{height: '100%', justifyContent:'flex-start', alignItems:'center'}}>
+                    <Entypo name={collapsed ? 'chevron-down' : 'chevron-up'} size={25} />    
+                </View>}
                 />
             
         </View>

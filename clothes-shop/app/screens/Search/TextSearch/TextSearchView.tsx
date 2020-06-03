@@ -152,10 +152,13 @@ class TextSearchView extends Component<Props,State> {
             <VirtualRefinementList attribute="condition" />
             <VirtualRefinementList attribute="tag_ids"/>
             <VirtualRefinementList attribute="location"/>
-            <VirtualRange attribute="price" />
-            <VirtualRange attribute="created_time"/>
-            <VirtualToggle value={true} attribute={constants.we_love} />
-            <VirtualToggle value={true}  attribute={constants.vintage} />
+            <VirtualRange operator="and" attribute="price" />
+            <VirtualRange operator="and" attribute="created_time"/>
+            <VirtualToggle operator="and" value={true} attribute={constants.we_love} />
+            <VirtualToggle operator="and"  value={true}  attribute={constants.vintage} />
+            <VirtualToggle operator="and" value={'sold'}  attribute={'status'} />
+            {/* <VirtualToggle value={true}  attribute={constants.vintage} /> */}
+            <VirtualToggle value={true}  attribute={constants.express_delivery} />
             <RemoveAllAtUnmount />
             <View style={{flex: 1}}>
                 <ScrollView>

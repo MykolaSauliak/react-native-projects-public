@@ -25,7 +25,8 @@ export namespace Shop {
         'price_reduction',
         'approved' ,
         'refused' ,
-        'sold'
+        'sold',
+        'user_dismiss',
     }
 
     export enum SoldWith {
@@ -38,6 +39,7 @@ export namespace Shop {
         'delivery',
         'authentication',
         'payment',
+        'finish',
     }
 
     export interface Product {
@@ -78,6 +80,7 @@ export namespace Shop {
         sale_status: SaleStatus,
         status: Status
         status_updated_at : {  [key in Status] : string},
+        sale_status_updated_at : {  [key in Status] : string},
         sold_with : {  [key in SoldWith] : boolean},
         approveNotificationSent: boolean,
         similar_items: string[],

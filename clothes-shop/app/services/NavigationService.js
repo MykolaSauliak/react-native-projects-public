@@ -247,6 +247,17 @@ class NavigationService {
     this.navigate(screens.SelectSellOptionalInformation, props);
   }
 
+  navigateToBrandChoose(props) {
+    this.navigate(screens.BrandChoose, props);
+  }
+  navigateToPriceInput(props) {
+    this.navigate(screens.PriceInput, props);
+  }
+
+  /** for comments */
+  navigateToCommentList(props) {
+    this.navigate(screens.CommentList, props);
+  }
   /** end sell navigation */
 
   initDeepLinking() {

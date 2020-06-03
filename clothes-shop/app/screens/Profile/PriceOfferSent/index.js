@@ -9,11 +9,15 @@ const enhance = compose(
   lifecycle({
     async componentDidMount() {
       this.props.setLoading(true);
-      const {
-        count,
-        items: myNegotiations,
-      } = await ShopService.getSendNegotiations();
-      this.props.setItems(myNegotiations);
+      try{
+        const {
+          count,
+          items: myNegotiations,
+        } = await ShopService.getSendNegotiations();
+        this.props.setItems(myNegotiations);
+      }catch(err){
+        console.log('ERROR DURING GET SENT NOTIFICATION',err)
+      }
       this.props.setLoading(false);
     },
   }),

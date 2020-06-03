@@ -50,13 +50,17 @@
                 <!-- Used to display form errors. -->
             <div id="card-errors" role="alert"></div>
         </div>
-        <button style="background-color: black; color: white; margin-top: 10px; font-size: 16; border-radius: 4px;padding: 5px;">Submit Payment</button>
+        <button id="submitBtn" style="width: 100%; margin-top: 15; height: 35px; background-color: black; color: white; margin-top: 10px; font-size: 16; border-radius: 4px;padding: 5px;">Submit Payment</button>
     </form>
 
     <script>
         // Create a Stripe client.
-          var stripe = Stripe('pk_test_AZawtCxQvqQFo1rbmow6OeVJ');
+        //document.addEventListener('message', function(event){
+        document.getElementById('submitBtn').innerHTML = 'Pay ' + window.amount + ' USD'
+        //})
           // Create an instance of Elements.
+          var stripe = Stripe('pk_test_AZawtCxQvqQFo1rbmow6OeVJ');
+
           var elements = stripe.elements();
           // Custom styling can be passed to options when creating an Element.
           // (Note that this demo uses a wider set of styles than the guide below.)
@@ -123,7 +127,7 @@
               // Submit the form
               // form.submit();
           }
-      // })
+       //})
     </script>
     
 </html>

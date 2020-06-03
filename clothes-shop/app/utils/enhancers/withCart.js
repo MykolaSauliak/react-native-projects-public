@@ -16,6 +16,7 @@ import {
   getTotalValue,
   getTotalWithTaxes,
   getAuthenticationFees,
+  getTotalWithTaxesFull,
   updateCart
 } from '../../features/cart/operations';
 
@@ -35,6 +36,7 @@ const withCart = options => BaseComponent => props => {
       resetCart={() => dispatch(resetCart())}
       getTotalValue={() => getTotalValue(cartItems)}
       getTotalWithTaxes={() => getTotalWithTaxes(cartItems)}
+      getTotalWithTaxesFull={() => getTotalWithTaxesFull(cartItems)}
       getAuthenticationFees={() => getAuthenticationFees(cartItems)}
       setCount={({id, count}) => dispatch(setCount({id, count}))}
       // addToCart={(item) => dispatch(addToCart(item))}

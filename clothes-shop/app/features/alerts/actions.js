@@ -8,23 +8,23 @@ const addAlert = (alert) => async dispatch => {
   //   type: types.addAlert,
   //   payload: alert,
   // });
-
+  
   ShopService.addAlert(alert)
-    .then(({successful, error}) => {
+    .then(({successful, error, item}) => {
         if (successful) {
           dispatch({
-            type: types.addAlert,
-            payload: alert,
+              type: types.addAlert,
+              payload: item,
           });
           dispatch({
-            type: types.setError,
-            payload: null,
+              type: types.setError,
+              payload: null,
           });
       }
       else{
         dispatch({
-          type: types.setError,
-          payload: error?.message || "", // string(?)
+            type: types.setError,
+            payload: error?.message || "", // string(?)
         });
       }
   })
@@ -39,12 +39,13 @@ const removeAlert = (item = {}) => async dispatch => {
   // console.log('removeAlert', item?.id);
 
   // NotifService.unsubscribeToPriceReduction(id).then(_ => {
-    dispatch({
-      type: types.removeAlert,
-      payload: item,
-    });
+    // dispatch({
+    //   type: types.removeAlert,
+    //   payload: item,
+    // });
   // });
-  ShopService.removeAlert(item)
+  ShopService
+    .removeAlert(item)
     .then(({successful, error}) => {
         if (successful) {
           dispatch({

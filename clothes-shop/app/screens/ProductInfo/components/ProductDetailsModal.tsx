@@ -27,7 +27,7 @@ const initialLayout = { width: Dimensions.get('window').width };
 const ProductDetailsModal = ({
     isModalVisible = false,
     toggleModal,
-    description = "",
+    description,
     brand_name = "",
     status_updated_at = {},
     category_name = "",
@@ -67,7 +67,7 @@ const ProductDetailsModal = ({
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={[styles.scene,]}>
                 <View style={[styles.itemDetailsBox, {marginHorizontal:paddingHorizontal}]}>
-                    {description && <Text style={styles.desc}>{`" ` + description + ` "`}</Text>}
+                    {!_.isEmpty(description)  && <Text style={styles.desc}>{`" ` + description + ` "`}</Text>}
    
                     {typeof sold_with == 'object' 
                         && Object.values(sold_with).filter(s => s).length > 0 && (
@@ -165,7 +165,7 @@ const ProductDetailsModal = ({
                     containerStyle={styles.collapseContainer}  
                     title={"Item location"}
                     collapsed={informationItemVisible == 0 ? false : true}
-                    collapseText={`Origin: ${shipping_country}\n\nOnce purchased\n\n- If th item is located with the seller, it will be sent by seller to us to be authenticated. Once verifed, it will be send to you by us\n- If the item is already present, that means it has already been authenticated by our team of experts\n- If the Direct Shipping option is available, the item can be sent directly yo your address, skipping the visit to our control and authentication centre. This option is visible in your basket`}
+                    collapseText={`Origin: ${shipping_country || "Not specified"}\n\nOnce purchased\n\n- If th item is located with the seller, it will be sent by seller to us to be authenticated. Once verifed, it will be send to you by us\n- If the item is already present, that means it has already been authenticated by our team of experts\n- If the Direct Shipping option is available, the item can be sent directly yo your address, skipping the visit to our control and authentication centre. This option is visible in your basket`}
                     collapseContainerStyle={{padding:15, backgroundColor : colors.gray,}}
                     />
                 <CollapsibleListItem 

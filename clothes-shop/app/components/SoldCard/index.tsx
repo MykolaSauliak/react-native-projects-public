@@ -12,6 +12,7 @@ import i18n from '../../i18n';
 import colors from '../../styles/colors'
 import { ListItem } from 'react-native-elements';
 import StepIndicator from 'react-native-step-indicator';
+import PreviewRowCard from '../PreviewRowCard/PreviewRowCard';
 
 const fillColor = "#c9b676"
 
@@ -23,7 +24,7 @@ const SoldCard = ({
     images,
     description,
     sale_status,
-    status_updated_at
+    sale_status_updated_at,
 }  : Shop.Product) => {
 
     let [collapsed, setCollapsed] = React.useState(true)
@@ -36,7 +37,16 @@ const SoldCard = ({
     
     return (
         <View style={{padding: 10, marginTop: 10,borderRadius: 10, backgroundColor: 'white'}}>
-            <ListItem 
+            <PreviewRowCard 
+                images={images}
+                brand_name={brand_name}
+                type_name={type_name}
+                description={description}
+                subtype_name={subtype_name}
+                rightIcon={{ name : collapsed ? 'chevron-down' : 'chevron-up', type : "entypo"}}
+                onPress={() => setCollapsed(!collapsed)}
+                />
+            {/* <ListItem 
                 onPress={() => setCollapsed(!collapsed)}
                 leftElement={
                     <View
@@ -57,7 +67,7 @@ const SoldCard = ({
                     {description && <Text style={S.desc}>{description}</Text>}
                 </View>}
                 rightIcon={{ name : collapsed ? 'chevron-down' : 'chevron-up', type : "entypo"}}
-                />
+                /> */}
                 {
                     !collapsed && (<ScrollView><View style={{marginLeft: 15}}>
                         <StepIndicator 
@@ -90,9 +100,9 @@ const SoldCard = ({
                                 case 0:
                                     text = <>
                                         <Text style={S.title}>Sale</Text>
-                                        {   status_updated_at[Shop.SaleStatus[0]] && (
+                                        {   sale_status_updated_at[Shop.SaleStatus[0]] && (
                                             <Text style={{fontSize: 13}}>
-                                            Sold on {status_updated_at[Shop.SaleStatus[0]]}
+                                            Sold on {sale_status_updated_at[Shop.SaleStatus[0]]}
                                             </Text>)
                                         }
                                     </>
@@ -100,15 +110,15 @@ const SoldCard = ({
                                 case 1:
                                     text = <>
                                         <Text  style={S.title}>Shipping</Text>
-                                        {/* <Text style={{fontSize: 13}}>Sold on {status_updated_at[1]}</Text> */}
+                                        {/* <Text style={{fontSize: 13}}>Sold on {sale_status_updated_at[1]}</Text> */}
                                     </>
                                     break
                                 case 2:
                                     text = <>
                                         <Text  style={S.title}>Delivery</Text>
-                                        {status_updated_at[Shop.SaleStatus[2]] && (
+                                        {sale_status_updated_at[Shop.SaleStatus[2]] && (
                                             <Text style={{fontSize: 13}}>
-                                            Received by Verstiaire Collective on {status_updated_at[Shop.SaleStatus[2]]}
+                                            Received by Verstiaire Collective on {sale_status_updated_at[Shop.SaleStatus[2]]}
                                             </Text>)
                                         }
                                     </>
@@ -116,13 +126,13 @@ const SoldCard = ({
                                 case 3:
                                     text = <>
                                         <Text  style={S.title}>Authentication</Text>
-                                        {status_updated_at[Shop.SaleStatus[3]] && <Text style={{fontSize: 13}}>Sold on {status_updated_at[Shop.SaleStatus[3]]}</Text>}
+                                        {sale_status_updated_at[Shop.SaleStatus[3]] && <Text style={{fontSize: 13}}>Sold on {sale_status_updated_at[Shop.SaleStatus[3]]}</Text>}
                                     </>
                                     break
                                 case 4:
                                     text = <>
                                         <Text  style={S.title}>Payment</Text>
-                                        {status_updated_at[Shop.SaleStatus[4]] && <Text style={{fontSize: 13}}>To be transfered on {status_updated_at[Shop.SaleStatus[4]]}</Text>}
+                                        {sale_status_updated_at[Shop.SaleStatus[4]] && <Text style={{fontSize: 13}}>To be transfered on {sale_status_updated_at[Shop.SaleStatus[4]]}</Text>}
                                     </>
                                     break
                             }
@@ -141,7 +151,7 @@ SoldCard.defaultProps = {
     type_name : 'test type',
     subtype_name : 'test subtype',
     sale_status : 'shipping',
-    status_updated_at : {
+    sale_status_updated_at : {
         'sold' : '2020/04/03'
     }
 }

@@ -17,6 +17,7 @@ import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
 import { BackHeaderCenter } from '../../../../components';
 import _ from 'lodash'
+import ButtonBlack from '../../../../components/Button/ButtonBlack';
 
 const S = StyleSheet.create({});
 
@@ -72,6 +73,7 @@ const SelectSellerView = ({
   let phoneInput = useRef('');
   // let [phone, setPhone] = useState(seller.phone || "");
   let [phonecountry, setPhoneCountry] = useState('');
+  let [error, setError] = useState('');
   // let [phoneCode, setPhoneCode] = useState(seller.phone_country_code || 1);
 
   // const [countryCode, setCountryCode] = useState('FR');
@@ -87,6 +89,14 @@ const SelectSellerView = ({
 
   const handleSubmit = () => {
     // if(setSeller){
+    if(_.isEmpty(seller.phoneCode)){
+      setError('Phone code is required')
+      return
+    }
+    else{
+      setError('')
+      
+    }
     let newSeller = {
       phone: seller[constants.phone],
       phone_country_code: seller.phoneCode,
@@ -125,9 +135,9 @@ const SelectSellerView = ({
 
   
   const complete = () => {
-    console.log('seller.phone',seller.phone)
-    console.log('seller phoneCode',seller.phoneCode)
-    console.log('addresscomplete',addresscomplete())
+    //console.log('seller.phone',seller.phone)
+    //console.log('seller phoneCode',seller.phoneCode)
+    //console.log('addresscomplete',addresscomplete())
     return addresscomplete()
       && shipping_country_code !== null
       && shipping_country !== null
@@ -200,6 +210,7 @@ const SelectSellerView = ({
                 width: '65%',
                 borderLeftColor: 'black',
                 borderBottomWidth: 1,
+                marginLeft: 5
               }}
               keyboardType="number-pad"
               value={seller[constants.phone]}
@@ -223,6 +234,7 @@ const SelectSellerView = ({
         bottomDivider
         onPress={goToPersonalContact}
       />
+      <Text style={{textAlign:'center', color: "red", marginVertical: 2}}>{error}</Text>
       <View
         style={{
           color: 'white',
@@ -230,7 +242,12 @@ const SelectSellerView = ({
           marginHorizontal: 25,
           marginVertical: 15,
         }}>
-        <Button disabled={!complete()} color="black" onPress={handleSubmit} title="Submit" />
+        <ButtonBlack 
+          disabled={!complete()}  
+          color="black" 
+          onPress={handleSubmit} 
+          title="Submit" 
+        />
       </View>
       {/* <ListItem
                     title="Payments"

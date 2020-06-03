@@ -24,7 +24,7 @@ import {
     ProductNotification, 
     FollowingNotification,
     NegotiationNotification  
-} from "../../types/types";
+} from "../../types/Notification.type";
 
 const Notifications = ({
     notifications,
@@ -48,8 +48,8 @@ const Notifications = ({
           case 'user':
             NavigationService.navigateToCustomUserProfile({user_id : item.user_id})
             break
-          case 'negotiations':
-            console.log('go to negotiation')
+          case 'negotiation':
+            // console.log('go to negotiation')
             NavigationService.navigateToNegotiations({...item, id: item.negotiation_id})
             break
         }
@@ -68,17 +68,14 @@ const Notifications = ({
                     rightComponent={<ShippingCartIcon />}
                     // rightComponent={{ icon: 'settings',size: 35, color: '#000', onPress : () => NavigationService.navigateToNotificationsSettings()}}
                     />
-                    <View style={{marginBottom: 50}}>
-                        {/* <View> */}
-                            <TouchableOpacity style={{position: 'absolute', left: 10, top: 10}} onPress={removeAllNotification}>
-                                {/* <Text>remove all</Text> */}
+                    {/* <View style={{marginBottom: 50}}> */}
+                        {/* <TouchableOpacity style={{position: 'absolute', left: 10, top: 10}} onPress={removeAllNotification}>
                                 <AntDesign  name="delete" size={25} />
                             </TouchableOpacity>
-                        {/* </View> */}
                         <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={setViewedAll}>
                             <AntDesign  name="eye" size={25} />
-                        </TouchableOpacity> 
-                    </View>
+                        </TouchableOpacity>  */}
+                    {/* </View> */}
 
 
                     {

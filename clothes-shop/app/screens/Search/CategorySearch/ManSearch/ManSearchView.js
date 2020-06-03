@@ -50,7 +50,7 @@ const ManSearchView = ({
         <View style={[S.listAccordion]}>
           <List.Accordion
             title={item.title || ''}
-            titleStyle={{fontWeight: 'bold'}}>
+            titleStyle={{fontWeight: 'bold', color: 'black'}}>
             <TouchableOpacity
               onPress={
                 () => {
@@ -73,7 +73,8 @@ const ManSearchView = ({
               <List.Item title={'All'} />
             </TouchableOpacity>
             {subtypes
-              .filter(st => st && st.type_id && st.type_id == item.id && st.category_ids && st.category_ids.includes(category_id))
+              .filter(st => st && st.type_ids && st.type_ids.includes(item.id)  && st.category_ids && st.category_ids.includes(category_id))
+              // .filter(st => st && st.type_id && st.type_id == item.id && st.category_ids && st.category_ids.includes(category_id))
               .map(st => (
                 <TouchableOpacity
                   onPress={() => {
@@ -101,6 +102,27 @@ const ManSearchView = ({
       )}
     />
   );
+
+  const _renderBrands = () => (
+    <View style={S.listAccordion}>
+    <TouchableOpacity
+      onPress={() => NavigationService.navigateToBrandChoose({onPress: ({brand}) => {
+            search(
+              'Man - ' + brand.title,
+              {
+                refinementList: {
+                  category_id: [category_id],
+                  brand_name: brand.title
+                },
+              },
+            )
+          }
+      })}
+      >
+      <List.Item titleStyle={{fontWeight: 'bold'}} title="Brands A-Z" />
+    </TouchableOpacity>
+  </View>
+  )
 
   return (
     <ScrollView>
@@ -181,6 +203,7 @@ const ManSearchView = ({
               titleStyle={{fontWeight :'bold'}}
               title="Brands A-Z" />
             </View> */}
+        {_renderBrands()}
         {_renderTypes()}
         <View style={S.listAccordion}>
           <TouchableOpacity

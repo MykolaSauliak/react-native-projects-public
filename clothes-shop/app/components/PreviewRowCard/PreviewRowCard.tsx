@@ -21,6 +21,19 @@ const S = StyleSheet.create({
       },
 })
 
+type Props = {
+    id?:string, 
+    brand_name?:string, 
+    type_name?:string, 
+    dropdown?:boolean, 
+    subtype_name?:string, 
+    images?:{src: string}[], 
+    price?:number, 
+    currency?:string, 
+    description?:string, 
+    onCollapsedChange?: () => void, 
+}
+
 const PreviewRowCard = ({
     id,
     brand_name,
@@ -33,7 +46,7 @@ const PreviewRowCard = ({
     description,
     onCollapsedChange,
     ...otherProps
-}) => {
+} :Props) => {
 
     let [collapsed, setCollapsed] = React.useState(true)
     const getImageURI = () => {

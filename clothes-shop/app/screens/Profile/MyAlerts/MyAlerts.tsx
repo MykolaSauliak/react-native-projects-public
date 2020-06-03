@@ -68,7 +68,7 @@ const MyAlerts = ({
       {/* <View style={{flex:1}}> */}
       <TabView
       renderTabBar={(props) => (
-        <TabBarHorizontalScroll {...props}/>
+        <TabBarHorizontalScroll index={index} {...props}/>
         // <ScrollView 
         //   // style={{height: 75, width: '100%'}} 
         //   horizontal 

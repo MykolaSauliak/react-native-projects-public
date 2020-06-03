@@ -22,7 +22,7 @@ export default createReducer(initialState, {
   },
   [types.removeAlert]: (state, {payload}) => {
     let alerts = state.alerts;
-    alerts = [...alerts.filter(s => s != payload?.id)];
+    alerts = [...alerts.filter(s => s && s.id != payload?.id)];
     return {...state, alerts, lastUpdate: Date.now()};
   },
   [types.setLoading]: (state, {payload}) => {

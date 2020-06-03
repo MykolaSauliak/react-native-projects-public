@@ -3,6 +3,7 @@ import colors from '../../styles/colors';
 import constants from '../../constants';
 
 const styles = StyleSheet.create({
+  container: {flex: 1, backgroundColor: 'white', paddingBottom: 15},
   favoriteRow: {
     flexDirection: 'row',
     alignItems:'center',
@@ -12,8 +13,15 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: -15, 
   },
+  imageContainer: {height: constants.DEVICE_HEIGHT * 0.4},
   feesText: {
     opacity: 0.5
+  },
+  whiteBtn: {
+    flex:1,
+    borderColor: 'black', 
+    borderWidth: 1, 
+    marginRight: 2,
   },
   btnRow: {
     maxHeight: 55,
@@ -135,6 +143,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: 'OPTICenturyNova',
   },
+  detailsRow :{backgroundColor : colors.gray, marginVertical: 2},
 });
 
 export default styles;

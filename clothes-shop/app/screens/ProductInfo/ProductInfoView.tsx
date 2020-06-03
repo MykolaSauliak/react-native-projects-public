@@ -1,9 +1,9 @@
 import React, {useState, Suspense} from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import colors from '../../styles/colors';
 import constants from '../../constants';
@@ -15,6 +15,7 @@ import {ListItem} from 'react-native-elements';
 import styles from './ProductInfo.style.js';
 import GallerySwiper from 'react-native-gallery-swiper';
 import Loading from '../../components/Loading'
+import {Text, Touchable} from '../../components'
 import {
   AlertButton,
   WishlistButton,
@@ -37,6 +38,12 @@ import FavoriteButton from '../../containers/FavoriteButton'
 import { ActivityIndicator } from '../../components';
 import AuthenticationModal from "./components/AuthenticationModal";
 import ProductDetailsModal from "./components/ProductDetailsModal";
+import { NavigationService, ShopService } from '../../services';
+import _ from 'lodash'
+import Gallery from 'react-native-image-gallery';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import RemoveFromSold from '../../containers/Buttons/RemoveFromSold/RemoveFromSold';
+import TwoStateButton from '../../components/TwoStateButton/TwoStateButton';
 
 type Props = {
   item: Shop.Product,
@@ -74,7 +81,10 @@ const ProductInfoView = ({
     we_love,
     vintage,
     shipping_country = "",
-    no_negotiation = false
+    no_negotiation = false,
+    status,
+    sale_status,
+    status_updated_at,
   },
   sellerInfo: {
     avatar, 
@@ -85,6 +95,7 @@ const ProductInfoView = ({
     uid,
     reputation,
     holidaymode,
+    receive_negotiation 
   },
   toNegotiation,
   setLastUpdate,
@@ -95,7 +106,7 @@ const ProductInfoView = ({
   purchaseOver = 150,
   discountCode = 'RFO11',
   AUTHENTICATION_FEES,
-
+  loggedInUser,
   loading,
 } : Props) => {
 
@@ -103,7 +114,7 @@ const ProductInfoView = ({
     // AUTHENTICATION_FEES = (price * 0.1).toFixed(2)
     AUTHENTICATION_FEES = 9.99
   }
-
+  // console.log('item',item)
   let getMeasurementString = (measurements = {}) => {
       return `${measurements.width}x${measurements.height} ${measurements.unit} `
   }
@@ -114,7 +125,8 @@ const ProductInfoView = ({
   let [detailsVisible, setDetailsVisible] = useState(false)
   let [informationItemVisible, setInformationItemVisible] = useState(null)
 
-  let imagesURI = images && images.map(i => ({uri: i.src}));
+  let imagesURI = images && images.map(i => ({source : {uri: i.src}}));
+  // let imagesURI = images && images.map(i => ({url: i.src}));
   imagesURI = imagesURI || []
 
   const renderHeader = () => {
@@ -125,43 +137,69 @@ const ProductInfoView = ({
     );
   };
 
+
+  const isNgtntCnBCrtd = () => {
+    return loggedInUser?.uid && 
+    !holidaymode && 
+    !no_negotiation && 
+    receive_negotiation != 'neither' && 
+    uid != loggedInUser?.uid
+  }
+
+  const shBuyBtn = () => {
+    return !holidaymode
+  }
+
+  // console.log('no_negotiation',no_negotiation)
+  // console.log('holidaymode',holidaymode)
+  // console.log('receive_negotiation',receive_negotiation)
+
   const _renderBottomBtns = () => (
     <>
-    {(!holidaymode || !no_negotiation) && (<View style={styles.btnRow}>
-      {!no_negotiation && (<ButtonBlack 
-        inverse={true}
-        title={isSignedIn ? i18n.t('product.makeanoffer') : 'Login to make an offer'}
-        onPress={toNegotiation}
-        disabled={!isSignedIn}
-        titleStyle={styles.buyBtn}
-        containerStyle={{flex:1,borderColor: 'black', borderWidth: 1, marginRight: 2,}}
-        
-        />)}
-      {/* <TouchableOpacity
-        disabled={!isSignedIn}
-        onPress={toNegotiation}
-        style={[styles.cartBtn, {borderWidth: 1, backgroundColor: 'white'}]}>
-        <Text style={[styles.buyBtn, {color: 'black'}]}>
-          {isSignedIn ? i18n.t('product.makeanoffer') : 'Login to make an offer'}
-        </Text>
-      </TouchableOpacity> */}
-    {!holidaymode && <ShoppingCartButton  id={id}/>}
-    </View>)}
+    {status == constants.sold ? (
+      <View style={styles.btnRow}>
+        <ButtonBlack 
+          inverse={true}
+          title={'Create an alert'}
+          onPress={() => NavigationService.navigateToAlertCreate({item: { brand_name, category_name, type_name}})}
+          titleStyle={styles.buyBtn}
+          containerStyle={styles.whiteBtn}
+          />
+      </View>
+        ): (
+      <>
+        {(isNgtntCnBCrtd() || shBuyBtn()) && (<View style={styles.btnRow}>
+          {isNgtntCnBCrtd() && (<ButtonBlack 
+            inverse={true}
+            title={isSignedIn ? i18n.t('product.makeanoffer') : 'Login to make an offer'}
+            onPress={toNegotiation}
+            disabled={!isSignedIn}
+            titleStyle={styles.buyBtn}
+            containerStyle={styles.whiteBtn}
+            />)}
+        {shBuyBtn() && <ShoppingCartButton  id={id}/>}
+        </View>)}
+      </>
+    )}
+    {/* // }) */}
     </>
   );
 
   const _renderImages = () => {
-    return <View style={{height: constants.DEVICE_HEIGHT * 0.4}}>
-      <GallerySwiper
+    return <View style={styles.imageContainer}>
+      <Gallery
         images={imagesURI}
-        style={{height: constants.DEVICE_HEIGHT * 0.4}}
+        style={styles.imageContainer}
+        imageComponent={(props, dimension) => <Image {...props} style={{height: constants.DEVICE_HEIGHT * 0.4, width: '100%'}} defaultSource={constants.defaultImage}/>}
+        // imageComponent={(props) => <Image {...props} defaultSource={constants.defaultImage}/>}
         onPageSelected={(index : number) => setActiveImage(index)}
+        // onPageSelected={(index : number) => setActiveImage(index)}
         // Version *1.15.0 update
         // onEndReached={() => {
         //     // add more images when scroll reaches end
         // }}
         // Change this to render how many items before it.
-        initialNumToRender={2}
+        // initialNumToRender={1}
         // Turning this off will make it feel faster
         // and prevent the scroller to slow down
         // on fast swipes.
@@ -207,6 +245,7 @@ const ProductInfoView = ({
 
    const renderPrice = () => (
      <View>
+       {status == constants.sold && <Text style={{color: 'red'}}>{`Sold, `}<Text>{`on ${status_updated_at[constants.sold]}`}</Text></Text>}
       {toTimestamp(discountEnd) > Date.now() / 1000 ? (
         <>
           <View
@@ -229,6 +268,40 @@ const ProductInfoView = ({
           {price} {constants.MONEY_SYMBOL}
         </Text>
       )}
+      <Text style={styles.feesText}>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
+    </View>
+   )
+
+   const _renderLearnMore = () => (
+      <ListItem 
+        leftIcon={{name :'shield-check-outline', type: "material-community", color: colors.orange, size: 25}}
+        containerStyle={{backgroundColor:null, marginTop: 10}}
+        titleStyle={{color:'#f25d22'}} 
+        // onPress={() => {}}
+        title={
+        <>
+          <Text style={{color: colors.orange, fontSize: 13}}>Physical control and authentication by our experts</Text>
+            <TouchableOpacity onPress={() => setLearnMoreVisible(true)}>
+              <Text style={{color: colors.orange, fontWeight: 'bold'}}>Learn more</Text>
+            </TouchableOpacity>
+        </> 
+        }
+    />
+   )
+
+   const _renderShortInfo = () => (
+      <View style={{marginTop:5}}>
+        {!_.isEmpty(measurements) && <Text style={{fontSize: 20}}>{getMeasurementString(measurements)}</Text>}
+        {condition && <Text style={{fontSize: 20}}>{condition}</Text>}
+        {material && <Text style={{fontSize: 20}}>{material}</Text>}
+        <View style={{height: 1, borderWidth:0.5, marginTop: 10, opacity:0.2}}/>
+        {description && description.length > 0 && <Text numberOfLines={4} style={{fontSize: 20}}>{"\" " + description + " \""}</Text>}
+        <TouchableOpacity onPress={() => {
+            setDetailsVisible(!detailsVisible)
+            setInformationItemVisible(null)
+          }}>
+          <Text style={{color: colors.orange, textAlign: 'center'}}>View more</Text>
+        </TouchableOpacity>
     </View>
    )
 
@@ -239,19 +312,20 @@ const ProductInfoView = ({
   return (
     <>
       <AuthenticationModal 
-        isModalVisible={learnMoreVisible} 
-        toggleModal={() => setLearnMoreVisible(!learnMoreVisible)}/>
+          isModalVisible={learnMoreVisible} 
+          toggleModal={() => setLearnMoreVisible(!learnMoreVisible)}/>
       <ProductDetailsModal 
-        {...item}
-        isModalVisible={detailsVisible} 
-        informationItemVisible={informationItemVisible}
-        toggleModal={() => setDetailsVisible(!detailsVisible)}/>
+          {...item}
+          isModalVisible={detailsVisible} 
+          informationItemVisible={informationItemVisible}
+          toggleModal={() => setDetailsVisible(!detailsVisible)}
+          />
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         {renderHeader()}
-        <View style={{flex: 1, backgroundColor: 'white', paddingBottom: 15}}>
+        <View style={styles.container}>
               {_renderImages()}
+              {renderPagination()}
               <View style={{paddingBottom:10}}>
-                {renderPagination()}
                 <Product.Header   
                     paddingHorizontal={paddingHorizontal}
                     type_name={type_name}
@@ -260,7 +334,7 @@ const ProductInfoView = ({
                     color={color}
                     material={material}
                     category_name={category_name}
-                >
+                  >
                   <Product.Chips 
                     we_love={we_love} 
                     vintage={vintage}
@@ -271,49 +345,45 @@ const ProductInfoView = ({
                     />
             </View>
             {/* price block */}
-            <View
-              style={[styles.itemDetailsBox, {paddingHorizontal}]}>
+            <View style={[styles.itemDetailsBox, {paddingHorizontal}]}>
               {renderPrice()}
-              <Text style={styles.feesText}>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
-              <ListItem 
-                  leftIcon={{name :'shield-check-outline', type: "material-community", color: colors.orange, size: 25}}
-                  containerStyle={{backgroundColor:null, marginTop: 10}}
-                  titleStyle={{color:'#f25d22'}} 
-                  // onPress={() => {}}
-                  title={
-                  <>
-                    <Text style={{color: colors.orange, fontSize: 13}}>Physical control and authentication by our experts</Text>
-                      <TouchableOpacity onPress={() => setLearnMoreVisible(true)}>
-                        <Text style={{color: colors.orange, fontWeight: 'bold'}}>Learn more</Text>
-                      </TouchableOpacity>
-                  </> 
-                  }
-                />
-                <View style={{marginTop:25}}>
-                    <Text style={{fontSize: 20}}>{getMeasurementString(measurements)}</Text>
-                    <Text style={{fontSize: 20}}>{condition}</Text>
-                    <Text style={{fontSize: 20}}>{material}</Text>
-                    <View style={{height: 1, borderWidth:0.5, marginTop: 10, opacity:0.2}}/>
-                    <Text numberOfLines={4} style={{fontSize: 20}}>{"\" " + description + " \""}</Text>
-                    <TouchableOpacity onPress={() => {
-                        setDetailsVisible(!detailsVisible)
-                        setInformationItemVisible(null)
-                      }}>
-                      <Text style={{color: colors.orange, textAlign: 'center'}}>View more</Text>
-                    </TouchableOpacity>
-                </View>
+              {_renderLearnMore()}
+              {_renderShortInfo()}
             </View> 
-
             <View style={{flexDirection:'row', backgroundColor:colors.gray, padding: 15, paddingTop: 25}}>
-              <View style={{flex:1}}>
-                  <PriceReductionButton item={item} color={colors.orange}/>
-              </View>
-              <View style={{flex:1}}>
-                  <WishlistButton item={item} color={colors.orange} />
-              </View>
-              <View style={{flex:1}}>
-                  <AlertButton item={item} color={colors.orange} />
-              </View>
+            {loggedInUser?.uid == uid?(
+                <>
+                  <View style={{flex:1}}>
+                  <TwoStateButton 
+                      iconProps={{type: 'antdesign', name: "pluscircleo"}}
+                      title="Add photo"
+                      onPress={async () => await ShopService.uploadPhoto({product_id: id})}
+                      disabled={images.length > 8}
+                      color={colors.orange}
+                      // toggledD
+                      />
+                  </View>
+                  <View style={{flex:1}}>
+                    <PriceReductionButton onPress={() => NavigationService.navigateToPriceInput()} item={item} color={colors.orange}/>
+                  </View>
+                  <View style={{flex:1, justifyContent:'center'}}>
+                      <RemoveFromSold id={id} status={status}/>
+                      {/* <AlertButton item={item} color={colors.orange} /> */}
+                  </View>
+                </>
+              ): (
+                <>
+                  <View style={{flex:1}}>
+                      <PriceReductionButton item={item} color={colors.orange}/>
+                  </View>
+                  <View style={{flex:1}}>
+                      <WishlistButton item={item} color={colors.orange} />
+                  </View>
+                  <View style={{flex:1}}>
+                      <AlertButton item={item} color={colors.orange} />
+                  </View>
+                </>
+            )}
             </View>
             {/* item details */}
             {/* <Product.Details  
@@ -322,7 +392,7 @@ const ProductInfoView = ({
                 printed={printed}
                 condition={condition}
                 /> */}
-            <SellerInfo 
+          <SellerInfo 
               name={name}
               last_name={last_name}
               sold_item={sold_item}
@@ -330,20 +400,23 @@ const ProductInfoView = ({
               reputation={reputation}
               uid={uid}
               />
-            <View style={{marginVertical: 5, paddingHorizontal}}>
-              <Button 
-                  titleStyle={{color: colors.orange}}
-                  onPress={() => setChatVisible(true)}
-                  buttonStyle={{borderWidth: 1, borderColor: colors.orange}}    
-                  title="contact seller"
-                  />
-            </View>
+            <Button 
+                containerStyle={{marginVertical: 5, paddingHorizontal}}
+                titleStyle={{color: colors.orange}}
+                // onPress={() => setChatVisible(true)}
+                onPress={() => NavigationService.navigateToCommentList({
+                  seller_id: uid,
+                  id
+                })}
+                buttonStyle={{borderWidth: 1, borderColor: colors.orange}}    
+                title="contact seller"
+              />
             {/* info snippets */}
             <View style={{paddingHorizontal, marginTop: 25}}>
               <ListItem 
                 // ref={refs[.]}
                 leftIcon={{type: "evilicon", name:"check"}}
-                containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+                containerStyle={styles.detailsRow}  
                 title="Quality control" 
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
@@ -353,7 +426,7 @@ const ProductInfoView = ({
                 />
               <ListItem 
                 leftIcon={{type: "evilicon", name:"location"}}
-                containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+                containerStyle={styles.detailsRow}  
                 title={shipping_country}
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
@@ -364,7 +437,7 @@ const ProductInfoView = ({
                 />
               <ListItem 
                 leftIcon={{type: "material-icons", name:"local-shipping"}}
-                containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+                containerStyle={styles.detailsRow}  
                 title="Shipping and returns"
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
@@ -374,7 +447,7 @@ const ProductInfoView = ({
                 />
               <ListItem 
                 leftIcon={{type: "materialicons", name:"payment"}}
-                containerStyle={{backgroundColor : colors.gray, marginVertical: 2}}  
+                containerStyle={styles.detailsRow}  
                 title="100% secure payment"
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
@@ -392,7 +465,7 @@ const ProductInfoView = ({
                     title="Chat"
                     chatModalVisible={chatVisibile}
                     seller_id={uid}
-                    onModalToggle={(value: boolean) => setChatVisible(value)}
+                    // onModalToggle={(value: boolean) => setChatVisible(value)}
                     // comments={comments}
                     containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}
                     />
