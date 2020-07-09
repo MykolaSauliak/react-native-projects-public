@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   ImageBackground,
   StyleSheet,
   FlatList,
@@ -9,7 +8,8 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
+import {Text} from '../../components';
 import colors from '../../styles/colors';
 import i18n from '../../i18n';
 import AddressList from '../../containers/AddressList';

@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import { ListItem } from "react-native-elements";
 import { connectToggleRefinement } from 'react-instantsearch-native';
 import _ from 'lodash'
 import { colors } from '../../styles';
+import { ListItem, Text } from '../../components';
 
 
 const styles = StyleSheet.create({
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },    
   filterContainer : {
-    padding : 10,
+    padding : 15,
     height: 65,
     borderBottomColor : 'black',
     backgroundColor : 'white'
@@ -58,12 +58,12 @@ const ToggleRefinement = ({
   currentRefinement = false,
   label,
   count = {},
-  subtitle = "",
+  subtitle,
   ...otherProps
 }) => {
 
   // console.log('ToggleRefinement label',label)
-  console.log('ToggleRefinement currentRefinement',count,attribute)
+  // console.log('ToggleRefinement currentRefinement',count,attribute)
   // console.log('ToggleRefinement currentRefinement',currentRefinement)
   // console.log('refine',refine)
   if(!currentRefinement && !count.unchecked){
@@ -86,7 +86,7 @@ const ToggleRefinement = ({
                 refine(!currentRefinement)
             },
             thumbColor: 'white',
-            trackColor: {false: colors.gray, true: colors.orange}
+            trackColor: {false:     colors.gray, true: colors.orange}
         }}
         />
 //   return <View style={styles.container}>

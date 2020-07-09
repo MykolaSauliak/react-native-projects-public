@@ -8,7 +8,7 @@ import {
 import { withCart } from "../utils/enhancers";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import globalStyles from '../constants/styles'
+import globalStyles from '../styles'
 import { NavigationService } from '../services';
 import { Badge} from 'react-native-elements';
 

@@ -8,13 +8,14 @@ export const avatarSize = 56;
 export const indent = 16;
 export const smallIndent = 12;
 export const indentModerated = moderateScale(16);
-export const halfIndent = moderateScale(indent / 2);
+export const er = moderateScale(indent / 2);
 export const doubleIndent = moderateScale(indent * 2);
 
 export const verticalIndent = verticalScale(indent);
 export const halfVerticalIndent = verticalScale(indent / 2);
 
 export const borderRadius = 4;
+export const halfIndent = moderateScale(indent / 2);
 
 export const iconSize = moderateScale(28);
 export const bigIconSize = moderateScale(40);
@@ -32,3 +33,10 @@ export const containerWidth = Dimensions.get('window').width - indent * 2;
 export const appBarHeight = Platform.OS === 'ios' ? 52 : 56;
 export const statusBarHeight = Platform.OS === 'ios' ? 20 : 0;
 export const headerHeight = appBarHeight + statusBarHeight;
+
+
+export default {
+  indent,
+  indentModerated,
+  width
+}

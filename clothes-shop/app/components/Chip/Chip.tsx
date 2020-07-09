@@ -22,7 +22,7 @@ const Chip = ({
     children = ""
 }) => {
     return (
-        <Text style={[textStyle, S.chip, style]}>{children}</Text>
+        <Text xxmediumSize style={[S.chip, textStyle, style]}>{children}</Text>
         // <RNChip textStyle={[textStyle]} style={[{marginTop: 2, borderRadius: 0,borderColor:'black'}, style]} >{children}</RNChip>
     );
 };

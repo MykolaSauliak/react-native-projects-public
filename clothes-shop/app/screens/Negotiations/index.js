@@ -22,6 +22,7 @@ const enhance = compose(
   // withState('item','setItem',{}),
   withProps(({navigation}) => ({
     id: navigation.getParam('id', null), // negotiation id
+    product_id: navigation.getParam('product_id', null), // negotiation id
     item: navigation.getParam('item', {}),
     sellerUser: navigation.getParam('sellerUser', {}),
   })),

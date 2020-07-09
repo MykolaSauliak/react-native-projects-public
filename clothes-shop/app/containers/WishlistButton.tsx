@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text ,
     TouchableOpacity,
     StyleSheet
 } from "react-native";
@@ -9,6 +8,7 @@ import { withWishlist } from "../utils/enhancers";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import colors from '../styles/colors'
+import {Text} from '../components'
 
 type WishlistButtonProps = {
   item: any,
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         // borderWidth: 0.8,
     },
     btnText: {
-      fontSize: 14,
       marginTop: 10,
     }
 })
@@ -53,7 +52,7 @@ const WishlistButton = ({
               style={[styles.wishlistBtn, btnStyle]}
             >
               <AntDesign name="star" size={30} color={color} />
-              <Text style={[styles.btnText, {color:color}]}>Wishlist</Text>
+              <Text mediumSize style={[styles.btnText, {color:color}]}>Wishlist</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -61,7 +60,7 @@ const WishlistButton = ({
               style={[styles.wishlistBtn, btnStyle]}
                 >
               <AntDesign name="staro" size={30} color={color}/>
-              <Text style={[styles.btnText, {color:color}]}>Wishlist</Text>
+              <Text mediumSize style={[styles.btnText, {color:color}]}>Wishlist</Text>
             </TouchableOpacity>
         )}
       </View>

@@ -4,6 +4,7 @@ import {Platform, AsyncStorage} from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import {persistCombineReducers} from 'redux-persist';
 // import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import lists from './lists';
 import settings from './settings';
 import score from './score';
 import premium from './premium';
@@ -28,6 +29,7 @@ import alerts from './alerts';
 const config = {
   key: 'root',
   whitelist: [
+    'lists',
     'settings',
     'score',
     'premium',
@@ -50,6 +52,7 @@ const config = {
 };
 
 const appReducer = {
+  lists,
   settings,
   score,
   premium,

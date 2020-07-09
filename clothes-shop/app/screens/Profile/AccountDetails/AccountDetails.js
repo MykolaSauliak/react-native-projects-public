@@ -1,23 +1,25 @@
 import React from 'react';
 import {
   View,
-  Text,
   ImageBackground,
   StyleSheet,
   FlatList,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import globalStyles from '../../../constants/styles';
+import globalStyles from '../../../styles';
 import colors from '../../../styles/colors';
 import i18n from '../../../i18n';
-import {ListItem, Icon, Input} from 'react-native-elements';
-import {NavigationService} from '../../../services';
+import {Input} from 'react-native-elements';
+import {NavigationService, AuthService} from '../../../services';
 import AvatarUpload from '../../../containers/AvatarUpload';
-import {BackHeader} from '../../../components';
+import {BackHeader, BackHeaderCenter, Loading} from '../../../components';
 import {Formik} from 'formik';
 import {ShopService} from '../../../services';
 import ButtonBlack from '../../../components/Button/ButtonBlack'
+import { setLoading } from '../../../features/user/actions';
+import {  Text} from '../../../components';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const S = StyleSheet.create({
   header: {
@@ -29,6 +31,22 @@ const S = StyleSheet.create({
     bottom: 15,
     right: 15,
   },
+  footer: {
+    padding: 15,
+    fontSize: widthPercentageToDP(4.6),
+    lineHeight: 25
+  },
+  headerTitle: {
+    fontWeight: 'bold', 
+    fontSize: widthPercentageToDP(6), 
+    paddingVertical: 15
+  },
+  inputLabel: {
+    fontWeight: 'bold', 
+    fontSize: widthPercentageToDP(5), 
+    paddingVertical: 15,
+    color: 'black'
+  }
 });
 
 const AccountDetails = ({
@@ -39,13 +57,18 @@ const AccountDetails = ({
   removeShippingAddress,
   loggedInUser,
   updateUser,
+  loading,
+  setLoading,
 }) => {
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
-      <BackHeader title="My details" />
+      <BackHeaderCenter 
+        title="My details" 
+        rightComponent={loading && <Loading />} 
+        />
       <ScrollView>
         <View style={{padding: 15}}>
-          <Text style={{fontWeight: 'bold', fontSize: 18, paddingVertical: 15}}>
+          <Text style={S.headerTitle}>
             Profile details
           </Text>
           <View
@@ -55,7 +78,7 @@ const AccountDetails = ({
               paddingVertical: 15,
               paddingHorizontal: 10,
             }}>
-            <AvatarUpload containerStyle={{marginBottom: 15}} />
+            <AvatarUpload containerStyle={{padding: 10 }}   containerStyle={{marginBottom: 15}} />
             <View style={{flex: 1, width: '100%'}}>
               <Formik
                 initialValues={{
@@ -66,15 +89,21 @@ const AccountDetails = ({
                 }}
                 onSubmit={async values => {
                   console.log('values', values);
-                  await ShopService.updateUserInfo(values);
-                  updateUser(values);
-                  NavigationService.navigateToProfile();
+                  setLoading(true)
+                  try{
+                    await ShopService.updateUserInfo(values);
+                    updateUser(values);
+                  }catch(err){
+
+                  }
+                  setLoading(false)
+                  // NavigationService.navigateToProfile();
                 }}>
                 {({handleChange, handleBlur, handleSubmit, values}) => (
                   <View style={{flex: 1}}>
                     <Input
                       inputContainerStyle={{color: 'black'}}
-                      labelStyle={{fontSize: 12, color: 'black'}}
+                      labelStyle={S.inputLabel}
                       containerStyle={{marginBottom: 10}}
                       label="First name"
                       value={values.name}
@@ -82,7 +111,7 @@ const AccountDetails = ({
                     />
                     <Input
                       inputContainerStyle={{color: 'black'}}
-                      labelStyle={{fontSize: 12, color: 'black'}}
+                      labelStyle={S.inputLabel}
                       containerStyle={{marginBottom: 10}}
                       label="Surname"
                       onChangeText={handleChange('last_name')}
@@ -93,12 +122,13 @@ const AccountDetails = ({
                       labelStyle={{fontSize: 12, color: 'black'}}
                       containerStyle={{marginBottom: 10}}
                       label="Biography"
+                      labelStyle={S.inputLabel}
                       onChangeText={handleChange('bio')}
                       value={values.bio}
                     />
                     <Input
                       inputContainerStyle={{color: 'black'}}
-                      labelStyle={{fontSize: 12, color: 'black'}}
+                      labelStyle={S.inputLabel}
                       containerStyle={{marginBottom: 10}}
                       disabled
                       label="Email"
@@ -120,6 +150,14 @@ const AccountDetails = ({
               </Formik>
             </View>
           </View>
+          <Text style={S.footer}>Information collected is processed electronically in order to manage the service providedby the Site</Text>
+          <ButtonBlack 
+            title="DEACTIVATE MY ACCOUNT" 
+            titleStyle={{color: "white"}} 
+            containerStyle={{paddingHorizontal: 10}}
+            onPress={() => AuthService.logout()}
+            // containerStyle={{backgroundColor:null}} 
+            />
         </View>
       </ScrollView>
     </View>

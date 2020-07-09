@@ -14,16 +14,17 @@ import {NavigationService} from '../../../services';
 import ShippingCartIcon from '../../../containers/ShippingCartIcon';
 import AvatarUpload from '../../../containers/AvatarUpload';
 import UserInfo  from '../../../components/UserInfo/UserInfo'
-import { BackHeader } from '../../../components';
-import ListItem from '../../../components/ListItem/ListItem';
+import { BackHeader, BackHeaderCenter } from '../../../components';
 import NotAuthorizedUser from '../../../components/NotAuthorizedUser/NotAuthorizedUser'
-import globalStyles from '../../../constants/styles'
+import globalStyles from '../../../styles'
 import Text from '../../../components/Text/Text';
 import ButtonBlack from '../../../components/Button/ButtonBlack';
 import ProgressSteps from '../../../components/ProgressSteps/ProgressSteps'
 import Feather from "react-native-vector-icons/Feather";
 import Collapsible from 'react-native-collapsible';
 import CustomIcon from '../../../components/CustomIcon/CustomIcon';
+import SellerReputationChip from '../../../components/SellerStatusChip/SellerStatusChip';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const SeeMore = ({
   title = "", 
@@ -62,26 +63,30 @@ const Stats = ({
     
     return (
         <View style={{flex:1}}>
-            <BackHeader title="My stats"/>
+            <BackHeaderCenter title="My stats"/>
             <ScrollView>
             <View
-              style={{aspectRatio: 3 / 1, width: '100%', flexDirection: 'row', alignItems : "flex-start", paddingTop: 15}}>
-                <View style={{flex: 0.3}}>
-                  <AvatarUpload disabled/>
+              style={{aspectRatio: 3 / 1, width: '100%', flexDirection: 'row', alignItems : "center", padding: 15}}>
+                <View style={{flex: 0.3, justifyContent:'center', alignItems:'center'}}>
+                  <AvatarUpload disabled />
                 </View>
                 <View  style={{flex: 0.7, justifyContent:'flex-start'}}>
-                  <Text style={{...globalStyles.text, fontWeight: 'bold', lineHeight : 26}}>
+                    <Text style={S.startSelling}>
                       Start selling and become 
                       a Trusted Seller!
                     </Text>
+                    <SellerReputationChip 
+                      containerStyle={{alignItems:'flex-start'}} 
+                      reputation={loggedInUser.reputation}
+                      />
                 </View>
             </View>
             <View style={{padding: 20, width: '100%'}}>
                 <Text xmediumSize bold style={{paddingBottom: 10}}>To become Trusted Seller</Text>
-                <View style={{paddingLeft: 15}}>
-                    <Text><Text bold>Volume:</Text> Sell 2 more items</Text>
-                    <Text><Text bold>Conformity:</Text>Ensure item descriptions conform to reality</Text>
-                    <Text><Text bold>Shipping:</Text> Sell 2 more items</Text>
+                <View style={{paddingLeft: 15,}}>
+                    <Text xmediumSize style={S.text}><Text xmediumSize bold>Volume:</Text> Sell 2 more items</Text>
+                    <Text xmediumSize style={S.text}><Text xmediumSize bold>Conformity:</Text> Ensure item descriptions conform to reality</Text>
+                    <Text xmediumSize style={S.text}><Text xmediumSize bold>Shipping:</Text> Sell 2 more items</Text>
                 </View>
             </View>
             <View style={{flex:1, backgroundColor: colors.gray}}>
@@ -90,16 +95,17 @@ const Stats = ({
                     title="Volume" 
                     headerStyle={{marginBottom: 15}}
                     titleStyle={{textTransform: 'uppercase', paddingVertical: 10}}
-                    collapseTextStyle={{opacity: 0.5, lineHeight: 22}}
+                    collapseTextStyle={S.collapseText}
                     collapseText={`To qualify as a Trusted Seller, sell 2 items in the span of 4 month.\n- Trusted: 2 items sold\n- Expert: 5 items sold`}/>
                   <ProgressSteps 
                       unfilledColor={colors.gray}
                       color={colors.black}
                       borderWidth={0.5}
                       height={5}
-                      progress={(loggedInUser.sold_count || 0) / 5}
+                      width="95%"
+                      progress={Math.min((loggedInUser.volume || 0) / 5, 1)}
                       containerStyle={{marginTop: 25, marginBottom: 25}}
-                      pointerTitle={"0 items sold"}  
+                      pointerTitle={`${loggedInUser.volume || 0}`}  
                       showLines={true}
                       bedges={[
                         {
@@ -125,16 +131,17 @@ const Stats = ({
                     title="CONFORMITY" 
                     headerStyle={{marginBottom: 15}}
                     titleStyle={{textTransform: 'uppercase', paddingVertical: 10}}
-                    collapseTextStyle={{opacity: 0.5, lineHeight: 22}}
+                    collapseTextStyle={S.collapseText}
                     collapseText={`To qualify as a Trusted Seller, 100% of items sold in the past 4 months must have been genuine; 80% of these items must have conformed to their description\n- Trusted: 80 %\n- Expert: 90 %`}/>
                   <ProgressSteps 
                       unfilledColor={colors.gray}
                       color={colors.black}
                       borderWidth={0.5}
-                      progress={loggedInUser.conformity}
+                      progress={Math.min(loggedInUser.conformity, 1)}
                       height={5}
+                      width="95%"
                       containerStyle={{marginTop: 15, marginBottom: 25}}
-                      pointerTitle={`${loggedInUser.conformity} %`}  
+                      pointerTitle={`${(loggedInUser.conformity || 0) * 100} %`}  
                       showLines={true}
                       bedges={[
                         {
@@ -159,16 +166,17 @@ const Stats = ({
                     title="Shipping" 
                     headerStyle={{marginBottom: 15}}
                     titleStyle={{textTransform: 'uppercase', paddingVertical: 10}}
-                    collapseTextStyle={{opacity: 0.5, lineHeight: 22}}
+                    collapseTextStyle={S.collapseText}
                     collapseText={`To qualify as a Trusted Seller, 80& of items sold in the past 4 month must have shipped within 5 days\n -Trusted: 80 %\n- Expert: 90 %`}/>
                   <ProgressSteps 
                       unfilledColor={colors.gray}
                       color={colors.black}
                       borderWidth={0.5}
-                      progress={loggedInUser.shipping}
+                      progress={Math.min(loggedInUser.shipping,1)}
                       height={5}
+                      width="95%"
                       containerStyle={{marginTop: 15, marginBottom: 25}}
-                      pointerTitle={`${loggedInUser.shipping} %`}  
+                      pointerTitle={`${(loggedInUser.shipping || 0) * 100} %`}  
                       showLines={true}
                       bedges={[
                         {
@@ -199,3 +207,22 @@ const Stats = ({
 };
 
 export default Stats;
+
+
+const S = StyleSheet.create({
+  startSelling: {
+    ...globalStyles.text, 
+    fontWeight: 'bold', 
+    fontSize: widthPercentageToDP(5),
+    lineHeight : 26
+  },
+  text: {
+    lineHeight: 24
+  },
+  collapseText:{
+    opacity: 0.5, 
+    lineHeight: 22, 
+    color: 'black',
+    fontSize: widthPercentageToDP(4.5),
+  }
+})

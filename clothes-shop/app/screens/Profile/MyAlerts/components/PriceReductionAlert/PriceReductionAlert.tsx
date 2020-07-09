@@ -1,14 +1,13 @@
 import React from 'react';
 import { 
     View,
-    Text ,
     FlatList,
     Image
 } from "react-native";
-import { ListItem } from "react-native-elements";
 import { Product as ProductType } from "../../../../../types";
 import { NavigationService } from '../../../../../services';
 import constants from '../../../../../constants';
+import {  Text, ListItem} from '../../../../../components';
 
 type Props = {
     items: ProductType[]

@@ -16,6 +16,7 @@ const TabHeader = ({
   activeTextStyle,
   containerTabStyle,
 }) => {
+  
   function getActiveStyle(index, style) {
     return currentTabIndex === index && style;
   }

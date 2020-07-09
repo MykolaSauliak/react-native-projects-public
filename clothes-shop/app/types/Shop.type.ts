@@ -88,6 +88,11 @@ export namespace Shop {
         no_negotiation?: boolean,
         quickShipping?: boolean,
         conformedDesc?: boolean,
+        directShipping?: boolean
+    }
+
+    export interface CartProduct {
+        shippingOption : 'withAuthentication' | 'withoutAuthentication'
     }
     
     export interface Address {
@@ -125,5 +130,31 @@ export namespace Shop {
         createdAt : any, 
         updatedAt : any, 
         created_time : number, 
+    }
+
+    export interface TopBanner {
+        title: string,
+    }
+    export interface Collection {
+        title: string,
+        main_essential?: boolean,
+        searchCards?: SearchCard[]
+    }
+
+    export interface SearchCard {
+        src: string,
+        title: string,
+        brand_name?:string,
+        category_id?:string,
+        type_id?:string,
+        subtype_id?:string,
+    }
+
+    export interface  SliderEntryType {
+        data: any,
+        even: boolean,
+        parallax: boolean,
+        parallaxProps: any,
+        onSlidePress: (slide : SliderEntryType) => void,
     }
 }

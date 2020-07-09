@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text ,
     TouchableOpacity,
     StyleSheet
 } from "react-native";
+import Text from '../components/Text/Text'
 import { withNotifications } from "../utils/enhancers";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         // borderWidth: 0.8,
     },
     btnText: {
-      fontSize: 12,
+      // fontSize: 12,
       marginTop: 10,
       textAlign:'center',
     }
@@ -47,24 +47,25 @@ const PriceReductionButton = ({
     item,
     color = ' black',
     btnStyle = {},
+    onPress,
 } : PriceReductionButtonProps) => {
     return (
       <View style={[{justifyContent:'space-around'},styles.wishlistBtn, btnStyle]}>
         {isPriceAlert(item.id) == true ? (
             <TouchableOpacity
-              onPress={() => unsubscribeToPriceReduce(item.id)}
+              onPress={() =>  onPress ? onPress() : unsubscribeToPriceReduce(item.id)}
               style={styles.wishlistBtn}
             >
               <FontAwesome  name="chevron-down"  size={30} color={color} />
-              <Text style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
+              <Text mediumSize style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              onPress={() => subscribeToPriceReduce(item.id)}
+              onPress={() =>   onPress ? onPress() : subscribeToPriceReduce(item.id)}
               style={[styles.wishlistBtn, btnStyle]}
                 >
               <FontAwesome name="angle-double-down" size={30} color={color}/>
-              <Text style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
+              <Text mediumSize style={[styles.btnText, {color:color}]}>{`Price reduction \nupdates`}</Text>
             </TouchableOpacity>
         )}
       </View>

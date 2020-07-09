@@ -2,13 +2,14 @@ import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import T from 'prop-types';
 import {ListItem} from 'react-native-elements';
+import {globalStyles} from '../styles'
 
 const ItemsList = ({items, onItemPress}) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {items.map(item => (
         <ListItem
-          titleStyle={{fontSize: 14}}
+          titleStyle={[globalStyles.text, globalStyles.leftListItem]}
           bottomDivider
           title={item.title || item}
           onPress={() => onItemPress(item)}

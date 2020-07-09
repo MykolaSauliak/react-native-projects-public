@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import S from './styles';
-import globalStyles from '../../../../constants/styles';
+import globalStyles from '../../../../styles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../../../../styles/colors';
-import {ListItem} from 'react-native-elements';
+import {ListItem} from '../../../../components';
 import {List, Checkbox} from 'react-native-paper';
 import {NavigationService} from '../../../../services';
 import constants from '../../../../constants';
@@ -50,7 +50,8 @@ const ManSearchView = ({
         <View style={[S.listAccordion]}>
           <List.Accordion
             title={item.title || ''}
-            titleStyle={{fontWeight: 'bold', color: 'black'}}>
+            titleStyle={S.sectionTitle}            
+            >
             <TouchableOpacity
               onPress={
                 () => {
@@ -147,7 +148,7 @@ const ManSearchView = ({
           <List.Accordion
             title="New in"
             // style={}
-            titleStyle={{fontWeight: 'bold'}}
+            titleStyle={S.sectionTitle}
             // left={props => <List.Icon {...props} icon="folder" />}
           >
             {/* <TouchableOpacity onPress={() => addLastSearchItem({category: 'Woman', label: "Today"})}> */}

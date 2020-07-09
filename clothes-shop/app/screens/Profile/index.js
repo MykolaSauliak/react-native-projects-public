@@ -8,11 +8,13 @@ import {
 } from 'recompose';
 import {AuthService, NavigationService} from '../../services';
 import {withAuth} from '../../utils/enhancers';
+import codePush from "react-native-code-push";
 
 const enhance = compose(
   withAuth(),
   withState('checked', 'setChecked', false),
   withState('locale', 'setLocale', null),
+  withState('version', 'setVersion', ""),
   withHandlers({
     onLogout: props => async () => {  
       await AuthService.logout();
@@ -20,6 +22,15 @@ const enhance = compose(
   }),
   lifecycle({
     componentDidMount() {
+
+      codePush.getUpdateMetadata()
+          .then( metadata => {
+              if(metadata){
+                this.props.setVersion(metadata.appVersion + " " + metadata.label)
+                  // this.setState({label: metadata.label, version: metadata.appVersion, description: metadata.description});
+              }
+          })
+    
       // if(this.props.navigation){
       //     this.didBlurSubscription = this.props.navigation.addListener(
       //       'willFocus',

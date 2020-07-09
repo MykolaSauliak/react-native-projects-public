@@ -4,4 +4,5 @@ export default {
   setAvatar: 'setAvatar',
   setPhone: 'setPhone',
   updateUser: 'updateUser',
+  setLoading: 'setLoading',
 };

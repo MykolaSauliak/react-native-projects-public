@@ -2,13 +2,13 @@ import React from 'react';
 import {
   Platform,
   View,
-  Text,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import {Header, Icon} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../styles/colors';
+import {   Text } from "../components";
 
 const NotificationIcon = ({notificationsCount, focused, color, size}) => {
   const iconName = focused ? 'ios-notifications' : 'ios-notifications-outline';
@@ -28,7 +28,7 @@ const NotificationIcon = ({notificationsCount, focused, color, size}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'white'}}>{notificationsCount}</Text>
+          <Text style={{color: 'white',fontSize:11}}>{notificationsCount < 99 ? notificationsCount : "99+"}</Text>
         </View>
       ) : null}
       <Ionicons name={iconName} size={size} color={color} />

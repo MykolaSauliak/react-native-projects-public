@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -18,7 +16,9 @@ import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import RNPickerSelect from 'react-native-picker-select';
 import {NavigationService} from '../../../../services';
-import { BackHeaderCenter, Input } from '../../../../components';
+import { BackHeaderCenter, Input, ListItem } from '../../../../components';
+import {  Text} from '../../../../components';
+import { globalStyles } from '../../../../styles';
 
 const SelectSellMeasurementsView = ({
   subcategories,
@@ -30,9 +30,12 @@ const SelectSellMeasurementsView = ({
   onDone,
   setSelectedSellMeasurements,
 }) => {
+
+
   let [closed, setClosed] = useState(0);
   let [width, setWidth] = useState(0);
   let [height, setHeight] = useState(0);
+  let [depth, setDepth] = useState(0);
   let [unit, setUnit] = useState('cm');
 
   let sheetInitialHeight = 0;
@@ -68,8 +71,8 @@ const SelectSellMeasurementsView = ({
             icon: 'check',
             color: '#000',
             onPress: () => {
-              console.log(unit, width, height);
-              setSelectedSellMeasurements({unit, width, height});
+              // console.log(unit, width, height);
+              setSelectedSellMeasurements({unit, width, height, depth});
               onDone();
             },
           }}
@@ -78,7 +81,8 @@ const SelectSellMeasurementsView = ({
                 </Text>  */}
         <ListItem
           topDivider
-          leftElement={<Text>Unit</Text>}
+          titleStyle={globalStyles.leftListItem}
+          leftElement={<Text style={globalStyles.leftListItem}>Unit</Text>}
           rightElement={
             <View style={{width: 100}}>
               <RNPickerSelect
@@ -91,7 +95,8 @@ const SelectSellMeasurementsView = ({
           bottomDivider
         />
         <ListItem
-          leftElement={<Text>Height</Text>}
+          titleStyle={globalStyles.leftListItem}
+          leftElement={<Text style={globalStyles.leftListItem}>Height</Text>}
           rightElement={<Input 
             // containerStyle={{width: '20%'}}
             onChangeText={text => setHeight(text)}
@@ -121,7 +126,7 @@ const SelectSellMeasurementsView = ({
           bottomDivider
         />
         <ListItem
-          leftElement={<Text>Width</Text>}
+          leftElement={<Text style={globalStyles.leftListItem}>Width</Text>}
           rightElement={<Input 
             // containerStyle={{width: '20%'}}
             onChangeText={text => setWidth(text)}
@@ -136,24 +141,26 @@ const SelectSellMeasurementsView = ({
                 textAlign:'flex-start'
             }}
             />}
-          // input={{
-          //   onChangeText: text => setWidth(text),
-          //   keyboardType: 'number-pad',
-          //   containerStyle: {
-          //     borderBottomColor: 'black',
-          //     borderBottomWidth: 2,
-          //     width: '100%',
-          //   },
-          // }}
-          // rightElement={<TouchableOpacity>
-          //     <Text>Example</Text>
-          // </TouchableOpacity>}
           bottomDivider
         />
-        {/* <Input
-                    placeholder="Describe your article"
-                    onChangeText={(text) => setSellDescription(text)}
-                    /> */}
+        <ListItem
+          leftElement={<Text style={globalStyles.leftListItem}>Depth</Text>}
+          rightElement={<Input 
+            // containerStyle={{width: '20%'}}
+            onChangeText={text => setDepth(text)}
+            keyboardType='number-pad'
+            maxLength={9}
+            containerStyle={{
+                borderBottomColor: 'black',
+                // borderBottomWidth: 2,
+                width: '50%',
+            }}
+              style={{
+                textAlign:'flex-start'
+            }}
+            />}
+          bottomDivider
+        />
       </View>
     </View>
   );

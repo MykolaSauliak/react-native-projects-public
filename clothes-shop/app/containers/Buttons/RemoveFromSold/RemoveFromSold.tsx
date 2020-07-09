@@ -32,6 +32,7 @@ const RemoveFromSold = ({
     id = "",
     status = 'approved',
     color=colors.orange,
+    onPress,
     ...props
 } : RemoveFromSoldProps) => {
     return (
@@ -39,10 +40,10 @@ const RemoveFromSold = ({
         iconProps={{type: 'antdesign', name: "check"}}
         toggledIconProps={{ type: 'antdesign', name: "closecircleo"}}
         toggled={status == constants.clothes_fields.status_field.approved}
-        onToggledPress={() => ShopService.hideProduct(id)}
+        onToggledPress={() => onPress ? onPress() : ShopService.hideProduct(id)}
         title={`approve for\nsold`}
         toggledTitle={`remove from\nsold`}
-        onPress={() => status == constants.clothes_fields.status_field.user_dismiss ?  ShopService.showProduct(id) : () => {}}
+        onPress={() => onPress ? onPress() : status == constants.clothes_fields.status_field.user_dismiss ?  ShopService.showProduct(id) : () => {}}
         disabled={status == constants.clothes_fields.status_field.sold}
         color={color}
         {...props}

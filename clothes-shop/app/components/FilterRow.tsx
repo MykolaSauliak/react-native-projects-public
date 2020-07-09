@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text} from "react-native";
+import { View, StyleSheet} from "react-native";
 import { ListItem } from "react-native-elements";
+import {   Text } from "../components";
 
 
 const styles = StyleSheet.create({

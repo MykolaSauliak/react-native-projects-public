@@ -7,6 +7,16 @@ export const addShippingAddress = payload => dispatch => {
   });
 };
 
+export const updateAddress = (id, update) => dispatch => {
+  dispatch({
+    type: types.updateAddress,
+    payload: {
+      id,
+      update
+    },
+  });
+};
+
 export const removeShippingAddress = payload => dispatch => {
   dispatch({
     type: types.removeShippingAddress,

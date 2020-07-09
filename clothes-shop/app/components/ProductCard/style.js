@@ -6,20 +6,36 @@ export default StyleSheet.create({
     container: {
         maxWidth: constants.DEVICE_WIDTH * 0.5,
         borderColor: 'white',
-        elevation: 2,
+        // minHeight: 250,
+        elevation: 0,
+        // margin: 2,
+        // padding: 0,
     },
     headerContainer: {
         width: '100%',
-        margin: 5,
-        top: 0,
-        backgroundColor: null,
-        position: 'absolute',
-        zIndex: 2,
+        // margin: 5,
+        marginTop: -5,
+        minHeight: 45,
+        backgroundColor: null
+        // top: 0,
+        // backgroundColor: null,
+        // position: 'absolute',
+        // zIndex: 2,
     },
     headerLeft:{
-        position: 'absolute', 
-        left: 0, 
-        top: 0
+        // position: 'absolute', 
+        // left: 0, 
+        // top: 0
+    },           
+    headerRight:{
+      backgroundColor: null,
+      flexDirection:'row', 
+      alignItems:'center',
+      justifyContent:'flex-end'
+        // position: 'absolute',
+        // right: 10,
+        // top: 0,
+        // alignItems: 'center',
     },           
     cartBtn: {
         padding: 12,
@@ -35,15 +51,28 @@ export default StyleSheet.create({
         fontSize: 13,
       },
       text: {
-        fontSize: 14,
+        fontSize: 17,
+        lineHeight: 24,
+      },
+      bottomText: {
+        fontSize: 15,
+        lineHeight: 18,
+        fontWeight: '900',
+        textTransform: 'capitalize'
       },
       title: {
         color: 'black',
-        fontSize: 17,
+        fontSize: 18,
+        lineHeight: 24,
+        fontWeight: '900'
       },
       price: {
         fontSize: 15,
         fontWeight: '600',
+      },
+      priceOld: {
+        textDecorationStyle: 'solid', 
+        textDecorationLine: 'line-through',
       },
       newPrice: {
         fontSize: 22,
@@ -77,7 +106,7 @@ export default StyleSheet.create({
       favoriteCount: {
         borderRadius: 5,
         fontSize: 10,
-        marginTop: 2,
+        margin: 2,
         backgroundColor: colors.gray,
         textAlign: 'center',
         padding: 2,
@@ -107,8 +136,9 @@ export default StyleSheet.create({
       locationBox: {
         width: '100%',
         // justifyItems:
+        // height: 10,
         flexDirection: 'row',
-        padding: 5,
+        // padding: 5,
         alignItems: 'center',
         justifyContent: 'flex-start',
       },

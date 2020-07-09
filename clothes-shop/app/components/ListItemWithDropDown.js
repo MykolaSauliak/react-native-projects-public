@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import {ListItem, CheckBox} from 'react-native-elements';
+import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {CheckBox} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import constants from '../constants';
 import T from 'prop-types';
+import { ListItem, Text } from '.';
+import { globalStyles } from '../styles';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const S = StyleSheet.create({
   container: {
@@ -18,12 +21,15 @@ const S = StyleSheet.create({
     borderColor: 'gray',
   },
   title: {
-    fontSize: 15,
+    fontSize: widthPercentageToDP(6),
     marginVertical: 4,
+    ...globalStyles.boldText,
+
   },
   subtitle: {
-    fontSize: 13,
+    fontSize: widthPercentageToDP(5),
     marginBottom: 5,
+    lineHeight: 26
   },
   contentContainer: {
     width: '100%',
@@ -47,12 +53,14 @@ const S = StyleSheet.create({
   },
   collapseSubtitle: {
     color: 'gray',
-    fontSize: 12,
+    fontSize: widthPercentageToDP(4),
     paddingLeft: 5,
+    lineHeight: 24
   },
   collapseTitle: {
     color: 'gray',
     fontSize: 13,
+    lineHeight: 24,
   },
 });
 
@@ -62,7 +70,10 @@ const ListItemWithDropDown = ({
   subtitle,
   onPress = () => {},
   collapseSubtitle,
+  collapseSubtitleProps = {},
   collapseTitle,
+  titleStyle = {},
+  collapseTitleProps = {},
 }) => {
   const toggleCollapse = () => {
     setShow(!showCollapseSubtitle);
@@ -76,7 +87,7 @@ const ListItemWithDropDown = ({
         title={title}
         onPress={onPress}
         subtitle={subtitle}
-        titleStyle={[S.title]}
+        titleStyle={[S.title, titleStyle]}
         subtitleStyle={[S.subtitle]}
         contentContainerStyle={[S.contentContainer]}
         containerStyle={[S.listItemContainer]}
@@ -84,9 +95,9 @@ const ListItemWithDropDown = ({
       />
       <TouchableOpacity style={[S.collapseBox]} onPress={toggleCollapse}>
         <View style={{flex: 0.9}}>
-          <Text style={[S.collapseTitle]}>{collapseTitle}</Text>
+          <Text  style={[S.collapseTitle]} {...collapseTitleProps}>{collapseTitle}</Text>
           {showCollapseSubtitle && (
-            <Text style={[S.collapseSubtitle]}>{collapseSubtitle}</Text>
+            <Text style={[S.collapseSubtitle]} {...collapseSubtitleProps} >{collapseSubtitle}</Text>
           )}
         </View>
         <AntDesign

@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SearchBar, Badge} from 'react-native-elements';
 import colors from '../styles/colors';
-import globalStyles from '../constants/styles';
+import globalStyles from '../styles';
 import Modal from 'react-native-modal';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import constants from '../constants';
 import i18n from '../i18n';
 import {NavigationService} from '../services';
+import {   Text } from "../components";
 
 let fall = new Animated.Value(1);
 let filterSheetActive = false;
@@ -39,6 +40,7 @@ const S = StyleSheet.create({
     padding: 5,
     borderColor: colors.inputBackround,
     borderRadius: 3,
+    marginHorizontal: 3
     // opacity :0.4
   },
   panelContainer: {
@@ -277,7 +279,7 @@ const ClothesSearchHeader = ({
             } */}
         <View style={S.container}>
           {showBack === true && (
-            <TouchableOpacity onPress={onBack}>
+            <TouchableOpacity style={[S.searchBtn, {borderWidth: 0}]} onPress={onBack}>
               <FontAwesome name="arrow-left" size={20} />
             </TouchableOpacity>
           )}
@@ -287,7 +289,7 @@ const ClothesSearchHeader = ({
                     <MaterialCommunityIcons name="chevron-left" size={20}  />
             </TouchableOpacity>
           } */}
-          {onLeftButtonPress != null && !showBack && (
+          {onLeftButtonPress != null && (
             <TouchableOpacity style={S.searchBtn} onPress={onLeftButtonPress}>
               <MaterialCommunityIcons name="database-search" size={20} />
             </TouchableOpacity>

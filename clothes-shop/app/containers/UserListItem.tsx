@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View,Text } from "react-native";
 import { User } from "../types";
-import { ListItem } from "react-native-elements";
 import { ShopService } from "../services";
 import Loading from "../components/Loading";
 import UserRow from '../components/UserRow'
+import { ListItem } from '../components';
 
 type Props = {
     user_id : string,
@@ -25,7 +25,7 @@ class UserListItem extends Component<Props, State> {
     }
 
     async componentDidMount(){
-        console.log('user_id', this.props.user_id)
+        // console.log('user_id', this.props.user_id)
         if(this.props.user_id){
             let user = await ShopService
                 .getUser(this.props.user_id)
@@ -51,7 +51,7 @@ class UserListItem extends Component<Props, State> {
             return <ListItem bottomDivider title={<Loading />} />
         }   
 
-        if(!user.name){
+        if(!user?.name){
             return null
         }
 

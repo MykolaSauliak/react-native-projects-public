@@ -1,12 +1,13 @@
 import React from 'react';
-import { View,Text } from "react-native";
-import { ListItem,Icon } from "react-native-elements";
+import { View } from "react-native";
+import { Icon } from "react-native-elements";
 import {withSearch } from "../../../../utils/enhancers";
 import constants from '../../../../constants';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { SearchItem, SearchState } from "../../../../types/Search.type";
 import { NavigationService } from "../../../../services";
 import _ from 'lodash'
+import {  Text, ListItem} from "../../../../components";
 
 type Props = {
   lastsearch : SearchItem[]
@@ -75,9 +76,10 @@ const ItemSearch = ({
     subtitle += rangeString.length >0 ? '\n' + rangeString : ""
     let toggleString =  Object
             .entries(item?.searchState?.toggle || {})
-            .filter(([k,v]) => v)
+            .filter(([k,v]) => !k.includes('id') && v)
             .map(([k,v]) => k)
             .join(' - ') 
+            
     if(toggleString){
       subtitle += toggleString.length> 0 ? '\n' + toggleString:"" 
       // subtitle += toggleString.length> 0 ?'\ntoggles:' + toggleString:"" 

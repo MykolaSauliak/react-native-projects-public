@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {View, Text} from 'react-native';
+import {ListItem, Loading} from '../../../../components';
 import {NavigationService} from '../../../../services';
 
 const FollowedBy = ({items, onPress, loading}) => {
   return (
     <View>
-      {loading && <ActivityIndicator />}
+      {loading && <Loading/>}
       {items.map(item => (
         <ListItem title={item.name} />
       ))}

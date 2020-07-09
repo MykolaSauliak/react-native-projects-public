@@ -62,7 +62,7 @@ const FavoriteButton = ({
     count = 0,
     btnStyle = {},
     containerStyle = {},
-    iconSize = 25,
+    iconSize = 20,
     activeTitle,
     color = 'black',
     textColor,

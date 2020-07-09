@@ -10,7 +10,7 @@ import MyAlerts from '../screens/Profile/MyAlerts';
 import MyItems from '../screens/Profile/MyItems';
 import PriceOfferSent from '../screens/Profile/PriceOfferSent';
 import AccountDetails from '../screens/Profile/AccountDetails';
-import {BackHeader} from '../components';
+import {BackHeader, BackHeaderCenter} from '../components';
 import screens from '../constants/screens';
 import Favorites from '../screens/Profile/Favorites';
 import Stats from '../screens/Profile/Stats';
@@ -28,14 +28,14 @@ const ProfileStack = createStackNavigator(
     [screens.MyOrders]: {
       screen: MyOrders,
       navigationOptions: props => ({
-        header: <BackHeader title="My orders" />,
+        header: <BackHeaderCenter title="My orders" />,
         // header:  <BackHeader navigation={props.navigation} title="Sign in"/>,
       }),
     },
     [screens.MyAddresses]: {
       screen: MyAddresses,
       navigationOptions: props => ({
-        header: <BackHeader title="Address" />,
+        header: <BackHeaderCenter title="Address" />,
         // header:  <BackHeader navigation={props.navigation} title="Sign in"/>,
       }),
     },

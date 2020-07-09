@@ -4,6 +4,7 @@ import types from './types';
 const initialState = {
   addresses: [],
   selectedAddress: {},
+  lastAddressUpdate : null
 };
 
 export default createReducer(initialState, {
@@ -25,5 +26,21 @@ export default createReducer(initialState, {
   },
   [types.setSelectedAddress]: (state, {payload}) => {
     return {...state, selectedAddress: payload};
+  },
+  [types.updateAddress]: (state, {payload : {id, update}}) => {
+    return {      
+        ...state,
+        lastAddressUpdate: Date.now(),
+        selectedAddress: {...state.selectedAddress, ...update},
+        addresses: state.addresses.map( ad => {
+          if(ad?.id == id){
+            ad = {
+              ...ad,
+              ...update
+            }
+          }
+          return ad
+        })
+    };
   },
 });

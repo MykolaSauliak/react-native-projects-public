@@ -16,7 +16,7 @@ const Highlight = ({attribute, hit, highlight}) => {
   // console.log('hit',hit)
   return (
     <ListItem
-      leftAvatar={{source: {uri: hit.photoURL}}}
+      leftAvatar={{source: {uri: hit.photoURL || hit.avatar}}}
       title={hit.displayName}
       subtitle={hit.uid}
       onPress={() =>

@@ -7,13 +7,12 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-import {ListItem, CheckBox} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import colors from '../../styles/colors';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import constants from '../../constants';
 import toTimestamp from '../../utils/getDiscountEndTs';
 import T from 'prop-types';
@@ -29,21 +28,24 @@ import {
   Body,
   Text,
 } from 'native-base';
-import {SharedElement} from 'react-native-motion';
 import S from './style'
+import SellerReputationChip from '../SellerStatusChip/SellerStatusChip';
+import Chip from '../Chip/Chip';
 
 const ProductCard = ({
   item,
   images,
   price,
+  newPrice = 0,
   title,
   desc,
   id,
   sale_status,
   status, 
+  color,
   count = 0,
-  type_name,
-  subtype_name,
+  type_name = "",
+  subtype_name = "",
   brand_name,
   favorite_count,
   favorite,
@@ -51,13 +53,14 @@ const ProductCard = ({
   country,
   seller,
   shipping_country,
-  material,
+  material = '',
   reputation,
   we_love,
   location = 'Paris',
   discount,
   discountEnd,
   discountEndTs,
+  directShipping = false,
 
   showNumber,
   showCheckBox,
@@ -94,36 +97,23 @@ const ProductCard = ({
   // console.log('images ? images[0].src : ',images)
   return (
     <Card
-      style={S.container}>
+      style={[S.container, containerStyle]}>
       <CardItem
         style={S.headerContainer}>
         <Left style={S.headerLeft}>
           {/* <View> */}
-          <Body style={{alignItems: 'center', justifyContent: 'center'}}>
-            {reputation === 'trusted_seller' && (
-              <View style={S.trusted_seller}>
-                <AntDesign name="check" size={15} color={colors.sepiaDark} />
-                <Text style={S.trusted_seller_text}> Trusted Seller</Text>
-              </View>
-            )}
-            {reputation === 'expert_seller' && (
-              <View style={S.trusted_seller}>
-                <FontAwesome5 name="award" size={15} color={colors.sepiaDark} />
-                <Text style={S.trusted_seller_text}> Expert Seller</Text>
-              </View>
-            )}
-          </Body>
+          {/* <Body style={{}}> */}
+          <SellerReputationChip reputation={reputation}/>
+          {/* </Body> */}
         </Left>
         <Right
-          style={{
-            position: 'absolute',
-            right: 5,
-            top: 0,
-            alignItems: 'center',
-          }}>
+          style={S.headerRight}>
+          {favorite_count && favorite_count > 0 ? (
+            <Text style={S.favoriteCount}>{favorite_count}</Text>
+          ) : null}
           {onFavoriteToggle != null && (
             <TouchableOpacity
-              style={{padding: 5}}
+              style={{}}
               onPress={() => onFavoriteToggle({id})}>
               <AntDesign
                 name={favorite === true ? 'heart' : 'hearto'}
@@ -131,54 +121,68 @@ const ProductCard = ({
               />
             </TouchableOpacity>
           )}
-          {favorite_count && favorite_count > 0 ? (
-            <Text style={S.favoriteCount}>{favorite_count}</Text>
-          ) : null}
         </Right>
       </CardItem>
-      <TouchableOpacity style={{marginTop: 30}} onPress={() => onPress(item)}>
+      <TouchableOpacity onPress={() => onPress(item)}>
         <CardItem cardBody>
           <Image
             source={{uri: images  && images[0] &&  images[0].src }}
-            style={{height: 150, width: null, flex: 1}}
+            style={{height: 125, width: '100%', flex: 1}}
             resizeMode="contain"
             defaultSource={constants.defaultImage}
           />
           {status == constants.sold && (<View style={{position: 'absolute', left: 0, right: 0,top:0,bottom: 0, backgroundColor: 'rgba(235, 237, 235, 0.5)', justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontWeight: 'bold'}}>sold</Text>
+            <Text style={[globalStyles.text, {fontWeight: 'bold'}]}>sold</Text>
           </View>)}
         </CardItem>
         <CardItem>
           <View
-            style={{width: '100%', alignItems: 'flex-start', minHeight: 90}}>
+            style={{flex:1, alignItems: 'flex-start', height: 100}}>
             {we_love && (
-              <Text style={[S.text, globalStyles.we_love]}>We love</Text>
+              <Chip textStyle={{...globalStyles.we_love, fontSize: 12, }}>We love</Chip>
+              // <Text style={[S.text, globalStyles.we_love]}>We love</Text>
             )}
-            {/* <SharedElement id="product_title"> */}
-            <Text style={[S.text, {fontWeight: 'bold'}]}>{brand_name}</Text>
-            {/* </SharedElement> */}
-            <Text style={[S.text]}>
-              {type_name} {material} {subtype_name}
-            </Text>
-            {/* <Text style={S.text}>{title}</Text> */}
-            <Text style={[S.text]}>
-              {price} {constants.MONEY_SYMBOL}
-            </Text>
+            <Text style={[globalStyles.boldText,S.title]} numberOfLines={1}>{brand_name}</Text>
+            <Text numberOfLines={1} style={[globalStyles.text, S.text]}>{`${color || ""} ${material || ""} ${subtype_name || ""}`}</Text>
+            {/* <Text numberOfLines={1} style={[globalStyles.text, S.text]}>{`${type_name.length > 0 ? type_name + " " : ""}${material.length > 0 ? material + " " :""}${subtype_name.length> 0 ? subtype_name + ' ' : ""}`}</Text> */}
+            {newPrice > 0 ? (
+              // <View style={{}}>
+              //   <Text style={[globalStyles.text, S.priceOld]}>
+              //     {price} {constants.MONEY_SYMBOL}
+              //   </Text>
+                <Text numberOfLines={1} style={[globalStyles.text]}>
+                  {newPrice} {constants.MONEY_SYMBOL}
+                </Text>
+            // {/* </View> */}
+            ): (
+              <Text numberOfLines={1} style={[globalStyles.text, S.text]}>
+                {price} {constants.MONEY_SYMBOL}
+              </Text>
+            )}
           </View>
         </CardItem>
-        <CardItem>
-          <Left style={{height: 30}}>
-            {((seller && shipping_country) || shipping_country) && (
+        <CardItem style={{flexDirection: 'column',  height: 65, justifyContent: 'flex-end'}}>
+          {directShipping && (<Left>
+                <View style={S.locationBox}>
+                  <FontAwesome5 size={13} color='black
+                  ' name="handshake" />
+                  <Text numberOfLines={1} style={[globalStyles.text, S.text, S.bottomText]}>
+                    Direct Shipping 
+                    {/* {seller ? seller.shipping_country : shipping_country} */}
+                  </Text>
+                </View>
+            </Left>)}
+            {((seller && shipping_country) || shipping_country) && (<Left>
               <View style={S.locationBox}>
-                <MaterialIcons color={colors.sepiaDark} name="place" />
-                <Text style={S.text}>
+                <MaterialIcons size={15} color={colors.orange} name="place" />
+                <Text numberOfLines={1} style={[globalStyles.text, S.text, S.bottomText]}>
                   {shipping_country}
                   {/* {seller ? seller.shipping_country : shipping_country} */}
                 </Text>
               </View>
-            )}
-          </Left>
+          </Left>)}
         </CardItem>
+
       </TouchableOpacity>
     </Card>
     // <Card

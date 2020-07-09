@@ -1,7 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {
   View,
-  Text,
   FlatList,
   Image,
   TouchableOpacity,
@@ -13,35 +12,28 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import S from './styles';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import colors from '../../styles/colors';
-import constants from '../../constants';
+import constants from '../../constants';  
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ClothesSearchHeader from '../../containers/Headers/ClothesSearchHeader';
 import FirestoreSlider from '../../containers/FirestoreSlider';
 import {GridList} from "../../containers";
+import {Text} from "../../components";
 // import {FlatGrid} from 'react-native-super-grid';
 import {
     Card,
-    ListItem,
     Button,
     Icon, 
 } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
-import {NavigationService} from '../../services';
+import {NavigationService, ShopService} from '../../services';
 import { Loading } from '../../components';
 // import logo from '../../assets/images/logo.png'
-import FastImage from 'react-native-fast-image'
-import {
-  Placeholder,
-  PlaceholderMedia,
-  PlaceholderLine,
-  Fade,
-  Loader,
-  Shine,
-  ShineOverlay,
-} from 'rn-placeholder';
+
 import { Shop } from '../../types/Shop.type';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import CategoriesCircles from '../../components/CategoriesCircles/CategoriesCircles';
 
 const SimplifiedCard = ({
   onPress = () => {},
@@ -60,7 +52,7 @@ const SimplifiedCard = ({
         
         />
     </View>
-    <Text style={{marginVertical: 10}}>{title}</Text>
+    <Text style={{marginVertical: 10, fontSize: wp(5)}}>{title}</Text>
 </TouchableOpacity>
 )
 
@@ -87,9 +79,6 @@ const HomeView = ({
   onBrandCardPress
 }) => {
 
-  let loadedImages = {
-    
-  }
   // const _renderItem = ({item, index}) => {
   //     return (
   //         <View key={item.title + index} >
@@ -125,11 +114,14 @@ const HomeView = ({
   }
 
   const _renderWeLoveSection = () => {
+    if(!weLoveProducts || weLoveProducts.length == 0){
+      return null
+    }
     return (
       <View style={[S.listBox, {backgroundColor: colors.lightGray}]}>  
         <GridList 
           title="We love"
-          titleStyle={S.listTitle}
+          titleStyle={[{...globalStyles.title}, S.listTitle]}
           items={weLoveProducts} 
           />
         <View style={{paddingHorizontal: 15}}>
@@ -148,8 +140,10 @@ const HomeView = ({
 
   const _renderPopularBrands = () => (
     <View style={[S.listWhiteBox]}>
-      <Text style={S.listTitle}>{'Popular Brands'}</Text>
-      <ScrollView style={{marginTop: 15}} horizontal showsHorizontalScrollIndicator={false}>
+      <Text xxmediumSize style={[{...globalStyles.title},S.listTitle]}>{'Popular Brands'}</Text>
+      <ScrollView style={{marginTop: 15}} 
+        horizontal 
+        showsHorizontalScrollIndicator={false}>
         {popular_brands.map((b : Shop.Brand) => (
             <SimplifiedCard 
               onPress={() => onBrandCardPress(b)}
@@ -178,8 +172,26 @@ const HomeView = ({
     <View style={[S.listBox]}>
       <GridList 
         title="New in"
-        titleStyle={S.listTitle}
-        items={new_in_products}
+        // items={[]}
+        listName={constants.newin}
+        fetchMore={async (listItem) => {
+          if(!listItem){
+            console.log('fetch items')
+            const {items: new_in = [], new_in_count } = await ShopService.getGoods({
+              [constants.clothes_fields.status] : Shop.Status[2]
+            });
+            return new_in || []
+          }else{
+            console.log(listItem?.created_time)
+            let {items : products} = await ShopService.getGoods({
+              [constants.clothes_fields.status] : Shop.Status[2]
+            }, {}, 5, {field: 'created_time', direction: "desc"}, listItem?.created_time);
+            return products || []
+          }
+          
+        }}
+        titleStyle={[{...globalStyles.title},S.listTitle]}
+        // items={new_in_products}
         />
       {/* <Button title="view all" titleStyle={{ color: 'white'}} onPress={() => openList(constants.we_love)} buttonStyle={{backgroundColor:'#cc815e',}}/> */}
     </View>
@@ -190,10 +202,11 @@ const HomeView = ({
         {
           essentialList && essentialList.subtypes &&
           <View key={essentialList.title} style={[S.listWhiteBox]}>
-            <Text style={S.listTitle}>{essentialList.title}</Text>
+            <Text mediumSize style={[{...globalStyles.title},S.listTitle]}>{essentialList.title}</Text>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}
+              style={{marginTop: 15}}
               contentContainerStyle={{paddingLeft: 15}}
               >
               {essentialList.subtypes && 
@@ -246,53 +259,30 @@ const HomeView = ({
               padding: 0,
               backgroundColor: colors.lightGray,
             }}>
-            <ScrollView
-                showsHorizontalScrollIndicator={false}
-                style={[S.topLists]}
-                horizontal={true}
+            <FirestoreSlider 
+                collection="slides"
+                queries={[['type','==','topBanner']]}
                 >
-                {lists.map((list : any, i  : number) => {
-                // console.log('list',list)
-                return (
-                  <TouchableOpacity
-                    // onPress={() => NavigationService.navigateToFilterList({title:  'Test list'})}
-                    onPress={() => {
-                      search(list.title, {
-                        // title: list.title,
-                          refinementList: {
-                            tag_ids:  [list.tag_id]
-                          }
-                        },
-                        constants.clothes
-                      )
-                    }}
-                    key={list.title + i}  
-                    style={S.topListItem}>
-                    {/* <View key={list.title + i} style={S.topListItem}> */}
-                    {loadedImages[i] === false ? (
-                        <Placeholder
-                          Left={PlaceholderMedia}
-                          Animation={Shine}>
-                        </Placeholder>
-                      ) : (
-                        <FastImage
-                          onLoadStart={(e) => loadedImages[i] = false}
-                          onLoadEnd={(e) => loadedImages[i] = true}
-                          source={typeof list.image == 'string' ? {uri: list.image} : list.image}
-                          style={S.topListImage}
-                          resizeMode="cover"
-                        />
-                    )}
-                    <Text style={S.topListTitle}>{list.title}</Text>
-                    {/* </View> */}
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
+                {(banners :  Shop.TopBanner[]) => {
+                  console.log(banners)
+                  return banners.length> 0 && (<View style={{backgroundColor: 'black',padding:5}}>
+                    <Text style={S.topBanner}>{banners[0].title}</Text>
+                  </View>)}
+                }
+            </FirestoreSlider>
+            <CategoriesCircles lists={lists} onPress={(list) => {
+                  NavigationService.navigateToCategory({
+                    title: list.title,
+                    tag_id: list.tag_id
+                  })
+            }}/>
             <FirestoreSlider 
                 collection="slides"
                 queries={[['type','==','main']]}>
                 {(slides) => <FirestoreSlider.Slides 
+                        titleStyle={[globalStyles.text,  {fontSize: wp(6)}]}
+                        subtitleStyle={[globalStyles.text, {fontSize: wp(4), marginTop: 15, textDecoration: "underline"}]}
+                        
                         onSlidePress={(slide) => {
                             search(slide.title, {
                               // title: slide.title,

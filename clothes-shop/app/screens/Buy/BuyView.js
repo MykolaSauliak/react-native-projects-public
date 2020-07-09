@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import S from './styles';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import colors from '../../styles/colors';
 import i18n from '../../i18n';
 

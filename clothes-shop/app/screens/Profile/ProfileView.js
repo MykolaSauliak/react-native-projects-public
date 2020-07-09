@@ -14,9 +14,12 @@ import {NavigationService} from '../../services';
 import ShippingCartIcon from '../../containers/ShippingCartIcon';
 import AvatarUpload from '../../containers/AvatarUpload';
 import UserInfo  from '../../components/UserInfo/UserInfo'
-import { BackHeader, Text } from '../../components';
-import ListItem from '../../components/ListItem/ListItem';
+import { BackHeader, Text, BackHeaderCenter } from '../../components';
+import ListItem from '../../components/ListItem/ListItemProfile';
 import NotAuthorizedUser from '../../components/NotAuthorizedUser/NotAuthorizedUser'
+import constants from '../../constants';
+import globalStyle from '../../styles';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const S = StyleSheet.create({
   text: {
@@ -48,6 +51,7 @@ const S = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  footer: {opacity: 0.5, fontSize: widthPercentageToDP(5), lineHeight: 24}
 });
 
 const ProfileView = ({
@@ -79,6 +83,9 @@ const ProfileView = ({
   goToOrders,
   changeLocale,
   locale,
+
+  loading,
+  version = "",
 }) => {
   let languageSheet = React.createRef();
 
@@ -138,9 +145,12 @@ const ProfileView = ({
   };
 
   const _renderHeader = () => (
-    <BackHeader
-      title="Profile"
+    <BackHeaderCenter
+      title="Me"
+      hideBack
+      containerStyle={{alignItems:'flex-start', borderBottomWidth: 1}}
       rightComponent={<ShippingCartIcon />}
+      
     />
   );
 
@@ -149,7 +159,6 @@ const ProfileView = ({
   
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
-      {_renderHeader()}
       {/* <BottomSheet
         ref={languageSheet}
         snapPoints={[-50, 250]}
@@ -157,26 +166,28 @@ const ProfileView = ({
         renderHeader={renderSheetHeader}
       /> */}
       <ScrollView>
-        <View style={{paddingVertical: 15,  backgroundColor:'white'}}>
+        {_renderHeader()}
+        <View style={{paddingVertical: 5,  backgroundColor:'white'}}>
           {isSignedIn === true && (
             <View
               style={{aspectRatio: 5 / 1, width: '100%', flexDirection: 'row', alignItems : "center",}}>
-              <View style={{flex: 0.2}}>
-                <AvatarUpload avatarStyle={{height: 50}}/>
-              </View>
-              <View  style={{flex: 0.8, paddingHorizontal: 15}}>
+              <AvatarUpload
+                containerStyle={{flex: 0.25, alignItems: 'center', justifyContent:'center',}} 
+                defaultSource={constants.defaultAvatar} 
+                />
+              <View  style={{flex: 0.75, paddingHorizontal: 5}}>
                 <UserInfo 
                   // email={loggedInUser.email} 
+                  titleStyle={{...globalStyle.title}}
                   first_name={loggedInUser.name} 
-                  last_name={loggedInUser.last_name} 
+                  last_name={loggedInUser.last_name || loggedInUser.surname} 
                   // onLogout={onLogout}
                   />
                 <TouchableOpacity 
-                  onPress={() => NavigationService.navigateToCustomUserProfile({
-                    user_id : loggedInUser.uid
-                  })}
+                  style={{marginTop: -10}}
+                  onPress={() => NavigationService.navigateToCustomUserProfile({user_id : loggedInUser.uid})}
                   >
-                  <Text style={{color: colors.orange}}>VIEW MY PROFILE</Text>
+                  <Text mediumSize style={{color: colors.orange}}>VIEW MY PROFILE</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -191,37 +202,45 @@ const ProfileView = ({
             <ListItem
               disabled={!isSignedIn}
               onPress={toStats}
+              chevron={{color: 'black'}}
               // titleStyle={activeColorStyle}
-              title={i18n.t('profile.mystats')}
+              title={'My stats'}
+              // title={i18n.t('profile.mystats')}
             />
             <ListItem
               gray
               bold
               // titleStyle={[activeColor, S.title]}
               paddingBottom={10}
-              title={i18n.t('profile.myvestiaire')}
+              titleStyle={{fontSize: 18, paddingTop: 15}}
+              title={i18n.t('profile.myselling')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toOrders}
               // titleStyle={activeColorStyle}
+              chevron={{color: 'black'}}
               title={i18n.t('profile.myorders')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toMyItems}
               // titleStyle={activeColorStyle}
-              title={i18n.t('profile.myitems')}
+              chevron={{color: 'black'}}
+              title={"My items"}
+              // title={i18n.t('profile.m.yitems')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toMyNegotiations}
+              chevron={{color: 'black'}}
               // titleStyle={activeColorStyle}
               title={i18n.t('profile.priceoffersent')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toHolidayMode}
+              chevron={{color: 'black'}}
               // titleStyle={activeColorStyle}
               // title={i18n.t('profile.рщдшвфньщву')}
               title={"Holiday mode"}
@@ -230,17 +249,20 @@ const ProfileView = ({
               gray
               bold
               paddingBottom={10}
+              titleStyle={{fontSize: 18, paddingTop: 15}}
               title={i18n.t('profile.mysaveditems')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toWishlist}
+              chevron={{color: 'black'}}
               // titleStyle={activeColorStyle}
               title={i18n.t('profile.mywishlist')}
             />
             <ListItem
               disabled={!isSignedIn}
               onPress={toFavorites}
+              chevron={{color: 'black'}}
               // titleStyle={[activeColorStyle]}
               title={i18n.t('profile.myfavorites')}
             />
@@ -253,7 +275,8 @@ const ProfileView = ({
               // }}
               onPress={toAlerts}
               // titleStyle={activeColorStyle}
-              title={i18n.t('profile.myalerts')}
+              title={"My alerts"}
+              chevron={{color: 'black'}}
               // containerStyle={{paddingVertical: 25}}  
             />
             {/*  Account details */}
@@ -261,16 +284,20 @@ const ProfileView = ({
               gray
               bold
               paddingBottom={10}
+              titleStyle={{fontSize: 18, paddingTop: 15}}
               title={i18n.t('profile.myaccount')}
               />
             <ListItem
               onPress={toDetails}
               disabled={!isSignedIn}
-              title={i18n.t('profile.mydetails')}
+              chevron={{color: 'black'}}
+              title={"My details"}
+              // title={i18n.t('profile.mydetails')}
               />
             <ListItem
               onPress={toAddresses}
               disabled={!isSignedIn}
+              chevron={{color: 'black'}}
               title={i18n.t('profile.addresses')}
               />
             {/* settings  */}
@@ -332,13 +359,19 @@ const ProfileView = ({
             {isSignedIn && (<ListItem
               onPress={onLogout}
               title={"Log out"}
+              chevron={{color: 'black'}}
               />)}
+            {version.length> 0 && <ListItem 
+                containerStyle={{backgroundColor: colors.gray}}
+                title={version}
+                titleStyle={{opacity: 0.5, fontSize: widthPercentageToDP(5)}}
+              />}
             <ListItem
               containerStyle={{backgroundColor: colors.gray}}
               title={
                 'Vestiaire Collective has no association and/or affiliation with the brands whose product are offered for sale on its App.\nThe  authentication of said products is performed independently by Vestiaire Collective'
               }
-              titleStyle={{opacity: 0.5, fontSize: 12}}
+              titleStyle={S.footer}
             />
           </View>
           {/* end white block */}

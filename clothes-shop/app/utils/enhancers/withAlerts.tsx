@@ -21,7 +21,7 @@ const withAlerts = (options = {}) => BaseComponent => props => {
       alerts={alerts}
       addAlert={(item : Alert) => {
         if(alertExists({alert : item, alerts})){
-
+          console.log('alert exists')
         }else{
           dispatch(addAlert(item))
         }

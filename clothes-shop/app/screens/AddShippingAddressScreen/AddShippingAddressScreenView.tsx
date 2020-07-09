@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   FlatList,
   Image,
   TextInput,
@@ -12,12 +11,11 @@ import {
   Platform
 } from 'react-native';
 import S from './styles';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../styles';
 import constants from '../../constants';
-import {ListItem, Header} from 'react-native-elements';
 import {List, Checkbox} from 'react-native-paper';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -29,10 +27,12 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 import CountryPicker from 'react-native-country-picker-modal';
 import {Address} from '../../types'
-import {BackHeaderCenter, Input } from '../../components'
+import {BackHeaderCenter, Input, ListItem } from '../../components'
 import ButtonBlack from '../../components/Button/ButtonBlack'
 // import { CountryCode, Country } from './types'
 import * as Yup from 'yup';
+import {  Text} from '../../components';
+
 const uuidv4 = require('uuid/v4');
 
 let radio_props = [
@@ -75,7 +75,10 @@ const AddShippingAddressScreenView = ({
   address,
   addresses,
   addAddress,
+  updateAddress,
 }) => {
+
+  console.log('address',address)
   if (!address) {
     address = {};
   }
@@ -110,11 +113,11 @@ const AddShippingAddressScreenView = ({
           <AntDesign name="down" size={15} />
         )}
       </View>
-      <Text style={[globalStyles.text, {opacity: 0.5}]}>
+      <Text style={[globalStyles.text, globalStyles.botomSheetTitle]}>
         Why are you asking me for this information?
       </Text>
       <View style={{width: 50, marginVertical: 15, borderWidth: 2}} />
-      <Text style={globalStyles.text}>
+      <Text style={[globalStyles.text, globalStyles.botomSheetSubtitle]}>
         These details enable us to fill out the pre-paid shipping voucher that
         will be provided to you when your item has sold. You will only beb asked
         for these once, when you make your first consignment
@@ -142,27 +145,19 @@ const AddShippingAddressScreenView = ({
       />
       <View style={{flex: 1, paddingBottom: sheetInitialHeight}}>
         <BackHeaderCenter
-          title="Personal Contact Information"
+          title={address?.id ?  "Edit address" : "Add new address"}
           rightComponent={{icon: 'check', color: '#000', onPress: onDone}}
           />
         <ScrollView>
           <Text
-            style={{
-              opacity: 0.5,
-              padding: 5,
-              paddingHorizontal: 15,
-              fontStyle: 'italic',
-              fontSize: 15,
-              marginVertical: 15,
-              textAlign: 'left',
-            }}>
+            style={globalStyles.sellPlaceholder}>
             This information will not be publicly displayed
           </Text>
           <Formik
             initialValues={{
               title: address.title || 'Mr',
               first_name: address.first_name,
-              last_name: address.last_nam,
+              last_name: address.last_name,
               company: address.company,
               phone_number: address.phone_number,
               phone_country_code: address.phone_country_code,
@@ -177,17 +172,31 @@ const AddShippingAddressScreenView = ({
             }}
             validationSchema={AddressSchema}
             onSubmit={(values, actions) => {
-              let newAddress : Address = {
-                  id: uuidv4(),
-                  countryCode, 
-                  title,
-                  country,
-                  ...values,
+              if(address?.id){
+                let update : Address = {
+                    countryCode: countryCode || address?.countryCode, 
+                    title: title || address?.title,
+                    country : country || address.country,
+                    ...values,
+                }
+                console.log('update',update)
+                updateAddress(address?.id, update);
+                actions.resetForm();
+                onDone();
+              }else{
+                let newAddress : Address = {
+                    id: uuidv4(),
+                    countryCode, 
+                    title,
+                    country,
+                    ...values,
+                }
+                console.log('new address',newAddress)
+                addAddress(newAddress);
+                actions.resetForm();
+                onDone();
               }
-              console.log('new address',newAddress)
-              addAddress(newAddress);
-              actions.resetForm();
-              onDone();
+
             }}>
             {({errors, handleChange, handleBlur, handleSubmit, values}) => (
               <View>
@@ -195,7 +204,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Title"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   rightElement={
                     <View style={{justifyContent: 'center', height: '100%'}}>
                       <RadioForm
@@ -227,7 +236,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="First name"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.first_name, onChangeText: handleChange('first_name'), 
@@ -246,7 +255,7 @@ const AddShippingAddressScreenView = ({
                 />
                 <ListItem
                   title="Last name"
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   containerStyle={S.listItemcontainerStyle}
                   rightElement={<Input 
                     errorMessage={errors.last_name}
@@ -271,7 +280,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Company"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.company, onChangeText: handleChange('company'), inputStyle}}
@@ -289,7 +298,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Phone number"
                   containerStyle={[S.listItemcontainerStyle, {height:null ,minHeight: 75}]}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.phone_number, onChangeText: handleChange('phone_number'), inputStyle}}
@@ -307,12 +316,12 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Country"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   onPress={() => setCountryModalVisible(!countryModalVisible)}
                   rightElement={
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       {errors.country && <Text>{errors.country}</Text>}
-                      <Text style={S.country}>
+                      <Text xmediumSize style={S.country}>
                         {country ? country.name : ''}
                       </Text>
                       <CountryPicker
@@ -335,7 +344,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Address"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                     // errorStyle : {position: "absolute", bottom: 0},
                     // errorMessage:errors.address, onChangeText: handleChange('address'), inputStyle}}
@@ -353,7 +362,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Address line 2"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.address_line_2,
@@ -374,7 +383,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="Postcode"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.postal_code,onChangeText: handleChange('postal_code'), inputStyle}}
@@ -392,7 +401,7 @@ const AddShippingAddressScreenView = ({
                 <ListItem
                   title="City"
                   containerStyle={S.listItemcontainerStyle}
-                  titleStyle={S.listItemTitle}
+                  titleStyle={globalStyles.leftListItem}
                   // input={{
                   //   errorStyle : {position: "absolute", bottom: 0},
                   //   errorMessage:errors.city,onChangeText: handleChange('city'), inputStyle}}

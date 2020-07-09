@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, FlatList, StatusBar, StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
-import ProductListItem from '../../components/ProductListItem';
+import ProductListItem from '../../components/ProductListItem/ProductListItem';
 import {isInWishlist} from '../../features/wishlist/selectors';
 import {isInCart} from '../../features/cart/selectors';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import colors from '../../styles/colors';
 import i18n from '../../i18n';
 import {NavigationService} from '../../services';

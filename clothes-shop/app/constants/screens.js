@@ -8,6 +8,7 @@ export default {
 
   HomeStack: 'HomeStack',
   HomeScreen: 'HomeScreen',
+  Category: 'Category',
   ListScreen: 'ListScreen',
   GridScreen: 'GridScreen',
 
@@ -43,8 +44,15 @@ export default {
   SelectSellPrice: 'SelectSellPrice',
 
   SelectSeller: 'SelectSeller',
+  AddPersonalInformation: 'AddPersonalInformation',
   AddShippingAddressScreen: 'AddShippingAddressScreen',
   SelectSellOptionalInformation: 'SelectSellOptionalInformation',
+  SelectSellVintage: 'SelectSellVintage',
+  SelectSellProofOfOrigin: 'SelectSellProofOfOrigin',
+  SelectSellOrigin: 'SelectSellOrigin',
+  SelectSellSerialNumber: 'SelectSellSerialNumber',
+  SelectSellPackaging: 'SelectSellPackaging',
+  
   SelectSellSubcategory: 'SelectSellSubcategory',
 
   CategoriesViewStack: 'CategoriesViewStack',
@@ -125,4 +133,8 @@ export default {
   CartStack: 'CartStack',
   SearchResultStack: 'SearchResultStack',
   UserProfileStack: 'UserProfileStack',
+  
+  AddPhoto: 'AddPhoto',
+  PriceReduction: 'PriceReduction',
+  RemoveFromSold: 'RemoveFromSold',
 };

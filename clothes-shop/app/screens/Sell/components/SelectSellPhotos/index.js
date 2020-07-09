@@ -12,6 +12,7 @@ import {
   setSelectedSell5Photo,
   addToOtherSellPhotos,
   removeFromOtherSellPhtos,
+  setSelectedSellOtherPhotos,
 } from '../../../../features/seller/actions';
 import {
   getSelectedSellPhotos,
@@ -43,6 +44,7 @@ const mapDispatchToProps = dispatch => ({
   set3Image: image => dispatch(setSelectedSell3Photo(image)),
   set4Image: image => dispatch(setSelectedSell4Photo(image)),
   set5Image: image => dispatch(setSelectedSell5Photo(image)),
+  setOtherPhotos: images => dispatch(setSelectedSellOtherPhotos(images)),
   addImage: image => dispatch(addToOtherSellPhotos(image)),
   removeImage: image => dispatch(removeFromOtherSellPhtos(image)),
 });

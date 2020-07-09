@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, Text} from 'react-native';
 import ProductProvider from './ProductProvider';
 import HorizontalItemList from '../components/HorizontalItemList';
 

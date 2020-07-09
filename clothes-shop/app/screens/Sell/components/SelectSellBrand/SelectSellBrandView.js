@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {SearchBar, ListItem,} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import i18n from '../../../../i18n';
 import S from './SelectSellBrand.style';
 import {NavigationService} from '../../../../services';
-import {BackHeaderCenter} from '../../../../components'
+import {BackHeaderCenter, ListItem} from '../../../../components'
+import {  Text} from '../../../../components';
 
 const SelectSellBrandView = ({
   brands,
@@ -25,7 +25,7 @@ const SelectSellBrandView = ({
 
   if (searchText && searchText.length > 0) {
     brands = brands.filter(
-      b => b.title && b.title.toLowerCase().includes(searchText.toLowerCase()),
+      b => b?.title &&  typeof b?.title == 'string' && b.title.toLowerCase().includes(searchText.toLowerCase()),
     );
   }
 
@@ -35,7 +35,7 @@ const SelectSellBrandView = ({
     DATA.push({
       title: letter ? letter.toUpperCase() : letter,
       data: brands.filter(
-        b => b.title && b.title.toLowerCase().startsWith(letter),
+        b => b?.title && typeof b?.title == 'string' && b.title.toLowerCase().startsWith(letter),
       ),
     });
   });
@@ -55,7 +55,7 @@ const SelectSellBrandView = ({
 
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
-      <View style={{marginTop: 25}}>
+      <View style={{}}>
         <BackHeaderCenter
           title="Brands A-Z"
           />

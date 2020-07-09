@@ -1,10 +1,23 @@
 import React from 'react';
 import { View, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
-import { Text } from '..';
+import { Text, ActivityIndicator } from '..';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { height } from '../../constants/dimensions';
 import { colors } from '../../styles';
+
+interface Props {
+    width:string,
+    lineColor:string,
+    height:number,
+    bedges:any[],
+    progress:number,
+    containerStyle:any,
+    PointerComponent:any,
+    pointerTitle:string,
+    pointerStyle:any,
+    pointerTitleStyle:any,
+}
 
 const ProgressSteps = ({
     width = '100%',
@@ -15,9 +28,13 @@ const ProgressSteps = ({
     containerStyle = {},
     PointerComponent,
     pointerTitle,
+    pointerTitleStyle= {},
     pointerStyle = {},
     ...otherProps
-}) => {
+} :Props) => {
+
+    let [loading, setLoading] = React.useState(true)
+    let [opacity, setOpacity] = React.useState(0)
     let [progressWidth, setProgressWidth] = React.useState()
     let [bedgesLayouts, setBedgesLayouts] = React.useState({
 
@@ -63,25 +80,15 @@ const ProgressSteps = ({
         if(!PointerComponent){
             PointerComponent = <View onLayout={({nativeEvent: {layout : {height}}}) => setPonterHeight(height)}  
                         style={[getPointerStyle(), pointerStyle]}>
-                        {pointerTitle && <Text style={{textAlign: "left"}}>{pointerTitle}</Text>}
+                        {pointerTitle && <Text style={[{textAlign: "left"}, pointerTitleStyle]}>{pointerTitle}</Text>}
                         <AntDesign  onLayout={({nativeEvent: {layout}}) => setPointerLayout(layout)} name="caretdown" size={15} />
                 </View>
         }
-        return PointerComponent
+        return <View style={{flex:1,height : pointerHeight}}>{PointerComponent}</View>
     }
 
-    return (
-        <View style={[{width}, containerStyle]} onLayout={({nativeEvent: { layout}}) => setContainerLayout(layout)}>
-            <View style={{height : pointerHeight}}>
-            {_renderPointer()}
-            </View>
-            <Progress.Bar  
-                height={height}
-                progress={progress} 
-                width={containerLayout?.width || 0}  
-                onLayout={({nativeEvent: { layout}}) => setProgressLayout(layout)}
-                {...otherProps}
-                />
+    const _renderBottomPointer = () => {
+        return (
             <View style={{height: bedgesLayouts[0]?.height || 0}}>
                 {bedges.map(({Component, progress}, index) => (
                     <View onLayout={({nativeEvent: {layout}}) => setBedgesLayouts({...bedgesLayouts, [index]: layout})} 
@@ -93,6 +100,20 @@ const ProgressSteps = ({
 
                 ))}
             </View>
+        )
+    }
+
+    return (
+        <View style={[{flex:1, alignItems:'flex-start', maxWidth :width, opacity}, containerStyle]} onLayout={({nativeEvent: { layout}}) => setContainerLayout(layout)}>
+            {_renderPointer()}
+            <Progress.Bar  
+                height={height}
+                progress={progress} 
+                width={containerLayout?.width || 0}  
+                onLayout={({nativeEvent: { layout}}) => {setOpacity(1); setProgressLayout(layout)}}
+                {...otherProps}
+                />
+            {_renderBottomPointer()}
         </View>
     );
 };

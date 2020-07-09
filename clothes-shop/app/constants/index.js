@@ -6,6 +6,7 @@ export default {
   authentication_fees: 9.99,
   photo_quality: 0.8,
 
+  newin: "newin",
   holidaymode: "holidaymode",
   LIST: 'LIST',
   TABLE: 'TABLE',
@@ -17,7 +18,7 @@ export default {
   /** tags ids */
   WE_LOVE_TAG: 'fi5lSQlsw7ZQ6HTFgspJ',
 
-  priceCoef: 0.85,
+  priceCoef: 0.87,
 
   neverWornWithTag: 'Never worn, with tag',
   neverWorn: 'Never worn',
@@ -29,8 +30,12 @@ export default {
   DEVICE_HEIGHT: Dimensions.get('window').height,
 
   TEST_IMAGE: require('../assets/test.png'),
-  defaultImage: require('../assets/images/defaultImage.png'),
+  // defaultImage: require('../assets/images/defaultImage.png'),
+  defaultImage: require('../assets/images/icon.png'),
   DEFAULT_AVATAR: 'http://placehold.it/200x200?text=1',
+  defaultAvatar: require('../assets/images/avatar-placeholder-300x300.png'),
+  ///https://www.misemacau.org/wp-content/uploads/2015/11/avatar-placeholder-01-300x250.png
+  DEFAULT_UPLOAD_IMAGE: 'http://placehold.it/200x200?text=+',
 
   PAYPAL_LOGO: require('../assets/images/paypal_logo.png'),
   VISA_LOGO: require('../assets/images/visa_logo.png'),
@@ -72,12 +77,17 @@ export default {
   measurements: "measurements",
   condition: "condition",
   price: "price",
-  vintage: "vintage",
   soldWith: "soldWith",
   seller: "seller",
   shipping_country: "shipping_country",
   shipping_country_code: "shipping_country_code",
   draftLastUpdate: "draftLastUpdate",
+  
+  vintage: "vintage",
+  serialNumber: "serialNumber",
+  origin: "origin",
+  proofOfOrigin: "proofOfOrigin",
+  packaging: "packaging",
 
   compressImageMaxHeight: 1000,
   compressImageMaxWidth: 1000,
@@ -97,6 +107,10 @@ export default {
     sale_status: "sale_status",
     status : 'status',
     // isApproved: 'isApproved',
+    seller: {
+      seller: "seller",
+      personal_contact_information: "personal_contact_information",
+    },
     status_field : {
       image_cropped:  "image_cropped",
       user_dismiss:  "user_dismiss",
@@ -119,6 +133,9 @@ export default {
     answered : 'answered',
   },
 
+  withAuthentication: "withAuthentication",
+  withoutAuthentication: "withoutAuthentication",
+  
   rowHeight: 65,
   publishedAtFormat: 'DD MMMM YYYY',
   updatedAtFormat: 'DD MMMM YYYY',

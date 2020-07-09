@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity, ScrollView} from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
+import {View,  FlatList, TouchableOpacity, ScrollView} from 'react-native';
+import {SearchBar, Header} from 'react-native-elements';
 import {List, Checkbox} from 'react-native-paper';
 import S from './SelectSellType.style';
 import colors from '../../../../styles/colors';
 import i18n from '../../../../i18n';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, Text } from '../../../../components';
+import globalStyles from '../../../../styles'
+import constants from '../../../../constants';
 
 const SelectSellTypeView = ({
   types,
@@ -38,17 +40,12 @@ const SelectSellTypeView = ({
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{flex: 1, backgroundColor: colors.gray}}>
-        <View style={{marginTop: 25}}>
+        <View style={{}}>
           <BackHeaderCenter
             title="Submit item"
           />
           <Text
-            style={{
-              padding: 15,
-              fontSize: 22,
-              marginVertical: 15,
-              textAlign: 'center',
-            }}>
+            style={globalStyles.sellPlaceholder}>
             What type of item is it?
           </Text>
           {/* <ListItem /> */}
@@ -65,7 +62,7 @@ const SelectSellTypeView = ({
               <View style={[S.listAccordion]}>
                 <List.Accordion
                   title={item.title}
-                  titleStyle={{fontWeight: 'bold', color:" black"}}
+                  titleStyle={globalStyles.listItem}
                   // left={props => <List.Icon {...props} icon="folder" />}
                    > 
                   {subtypes
@@ -74,14 +71,15 @@ const SelectSellTypeView = ({
                       // <View style={{width: '100%',}}>
                       <TouchableOpacity
                         key={sb.title}
+                        // style={{width: constants.DEVICE_HEIGHT,}}
                         onPress={() => onItemPress({type: item, subtype: sb})}>
                         <View
                           style={{
-                            width: '100%',
+                            // width: '100%',
                             backgroundColor: colors.inputBackground,
                           }}
                         />
-                        <List.Item title={sb.title} />
+                        <List.Item title={sb.title} titleNumberOfLines={1} titleStyle={{textAlign:'center'}} style={[globalStyles.listItem,]}/>
                       </TouchableOpacity>
                       // </View>
                     ))}

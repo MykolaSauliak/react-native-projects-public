@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
+import {SearchBar, Header} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import S from './SelectSellCountry.style';
-import {BackHeaderCenter} from '../../../../components'
+import {BackHeaderCenter, ListItem} from '../../../../components'
+import {  Text} from '../../../../components';
 
 const SelectSellCountryView = ({
   countries,

@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import colors from '../../styles/colors';
 import constants from '../../constants';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import T from 'prop-types';
 import i18n from '../../i18n';
 import toTimestamp from '../../utils/getDiscountEndTs';
-import {ListItem} from 'react-native-elements';
+import {ListItem} from '../../components';
 import styles from './ProductInfo.style.js';
 import GallerySwiper from 'react-native-gallery-swiper';
 import Loading from '../../components/Loading'
@@ -27,7 +27,7 @@ import {
 } from '../../containers'
 import CommentListProvider from '../../containers/Comments/CommentListProvider';
 import {Shop} from '../../types/Shop.type';
-import Product from '../../components/Product/Product';
+import Product from './components/Product/Product';
 import SellerInfo from '../../components/SellerInfo/SellerInfo';
 import ShoppingCartButton from '../../containers/ShoppingCartButton/ShoppingCartButton';
 import { payments } from "../../utils";
@@ -44,6 +44,7 @@ import Gallery from 'react-native-image-gallery';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import RemoveFromSold from '../../containers/Buttons/RemoveFromSold/RemoveFromSold';
 import TwoStateButton from '../../components/TwoStateButton/TwoStateButton';
+import listnames from '../../constants/listnames';
 
 type Props = {
   item: Shop.Product,
@@ -51,8 +52,35 @@ type Props = {
 }
 
 const ProductInfoView = ({
-  item,
-  item: {
+  getCurrentListItem,
+  sellerInfo: {
+    avatar, 
+    name, 
+    last_name, 
+    email, 
+    sold_item, 
+    uid,
+    reputation,
+    holidaymode = false,
+    receive_negotiation = "",
+    holidaymodeStartTs = 0,
+    holidaymodeEndTs = 0,
+  },
+  toNegotiation,
+  setLastUpdate,
+  lastUpdate, 
+  isSignedIn,
+  onProductPress,
+  discountCount = 13.30,
+  purchaseOver = 150,
+  discountCode = 'RFO11',
+  AUTHENTICATION_FEES,
+  loggedInUser,
+  loading,
+} : Props) => {
+
+  let item = getCurrentListItem({listName: listnames.clothes}) || {}
+  let {
     similar_items,
     favorite_count = 0,
     images = [],
@@ -75,6 +103,7 @@ const ProductInfoView = ({
 
     description,
     price,
+    newPrice ,
     currency,
     discount,
     discountEnd,
@@ -84,32 +113,9 @@ const ProductInfoView = ({
     no_negotiation = false,
     status,
     sale_status,
-    status_updated_at,
-  },
-  sellerInfo: {
-    avatar, 
-    name, 
-    last_name, 
-    email, 
-    sold_item, 
-    uid,
-    reputation,
-    holidaymode,
-    receive_negotiation 
-  },
-  toNegotiation,
-  setLastUpdate,
-  lastUpdate, 
-  isSignedIn,
-  onProductPress,
-  discountCount = 13.30,
-  purchaseOver = 150,
-  discountCode = 'RFO11',
-  AUTHENTICATION_FEES,
-  loggedInUser,
-  loading,
-} : Props) => {
-
+    status_updated_at
+  }  = item
+  
   if(!AUTHENTICATION_FEES){
     // AUTHENTICATION_FEES = (price * 0.1).toFixed(2)
     AUTHENTICATION_FEES = 9.99
@@ -126,7 +132,6 @@ const ProductInfoView = ({
   let [informationItemVisible, setInformationItemVisible] = useState(null)
 
   let imagesURI = images && images.map(i => ({source : {uri: i.src}}));
-  // let imagesURI = images && images.map(i => ({url: i.src}));
   imagesURI = imagesURI || []
 
   const renderHeader = () => {
@@ -137,22 +142,23 @@ const ProductInfoView = ({
     );
   };
 
+  const holidayActive = () => {
+    let now = Date.now()
+    return holidaymodeStartTs < now && holidaymodeEndTs > now
+  }
 
   const isNgtntCnBCrtd = () => {
     return loggedInUser?.uid && 
-    !holidaymode && 
+    (!holidaymode || 
+    holidayActive() == false) &&
     !no_negotiation && 
     receive_negotiation != 'neither' && 
     uid != loggedInUser?.uid
   }
 
   const shBuyBtn = () => {
-    return !holidaymode
+    return !holidaymode || holidayActive() == false
   }
-
-  // console.log('no_negotiation',no_negotiation)
-  // console.log('holidaymode',holidaymode)
-  // console.log('receive_negotiation',receive_negotiation)
 
   const _renderBottomBtns = () => (
     <>
@@ -194,16 +200,6 @@ const ProductInfoView = ({
         // imageComponent={(props) => <Image {...props} defaultSource={constants.defaultImage}/>}
         onPageSelected={(index : number) => setActiveImage(index)}
         // onPageSelected={(index : number) => setActiveImage(index)}
-        // Version *1.15.0 update
-        // onEndReached={() => {
-        //     // add more images when scroll reaches end
-        // }}
-        // Change this to render how many items before it.
-        // initialNumToRender={1}
-        // Turning this off will make it feel faster
-        // and prevent the scroller to slow down
-        // on fast swipes.
-        // sensitiveScroll={false}
         />  
       </View>
   }
@@ -212,7 +208,7 @@ const ProductInfoView = ({
     <View
         style={styles.favoriteRow}
         > 
-        <View style={{flex:1, justifyContent:'flex-start', marginLeft: -20}}>
+        <View style={{paddingLeft:15, flex:1, justifyContent:'flex-start', marginLeft: -20}}>
           <Pagination
             dotsLength={images.length}
             activeDotIndex={activeImage}
@@ -245,30 +241,40 @@ const ProductInfoView = ({
 
    const renderPrice = () => (
      <View>
-       {status == constants.sold && <Text style={{color: 'red'}}>{`Sold, `}<Text>{`on ${status_updated_at[constants.sold]}`}</Text></Text>}
-      {toTimestamp(discountEnd) > Date.now() / 1000 ? (
-        <>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-            }}>
-            <Text
-              style={[globalStyles.price, globalStyles.discountPrice]}>
-              {price} {constants.MONEY_SYMBOL}
-            </Text>
-            <Text style={globalStyles.discount}>- {discount} %</Text>
-          </View>
-          <Text style={[globalStyles.newPrice]}>
-            {payments.getDiscountPrice(price, discount)} {constants.MONEY_SYMBOL}
+      {status == constants.sold && <Text style={{color: 'red'}}>{`Sold, `}<Text>{`on ${status_updated_at[constants.sold]}`}</Text></Text>}
+      {newPrice > 0 ?
+      // toTimestamp(discountEnd) > Date.now() / 1000 ? 
+      (
+        // <>
+        //   <View
+        //     style={{
+        //       flexDirection: 'row',
+        //       alignItems: 'flex-end',
+        //     }}>
+        //     <Text
+        //       style={[globalStyles.price, globalStyles.discountPrice]}>
+        //       {price} {constants.MONEY_SYMBOL}
+        //     </Text>
+        //     <Text style={globalStyles.discount}>- {discount} %</Text>
+        //   </View>
+        //   <Text style={[globalStyles.newPrice]}>
+        //     {payments.getDiscountPrice(price, discount)} {constants.MONEY_SYMBOL}
+        //   </Text>
+        // </>
+        <View style={{flexDirection: "row"}}>
+          <Text mediumSize style={[styles.price, styles.priceOld]}>
+            {price} {constants.MONEY_SYMBOL}
           </Text>
-        </>
+          <Text mediumSize style={[styles.price, styles.newPrice]}>
+            {newPrice} {constants.MONEY_SYMBOL}
+          </Text>
+        </View>
       ) : (
-        <Text style={globalStyles.price}>
+        <Text mediumSize style={styles.price}>
           {price} {constants.MONEY_SYMBOL}
         </Text>
       )}
-      <Text style={styles.feesText}>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
+      <Text mediumSize style={styles.feesText}>+ {AUTHENTICATION_FEES} {constants.MONEY_SYMBOL} Authentication fees</Text>
     </View>
    )
 
@@ -277,12 +283,11 @@ const ProductInfoView = ({
         leftIcon={{name :'shield-check-outline', type: "material-community", color: colors.orange, size: 25}}
         containerStyle={{backgroundColor:null, marginTop: 10}}
         titleStyle={{color:'#f25d22'}} 
-        // onPress={() => {}}
         title={
         <>
-          <Text style={{color: colors.orange, fontSize: 13}}>Physical control and authentication by our experts</Text>
+          <Text mediumSize style={styles.learnMoreInfo}>Physical control and authentication by our experts</Text>
             <TouchableOpacity onPress={() => setLearnMoreVisible(true)}>
-              <Text style={{color: colors.orange, fontWeight: 'bold'}}>Learn more</Text>
+              <Text mediumSize style={[styles.learnMoreInfo, {fontWeight: 'bold'}]}>Learn more</Text>
             </TouchableOpacity>
         </> 
         }
@@ -291,11 +296,11 @@ const ProductInfoView = ({
 
    const _renderShortInfo = () => (
       <View style={{marginTop:5}}>
-        {!_.isEmpty(measurements) && <Text style={{fontSize: 20}}>{getMeasurementString(measurements)}</Text>}
-        {condition && <Text style={{fontSize: 20}}>{condition}</Text>}
-        {material && <Text style={{fontSize: 20}}>{material}</Text>}
+        {!_.isEmpty(measurements) && <Text style={styles.textInfo}>{getMeasurementString(measurements)}</Text>}
+        {condition && <Text xxmediumSize style={styles.textInfo}>{condition}</Text>}
+        {material && <Text xxmediumSize style={styles.textInfo}>{material}</Text>}
         <View style={{height: 1, borderWidth:0.5, marginTop: 10, opacity:0.2}}/>
-        {description && description.length > 0 && <Text numberOfLines={4} style={{fontSize: 20}}>{"\" " + description + " \""}</Text>}
+        {description && description.length > 0 && <Text numberOfLines={4} style={styles.textInfo}>{"\" " + description + " \""}</Text>}
         <TouchableOpacity onPress={() => {
             setDetailsVisible(!detailsVisible)
             setInformationItemVisible(null)
@@ -351,23 +356,32 @@ const ProductInfoView = ({
               {_renderShortInfo()}
             </View> 
             <View style={{flexDirection:'row', backgroundColor:colors.gray, padding: 15, paddingTop: 25}}>
-            {loggedInUser?.uid == uid?(
+            {(loggedInUser?.uid == uid && status == 'approved') ?(
                 <>
                   <View style={{flex:1}}>
                   <TwoStateButton 
                       iconProps={{type: 'antdesign', name: "pluscircleo"}}
-                      title="Add photo"
-                      onPress={async () => await ShopService.uploadPhoto({product_id: id})}
+                      title="Add picture"
+                      onPress={async () => NavigationService.navigateToAddPhoto({product: {images, id, brand_name, price, newPrice,type_name, subtype_name, material, color} })}
                       disabled={images.length > 8}
                       color={colors.orange}
                       // toggledD
                       />
                   </View>
                   <View style={{flex:1}}>
-                    <PriceReductionButton onPress={() => NavigationService.navigateToPriceInput()} item={item} color={colors.orange}/>
+                    <PriceReductionButton 
+                      title="Price reduction"
+                      onPress={() => NavigationService.navigateToPriceReduction({product: {images, id, brand_name, price, newPrice,type_name, subtype_name, material, color}})} 
+                      item={item} 
+                      color={colors.orange}
+                      />
                   </View>
                   <View style={{flex:1, justifyContent:'center'}}>
-                      <RemoveFromSold id={id} status={status}/>
+                      <RemoveFromSold 
+                        onPress={() => NavigationService.navigateToRemoveFromSold({product: {images, id, brand_name, price, newPrice,type_name, subtype_name, material, color}})} 
+                        id={id} 
+                        status={status}
+                        />
                       {/* <AlertButton item={item} color={colors.orange} /> */}
                   </View>
                 </>
@@ -417,28 +431,28 @@ const ProductInfoView = ({
                 // ref={refs[.]}
                 leftIcon={{type: "evilicon", name:"check"}}
                 containerStyle={styles.detailsRow}  
-                title="Quality control" 
+                title={<Text xmediumSize>Quality control</Text>}
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
                   setInformationItemVisible(1)
                 }}
                 chevron
                 />
-              <ListItem 
+              {shipping_country && <ListItem 
                 leftIcon={{type: "evilicon", name:"location"}}
                 containerStyle={styles.detailsRow}  
-                title={shipping_country}
+                title={<Text xmediumSize style={{textTransform: 'capitalize'}}>{shipping_country}</Text>}
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
                   setInformationItemVisible(0)
 
                 }}
                 chevron
-                />
+                />}
               <ListItem 
                 leftIcon={{type: "material-icons", name:"local-shipping"}}
                 containerStyle={styles.detailsRow}  
-                title="Shipping and returns"
+                title={<Text xmediumSize>{"Shipping and returns"}</Text>}
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
                   setInformationItemVisible(3) // match index of listitem in information tab of Details modal
@@ -448,7 +462,7 @@ const ProductInfoView = ({
               <ListItem 
                 leftIcon={{type: "materialicons", name:"payment"}}
                 containerStyle={styles.detailsRow}  
-                title="100% secure payment"
+                title={<Text xmediumSize >{"100% secure payment"}</Text>}
                 onPress={() => {
                   setDetailsVisible(!detailsVisible)
                   setInformationItemVisible(4)
@@ -467,6 +481,7 @@ const ProductInfoView = ({
                     seller_id={uid}
                     // onModalToggle={(value: boolean) => setChatVisible(value)}
                     // comments={comments}
+                    titleStyle={{...globalStyles.title}}
                     containerStyle={{paddingHorizontal, paddingVertical: paddingHorizontal}}
                     />
             </CommentListProvider>

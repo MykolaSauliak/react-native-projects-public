@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../styles/colors';
 import constants from '../../constants';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white', paddingBottom: 15},
@@ -13,9 +14,34 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: -15, 
   },
-  imageContainer: {height: constants.DEVICE_HEIGHT * 0.4},
+  imageContainer: {
+    height: constants.DEVICE_HEIGHT * 0.5
+  },
   feesText: {
-    opacity: 0.5
+    opacity: 0.5,
+    fontSize: wp(4.5),
+  },
+  price:{
+    fontSize: wp(5),
+  },
+  newPrice:{
+    fontSize: wp(5),
+    color: 'red', 
+    fontWeight: 'bold',
+    marginLeft: 5
+  },
+  textInfo: {
+    fontSize: wp(6),
+  },  
+  learnMoreInfo: {
+    color: colors.orange,
+    fontSize: wp(4),
+  },
+  priceOld :{
+    fontSize: wp(5),
+    fontWeight: 'bold',
+    textDecorationStyle: 'solid', 
+    textDecorationLine: 'line-through'
   },
   whiteBtn: {
     flex:1,
@@ -141,7 +167,7 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 28,
-    fontFamily: 'OPTICenturyNova',
+    // fontFamily: 'SilkSerif-Regular',
   },
   detailsRow :{backgroundColor : colors.gray, marginVertical: 2},
 });

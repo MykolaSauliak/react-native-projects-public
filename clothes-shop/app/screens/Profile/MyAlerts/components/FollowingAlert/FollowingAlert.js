@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, FlatList, Image} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {View, FlatList, Image} from 'react-native';
 import {Product as ProductType} from '../../../../../types';
 import {NavigationService} from '../../../../../services';
 import constants from '../../../../../constants';
+import {ListItem} from '../../../../../components';
 import UserListItem from '../../../../../containers/UserListItem';
 
 type Props = {
@@ -18,7 +18,7 @@ const FollowingAlert = ({following}: Props) => {
         data={following}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => {
-          console.log('item', item);
+          console.log('UserListItem item', item);
           return (
             <UserListItem
               onPress={() =>

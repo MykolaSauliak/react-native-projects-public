@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import colors from '../../../../styles/colors';
 
 const styles = StyleSheet.create({
+  sectionTitle: {
+    color: 'black', 
+    fontWeight: 'bold'
+  },
   categoryBox: {
     width: '100%',
     height: 75,

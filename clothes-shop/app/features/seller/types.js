@@ -16,6 +16,7 @@ export default {
   setSelectedSellPrinted: 'setSelectedSellPrinted',
 
   setSelectedSellPhotos: 'setSelectedSellPhotos',
+  setSelectedSellOtherPhotos: 'setSelectedSellOtherPhotos',
   setSelectedSell1Photo: 'setSelectedSell1Photo',
   setSelectedSell2Photo: 'setSelectedSell2Photo',
   setSelectedSell3Photo: 'setSelectedSell3Photo',

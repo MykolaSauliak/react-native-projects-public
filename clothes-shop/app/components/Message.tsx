@@ -38,9 +38,12 @@ export interface MessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   nextMessage?: TMessage
   previousMessage?: TMessage
+  showDay?: boolean
+  showTime?: boolean
   user: User
   inverted?: boolean
   containerStyle?: LeftRightStyle<ViewStyle>
+  onAvatarPress?(): void
   renderBubble?(props: Bubble['props']): React.ReactNode
   renderDay?(props: Day['props']): React.ReactNode
   renderSystemMessage?(props: SystemMessage['props']): React.ReactNode
@@ -65,8 +68,11 @@ export default class Message<
     previousMessage: {},
     user: {},
     containerStyle: {},
+    onAvatarPress: () => {},
     showUserAvatar: false,
     inverted: true,
+    showTime: true,
+    showDay: true,
     shouldUpdateMessage: undefined,
   }
 
@@ -167,12 +173,12 @@ export default class Message<
   }
 
   render() {
-    const { currentMessage, nextMessage, position, containerStyle } = this.props
+    const { currentMessage, nextMessage, position, containerStyle, showDay = true, } = this.props
     if (currentMessage) {
       const sameUser = isSameUser(currentMessage, nextMessage!)
       return (
         <View>
-          {this.renderDay()}
+          {showDay == true && this.renderDay()}
           {currentMessage.system ? (
             this.renderSystemMessage()
           ) : (

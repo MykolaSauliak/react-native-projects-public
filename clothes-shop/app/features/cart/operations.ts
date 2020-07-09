@@ -12,8 +12,11 @@ type ProductWithCount  = Shop.Product &  {
     count : number
 }
 
-const getAuthenticationFees = (cartItems : ProductWithCount[] = []) => {
-  let result = _.multiply(cartItems.length, constants.authentication_fees);
+type ProductShippingOption  = Shop.Product & Shop.CartProduct
+
+const getAuthenticationFees = (cartItems : ProductShippingOption[] = []) => {
+  let cartItemWithAuthentication =cartItems.filter( c => !c.shippingOption || c.shippingOption == constants.withAuthentication)
+  let result = _.multiply(cartItemWithAuthentication.length, constants.authentication_fees);
   return _.round(result, 2)
 };
 

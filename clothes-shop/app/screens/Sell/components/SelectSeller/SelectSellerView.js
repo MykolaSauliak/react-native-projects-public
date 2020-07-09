@@ -1,23 +1,23 @@
 import React, {useState, useRef} from 'react';
 import {
   View,
-  Text,
   FlatList,
   SectionList,
   StyleSheet,
   TextInput,
   Button,
 } from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, ListItem } from '../../../../components';
 import _ from 'lodash'
 import ButtonBlack from '../../../../components/Button/ButtonBlack';
+import {  Text} from '../../../../components';
+import { globalStyles } from '../../../../styles';
 
 const S = StyleSheet.create({});
 
@@ -48,6 +48,7 @@ const SelectSellerView = ({
   setSellerProperty,
   // selectedAddress,
   shippingAddresses,
+  personalInfo,
 
   address,
   addresses,
@@ -89,23 +90,23 @@ const SelectSellerView = ({
 
   const handleSubmit = () => {
     // if(setSeller){
-    if(_.isEmpty(seller.phoneCode)){
-      setError('Phone code is required')
-      return
-    }
-    else{
-      setError('')
+    // if(_.isEmpty(seller.phoneCode)){
+    //   setError('Phone code is required')
+    //   return
+    // }
+    // else{
+    //   setError('')
       
-    }
-    let newSeller = {
-      phone: seller[constants.phone],
-      phone_country_code: seller.phoneCode,
-      personal_contact_information: address || addresses ? addresses[0] : {},
-    };
+    // }
+    // let newSeller = {
+    //   // phone: seller[constants.phone],
+    //   // phone_country_code: seller.phoneCode,
+    //   personal_contact_information: address || addresses ? addresses[0] : {},
+    // };
     let shipping_country = country ? country.name : ''
     let shipping_country_code = country ? country.cca2 : ''
     // console.log('newSeller', newSeller);
-    setSeller(newSeller);
+    // setSeller(newSeller);
     setShippingCountry(shipping_country)
     setShippingCountryCode(shipping_country_code)
     onDone();
@@ -133,16 +134,20 @@ const SelectSellerView = ({
     );
   };
 
+
+  const personalInfoCompleted = () => {
+    return !_.isEmpty(seller.personal_contact_information)
+  };
+
   
   const complete = () => {
     //console.log('seller.phone',seller.phone)
     //console.log('seller phoneCode',seller.phoneCode)
     //console.log('addresscomplete',addresscomplete())
-    return addresscomplete()
-      && shipping_country_code !== null
-      && shipping_country !== null
-      && !_.isEmpty(seller.phoneCode)
-      && !_.isEmpty(seller.phone)
+    return (personalInfoCompleted() == true && shipping_country_code !== null
+      && shipping_country !== null)
+      // && !_.isEmpty(seller.phoneCode)
+      // && !_.isEmpty(seller.phone)
   }
   // console.log('phone', phone);
   // console.log('addresses', addresses);
@@ -180,10 +185,11 @@ const SelectSellerView = ({
           </View>
         }
         title="Shipping Item From"
+        titleStyle={globalStyles.leftListItem}
         bottomDivider
         // onPress={goToSubcategoryChoose}
       />
-      <ListItem
+      {/* <ListItem
         title="Mobile number"
         rightElement={
           <View
@@ -223,12 +229,13 @@ const SelectSellerView = ({
         }
         bottomDivider
         // onPress={goToMaterialChoose}
-      />
+      /> */}
       <ListItem
         title="Personal Contact Information"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{addresscomplete() ? 'saved' : ''}</Text>
+            <Text style={globalStyles.rightListItem}>{personalInfoCompleted() ? 'saved' : ''}</Text>
           </View>
         }
         bottomDivider

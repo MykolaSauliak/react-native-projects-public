@@ -9,7 +9,7 @@ import {
 import { 
   User
 } from "../../types/User.type";
-import { ShopService } from '../../services';
+import { ShopService, DropdownAlertService } from '../../services';
 import NegotiationBox from "../../components/Negotiations/NegotiationsBox";
 import _ from 'lodash';
 import {
@@ -32,8 +32,8 @@ interface Props {
  * if no negotation, product info, seller,buyer set, download this information
  */
 const NegotiationContainer = ({
-    id,
-    product_id,
+    id = "",
+    product_id = "",
     product,
     sellerUser,
     buyerUser,
@@ -41,6 +41,8 @@ const NegotiationContainer = ({
     loggedInUser,
   } : Props) => {
     
+    const minPriceCoef = 0.7
+
     let [loading, setLoading] = React.useState(false)
     let [error, setError] = React.useState('')
     let [localProduct, setProduct] : {localProduct : Shop.Product, setProduct : Function} = React.useState(product || {})
@@ -49,8 +51,25 @@ const NegotiationContainer = ({
     let [localBuyerUser, setBuyerUser] = React.useState(buyerUser || loggedInUser)
     
     useEffect(() => {
+      console.log('localProduct',localProduct)
+      if(_.isEmpty(localSellerUser) 
+        && !_.isEmpty(localProduct)){
+        // _.debounce(() => {
+          console.log('fetch seller')
+          ShopService
+            .fetchUser(localProduct?.user_id)
+            .then( user => setSellerUser(user))
+        // }, 
+        // )  
+      }
+      return () => {
+        
+      }
+    }, [localProduct?.id])
+
+    useEffect(() => {
       if(_.isEmpty(localProduct) 
-        && !_.isEmpty(product_id)){
+        && product_id &&  product_id.length > 0){
         _.debounce(() => {
           console.log('fetch product')
           ShopService
@@ -70,16 +89,24 @@ const NegotiationContainer = ({
         /**
          * user go from notification or "price offer sent" screen, when we have negotiation id
          */
-        if(_.isEmpty(localNegotiation) && id){
+        // console.log('localNegotiation',localNegotiation)
+        // console.log('id',id)
+        if(_.isEmpty(localNegotiation) && id && id.length > 0){
           const negotiation = await ShopService.getNegotiation({
             id,
           });
+          console.log('fetched negotiation',negotiation)
           // if(negotiation && (negotiation.user_id === this.props.user.uid || negotiation.seller_id === this.props.user.uid)){
           // if(!this.props.item.id){
           if (negotiation) {
-            let item = await ShopService.getGood(negotiation.product_id);
-            console.log('item', item);
-            setProduct(item);
+            try{
+              let item = await ShopService.getGood(negotiation.product_id);
+              console.log('item', item);
+              setProduct(item);
+            }catch(err){
+
+            }
+
             // setLastUpdate(Date.now());
             // }
             setNegotiation(negotiation);
@@ -90,17 +117,27 @@ const NegotiationContainer = ({
             // }
           }
         }
+
       /**
        * user go from product page
        */
-        else if(_.isEmpty(localNegotiation) && product_id){
+        else if(_.isEmpty(localNegotiation) &&  product_id && loggedInUser?.uid){
+          // console.log('getNegotiation',product_id,  loggedInUser?.uid)
           const negotiation = await ShopService.getNegotiation({
               product_id: product_id,
               user_id: loggedInUser.uid,
             });
             // if(negotiation && (negotiation.user_id === this.props.user.uid || negotiation.seller_id === this.props.user.uid)){
             // if(!this.props.item.id){
-            if (negotiation) {
+            if (negotiation?.id) {
+              console.log(negotiation)
+              let sellerUser = await ShopService.getUser(negotiation.seller_id);
+              let buyerUser = await ShopService.getUser(negotiation.user_id);
+              setSellerUser(sellerUser);
+              setBuyerUser(buyerUser);
+              console.log(sellerUser)
+              console.log(buyerUser)
+              console.log(negotiation)
               setNegotiation(negotiation);
               // }
             }
@@ -115,6 +152,9 @@ const NegotiationContainer = ({
 
 
     const onUpdatePrice = async (priceOffer : number) => {
+      if(localProduct.price * minPriceCoef > priceOffer){
+        return DropdownAlertService.getDropDown().alertWithType('error', '', 'Your offer must be about 70% of the product\'s initial price', {}, 2500);
+      }
       setLoading(true);
       // console.log('new neg options',options)
       if(!localNegotiation?.id){
@@ -180,6 +220,38 @@ const NegotiationContainer = ({
         }
 
       }
+      setLoading(false);
+      setError('');
+    }
+
+    const makeCounterOffer = async (priceOffer : number) => {
+      if(localProduct.price * minPriceCoef > priceOffer){
+        return DropdownAlertService.getDropDown().alertWithType('error', '', 'Your offer must be about 70% of the product\'s initial price', {}, 2500);
+      }
+      setLoading(true);
+      // console.log('new neg options',options)
+      let newMessage : Message = {
+        offer_price: priceOffer,
+        created_time: Date.now(),
+        user_id: loggedInUser.uid,
+        status: 'seller_sent',
+      }
+      const update = {
+        id: localNegotiation.id,
+        status: 'seller_sent',
+        messages: [...localNegotiation.messages,newMessage]
+      };
+      let successful = await ShopService.updateNegotiation(update);
+      await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
+      if (successful) {
+        setNegotiation({
+          ...localNegotiation,
+          ...update,
+        });
+      } else {
+        Alert.alert('Some errors, try later ...');
+      }
+
       setLoading(false);
       setError('');
     }
@@ -275,8 +347,8 @@ const NegotiationContainer = ({
                 messages: [...localNegotiation.messages,newMessage]
               };
 
-              await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
               let successful = await ShopService.updateNegotiation(update);
+              await ShopService.addNegotiationMessage(localNegotiation.id, newMessage);
               if (successful) {
                 setNegotiation({
                     ...localNegotiation,
@@ -299,6 +371,7 @@ const NegotiationContainer = ({
     }
 
     return (
+      // null
        <NegotiationBox 
             product={localProduct}
             negotiation={localNegotiation}
@@ -306,11 +379,13 @@ const NegotiationContainer = ({
             minPrice={localProduct.price}
             error={error}
             onUpdatePrice={onUpdatePrice}
+            makeCounterOffer={makeCounterOffer}
             acceptOffer={acceptOffer}
             declineOffer={declineOffer}
             loading={loading}
             sellerUser={localSellerUser}
-            user={localBuyerUser}
+            loggedInUser={loggedInUser}
+            buyer={localBuyerUser}
             />
     );
 };

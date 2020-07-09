@@ -50,28 +50,23 @@ class AuthService {
           documentSnapshot = await usersRef.doc(user.uid).get();
           if (documentSnapshot.exists) {
             const data = documentSnapshot.data();
-            name = data.name;
-            last_name = data.last_name;
-            bio = data.bio;
-            avatar = data.avatar;
-            receive_negotiation = data.receive_negotiation;
+            // name = data.name;
+            // last_name = data.last_name;
+            // bio = data.bio;
+            // avatar = data.avatar;
+            // receive_negotiation = data.receive_negotiation;
 
             await documentSnapshot.ref.update({
               last_active: Date.now(),
             });
+            this.store.dispatch(
+              saveUserToStore({
+                ...data
+              }),
+            );
           }
         } catch (err) {}
-        this.store.dispatch(
-          saveUserToStore({
-            name,
-            last_name,
-            avatar,
-            bio,
-            uid: user.uid,
-            email: user.email,
-            receive_negotiation
-          }),
-        );
+
       } else {
         this.store.dispatch(saveUserToStore(null));
       }

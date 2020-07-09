@@ -8,7 +8,7 @@ import {
   Dimensions ,
   TouchableOpacity,
 } from 'react-native';
-import globalStyles from '../../../constants/styles';
+import globalStyles from '../../../styles';
 import colors from '../../../styles/colors';
 // import i18n from '../../../18n';
 import { TabView, SceneMap, TabBar} from 'react-native-tab-view';

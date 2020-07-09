@@ -4,6 +4,7 @@ import types from './types';
 const initialState = {
   user: {},
   lastUpdate: null,
+  loading:false
   // email: null,
   // phone: null,
   // avatar: null,
@@ -14,6 +15,9 @@ export default createReducer(initialState, {
   /// funct recieve state and action
   [types.setUser]: (state, {payload}) => {
     return {...state, user: payload};
+  },
+  [types.setLoading]: (state, {payload}) => {
+    return {...state, loading: payload};
   },
   [types.setEmail]: (state, {payload}) => {
     return {...state, email: payload};

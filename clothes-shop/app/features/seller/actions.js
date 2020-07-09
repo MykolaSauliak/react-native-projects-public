@@ -98,9 +98,9 @@ export const setSelectedSellPrinted = payload => dispatch => {
   });
 };
 
-export const setSelectedSellPhotos = payload => dispatch => {
+export const setSelectedSellOtherPhotos = payload => dispatch => {
   dispatch({
-    type: types.setSelectedSellPhotos,
+    type: types.setSelectedSellOtherPhotos,
     payload: payload,
   });
 };

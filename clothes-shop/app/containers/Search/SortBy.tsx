@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, FlatList, Text, ScrollView} from 'react-native';
+import {StyleSheet, View, FlatList, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {connectSortBy} from 'react-instantsearch-native';

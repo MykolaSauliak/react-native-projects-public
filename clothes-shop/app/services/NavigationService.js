@@ -68,6 +68,10 @@ class NavigationService {
     this._navigation.dispatch(NavigationActions.back());
   }
 
+  // pop() {
+  //   // this._navigation.dispatch(NavigationActions.pop());
+  // }
+
   openDrawer() {
     this._navigation.dispatch(DrawerActions.openDrawer());
   }
@@ -125,7 +129,7 @@ class NavigationService {
   }
 
   navigateToCustomUserProfile(props) {
-    this.navigateTo(screens.UserProfile, props);
+    this.navigateTo(screens.UserProfileStack, props);
   }
 
   navigateToHelp(props) {
@@ -240,7 +244,7 @@ class NavigationService {
   }
   
   navigateToAlertCreate(props) {
-    this.navigate(screens.AlertStack, props);
+    this.navigate(screens.AlertCreate, props);
   }
 
   navigateToSellProductOptionalSelect(props) {
@@ -257,6 +261,17 @@ class NavigationService {
   /** for comments */
   navigateToCommentList(props) {
     this.navigate(screens.CommentList, props);
+  }
+
+  
+  navigateToAddPhoto(props) {
+    this.navigate(screens.AddPhoto, props);
+  }
+  navigateToPriceReduction(props) {
+    this.navigate(screens.PriceReduction, props);
+  }
+  navigateToRemoveFromSold(props) {
+    this.navigate(screens.RemoveFromSold, props);
   }
   /** end sell navigation */
 

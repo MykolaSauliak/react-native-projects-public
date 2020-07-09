@@ -1,17 +1,19 @@
 import React from 'react';
 import {
   View,
-  Text,
   ImageBackground,
   StyleSheet,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import globalStyles from '../../../constants/styles';
+import globalStyles from '../../../styles';
 import colors from '../../../styles/colors';
 import i18n from '../../../i18n';
-import {ListItem, Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import {NavigationService} from '../../../services';
+import {  Text, ListItem} from '../../../components';
+import ButtonBlack from '../../../components/Button/ButtonBlack';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const S = StyleSheet.create({
   header: {
@@ -32,7 +34,8 @@ const MyAddressesView = ({
   selectAddress,
   removeShippingAddress,
 }) => {
-  const _renderOrder = ({
+  
+  const _renderAddress = ({
     id,
     title,
     address,
@@ -41,25 +44,27 @@ const MyAddressesView = ({
     last_name,
     postal_code = '',
     orderStatus,
+    company,
     country = '',
     createdAt,
     city = '',
     updatedAt,
     items = [],
+    item
   }) => (
     <ListItem
       containerStyle={{marginVertical: 5}}
       leftElement={
         <View style={{padding: 10, borderRadius: 10, backgroundColor: 'white'}}>
           {/* <Text>{i18n.t('myorders.orderid')} {id}</Text> */}
-          <Text>
+          <Text xxmediumSize>
             {first_name} {last_name}
           </Text>
-          <Text>{address}</Text>
-          <Text>{address_line_2} </Text>
-          <Text>{postal_code} </Text>
-          <Text>{city}</Text>
-          <Text>{country ? (country.name ? country.name : country) : ''}</Text>
+          <Text xxmediumSize>{address}</Text>
+          <Text xxmediumSize>{address_line_2} </Text>
+          <Text xxmediumSize>{postal_code} </Text>
+          <Text xxmediumSize>{city}</Text>
+          <Text xxmediumSize>{country ? (country.name ? country.name : country) : ''}</Text>
           {/* <Text>Items: </Text> */}
           {/* {createdAt && <Text>{i18n.t('myorders.createdtime')} {createdAt}</Text> }
                 {updatedAt && <Text>{i18n.t('myorders.lastupdate')} {updatedAt} </Text> } */}
@@ -70,23 +75,10 @@ const MyAddressesView = ({
           <Icon type="antdesign" name="close" size={20} />
         </TouchableOpacity>
       }
-      chevron
+      Component={TouchableWithoutFeedback}
+      chevron={{color: 'black', size: 25}}
       onPress={() => {
-        selectAddress({
-          id,
-          title,
-          first_name,
-          last_name,
-          address,
-          address_line_2,
-          orderStatus,
-          updatedAt,
-          postal_code,
-          country,
-          createdAt,
-          city,
-          items,
-        });
+        selectAddress(item);
         onPress();
       }}
     />
@@ -118,20 +110,28 @@ const MyAddressesView = ({
         // keyExtractor={(item) => item.itemNumber}
         data={addresses}
         renderItem={({item}) => {
-          console.log('render addres ', item);
-          return _renderOrder({...item});
+          // console.log('render addres ', item);
+          return _renderAddress({...item, item: item});
         }}
       />
-      <TouchableOpacity style={S.bottomRightIcon} onPress={toNewAddress}>
+      <ButtonBlack  
+        title="+ add new address"
+        containerStyle={{paddingHorizontal: 10}}
+        onPress={() => {
+          selectAddress({});
+          toNewAddress()
+        }}
+        />
+      {/* <TouchableOpacity style={S.bottomRightIcon} onPress={toNewAddress}>
         <Icon type="antdesign" name="pluscircle" size={50} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
 
 MyAddressesView.defaultProps = {
-  onPress: address => {
-    NavigationService.navigateToAddressEditor({...address});
+  onPress: () => {
+    NavigationService.navigateToAddressEditor();
   },
   toNewAddress: () => NavigationService.navigateToAddressEditor(),
 };

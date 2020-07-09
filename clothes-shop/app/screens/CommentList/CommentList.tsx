@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text,
     FlatList,
     KeyboardAvoidingView,
     StyleSheet,
@@ -13,6 +12,8 @@ import {  Input } from "react-native-elements";
 import { Button, BackHeader, BackHeaderCenter } from '../../components';
 import { withComments } from '../../utils/enhancers';
 import { Comment } from '../../types/Comment.type';
+import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 type Props = {
     title: string,
@@ -52,48 +53,51 @@ class CommentList extends Component<Props, State> {
         console.log('id',id)
         // console.log('comments',comments)
         return (
-            <KeyboardAvoidingView
-                // behavior={Platform.OS == "ios" ? "padding" : "height"}
-                style={styles.container}
-                >
-                <View style={{ flex: 1 }}>
-                    <BackHeaderCenter title="Chat"/>
-                    <View style={{flex:0.95, padding: 15}}>
-                    <FlatList 
-                        data={comments}
-                        keyExtractor={(item, index) => item.id}
-                        renderItem={({item, index}) => {
-                            // console.log('item',item)
-                            if(CommentElement){
-                                return <CommentElement  {...item} />
-                            }
-                            return <CommentCard fromSeller={seller_id == item?.user?.uid} {...item} />
-                        }}
-                        />
-                    </View>
-                    <View style={{flex:0.05, minHeight: 60, backgroundColor: 'white', flexDirection: "row", paddingHorizontal: 10, borderTopWidth: 2, paddingVertical: 10}}>
-                        <View style={{flex:0.8}}>
-                            <Input
-                                value={commentText}
-                                onChangeText={(text) => this.setState(() => ({commentText: text}))}
-                                multiline 
-                                />
+            <KeyboardAwareScrollView style={{flex:1}} contentContainerStyle={{flex:1,}}>
+                {/* <ScrollView > */}
+                    <View style={{ flex: 1 }}>
+                        <BackHeaderCenter title="Chat"/>
+                        <View style={{flex:1, padding: 15, paddingBottom: 75}}>
+                        <FlatList 
+                            data={comments}
+                            keyExtractor={(item, index) => item.id}
+                            renderItem={({item, index}) => {
+                                // console.log('item',item)
+                                if(CommentElement){
+                                    return <CommentElement  {...item} />
+                                }
+                                return <CommentCard fromSeller={seller_id == item?.user?.uid} {...item} />
+                            }}
+                            />
                         </View>
-                        <View style={{flex:0.2, justifyContent:"center"}}>
-                            <Button 
-                                titleStyle={{color : 'black'}}
-                                title="Post"     
-                                onPress={() => addComment({
-                                    text: commentText,
-                                    listName: id,
-                                    productId: id,
-                                    parentId: '',
-                                })} 
-                                />
+                        <View style={styles.bottomContainer}>
+                            <View style={{flex:0.8}}>
+                                <Input
+                                    style={{height: "100%"}}
+                                    value={commentText}
+                                    onChangeText={(text) => this.setState(() => ({commentText: text}))}
+                                    multiline 
+                                    />
+                            </View>
+                            <View style={{flex:0.2, justifyContent:"center"}}>
+                                <Button 
+                                    titleStyle={{color : 'black'}}
+                                    title="Post"     
+                                    onPress={() => {
+                                        addComment({
+                                        text: commentText,
+                                        listName: id,
+                                        productId: id,
+                                        parentId: '',
+                                    })
+                                    this.setState({commentText:""})
+                                    }} 
+                                    />
+                            </View>
                         </View>
                     </View>
-                </View>
-            </KeyboardAvoidingView>
+                {/* </ScrollView> */}
+        </KeyboardAwareScrollView>
         )
     }
 }
@@ -109,5 +113,6 @@ export default CommentList;
 
 
 const styles = StyleSheet.create({
-    container: {flex:1}
+    container: {flex:1},
+    bottomContainer : {position:"absolute", zIndex:2, bottom: 0, minHeight: 60, backgroundColor: 'white', flexDirection: "row", paddingHorizontal: 10, borderTopWidth:2}
 })

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Platform,
   View,
-  Text,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
@@ -10,9 +9,10 @@ import {Header, Icon} from 'react-native-elements';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../styles/colors';
 import {NavigationService} from '../services';
-import {ListItem} from 'react-native-elements';
+import {ListItem} from '../components';
 import {string, object} from 'prop-types';
-
+import {   Text } from "../components";
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const AddressBox = ({
   id,
@@ -55,6 +55,7 @@ const AddressBox = ({
       </TouchableOpacity>
     }
     chevron
+    Component={TouchableWithoutFeedback}
     onPress={() => {
       // selectAddress({ id, title, first_name, last_name, address, address_line_2, updatedAt, postal_code, country, createdAt, city })
       onPress({

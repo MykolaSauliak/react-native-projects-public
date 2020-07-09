@@ -9,6 +9,7 @@ import {
   List,
   Checkbox
 } from 'react-native-paper';
+import Entypo from 'react-native-vector-icons/Entypo'
 import colors from '../styles/colors';
 import FilterRow from '../components/FilterRow'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,6 +17,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { Text } from '.';
 import { ListItem } from 'react-native-elements';
 import constants from '../constants';
+import globalStyle from '../styles';
 import _ from 'lodash'
 
 const S = StyleSheet.create({
@@ -41,38 +43,35 @@ const S = StyleSheet.create({
 
 type Item = {
     title:  string,
+    subtitle:  string | React.ReactNode,
     label?:  string,
     count?:  number,
     id: string,
     data : Item[],
     onPress? : (item : Item) => void,
-  }
+}
 
 type Props = {
     items : Item[],
-    onItemPress : (item :Item) => void,
-    onSubItemPress : (item : Item) => void,
+    onItemPress?: (item :Item) => void,
+    onSubItemPress?: (item : Item) => void,
 }
 
   
 const AccordionList = ({
-    items,
-    subtitle,
+    items = [],
     subtitleStyle= {},
     onItemPress = () => {},
     closeOnClick = true,
     onSubItemPress,
+    showChevron = false,
+    titleStyle = {},
+    headerProps={},
+    rightSubtitle = false
 } : Props) => {
 
-    let Subtitle: React.ReactNode
-    if(React.isValidElement(subtitle)){
-        Subtitle = subtitle
-    }else{
-        Subtitle= () => <Text style={[subtitleStyle]}>{subtitle || ""}</Text>
-    }
-
     let [activeSections, setActiveSection] = React.useState([])
-
+    console.log('activeSections',activeSections)
     const _renderSectionTitle = (section : Item) => {
         return (
             null
@@ -82,21 +81,56 @@ const AccordionList = ({
         );
       };
 
-      const _renderHeader = (section :Item) => {
-        let headerProps = {}
+      const _renderHeader = (section :Item, index: number) => {
+        // let headerProps = {}
+        console.log('section',section)
+        console.log('index',index)
         if(_.isEmpty(section.data)){
             headerProps.onPress = () => onItemPress(section)
             headerProps.count = section.count
         }
 
+        let Subtitle = () => {};
+        // console.log('section.subtitle',section.subtitle)
+        if(section.subtitle && typeof section.subtitle != 'string'){
+        // if(React.isValidElement(section.subtitle)){
+            // console.log('valid')
+            Subtitle = section.subtitle
+        }else if(typeof section.subtitle == 'string'){
+            console.log('subtitle not valid')
+            Subtitle= <Text numberOfLines={1} style={[{paddingLeft: 10, width: 150}, subtitleStyle]}>{section.subtitle}</Text>
+        }
+        // console.log('section.subtitle',section.subtitle)
+        // if(section.subtitle){
+        //     Subtitle = <Text numberOfLines={1} style={[{paddingLeft: 10, width: 150}, subtitleStyle]}>{section.subtitle || ""}</Text>
+        // }
         return (
             <ListItem   
                 containerStyle={{height: constants.rowHeight * 1.3}}
                 title={<View style={{alignItems:'flex-start'}}>
-                    <Text bold xmediumSize style={styles.headerText}>{section?.title || section.label}</Text>
-                    {Subtitle}
+                    {rightSubtitle ? (
+                        <View style={{flexDirection:"row", overflow: 'hidden', }}>
+                            <Text bold xmediumSize style={[styles.headerText, titleStyle]}>
+                                {section?.title || section.label}
+                            </Text>
+                            {rightSubtitle && Subtitle}
+                        </View>
+                    ): (
+                        <>
+                        <Text bold xmediumSize style={[styles.headerText, titleStyle]}>
+                            {section?.title || section.label}
+                        </Text>
+                        {!rightSubtitle && Subtitle}
+                        </>
+                    )}
+
                 </View>}
-                rightElement={section.count > 0 && (<Text>{section.count}</Text>)}
+                rightElement={(<View style={{flexDirection: "row", alignItems:'center'}}>
+                    {/* <View style={{flex:1}}> */}
+                    {/* </View> */}
+                    {section?.count  && section?.count > 0 && (<Text>{section.count}</Text>)}
+                    {showChevron > 0 && (<Entypo name={activeSections.includes(index) ? "chevron-up" : "chevron-down" } size={25} />)}
+                </View>)}
                 topDivider
                 {...headerProps}
                 />
@@ -107,7 +141,7 @@ const AccordionList = ({
         return (
             <View>
                 {
-                    item.data && item.data.map((subItem : Item) => (
+                    Array.isArray(item.data) && item.data.map((subItem : Item) => (
                         <TouchableOpacity
                             onPress={() => {
                                 subItem.onPress ? subItem.onPress(subItem) : onSubItemPress(subItem)
@@ -115,7 +149,7 @@ const AccordionList = ({
                                     setActiveSection([])
                                 }
                                 }}>
-                            <List.Item title={subItem.title} />
+                            <List.Item style={[{...globalStyle.text}, titleStyle,]} title={subItem.title} />
                     </TouchableOpacity>
                     ))
                 }
@@ -127,21 +161,21 @@ const AccordionList = ({
       };
     
       const _updateSections = (activeSections : any[]) => {
-        setActiveSection(activeSections);
+        setActiveSection(activeSections || []);
       };
 
     return (
 
             <ScrollView contentContainerStyle={{backgroundColor: colors.gray}}>
-                        <Accordion
-                            sections={items}
-                            expandMultiple={false}
-                            activeSections={activeSections}
-                            renderSectionTitle={_renderSectionTitle}
-                            renderHeader={_renderHeader}
-                            renderContent={_renderContent}
-                            onChange={_updateSections}
-                         />
+                <Accordion
+                    sections={items}
+                    expandMultiple={false}
+                    activeSections={activeSections}
+                    renderSectionTitle={_renderSectionTitle}
+                    renderHeader={_renderHeader}
+                    renderContent={_renderContent}
+                    onChange={_updateSections}
+                    />
             </ScrollView>
     )
 }

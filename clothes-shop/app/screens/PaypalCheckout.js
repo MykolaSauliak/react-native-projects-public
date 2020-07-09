@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, WebView, ActivityIndicator} from 'react-native';
+import {View, WebView} from 'react-native';
 import axios from 'axios';
+import { Loading } from '../components';
 
 export default class Paypal extends Component {
   state = {
@@ -128,7 +129,7 @@ export default class Paypal extends Component {
             style={{marginTop: 20}}
           />
         ) : (
-          <ActivityIndicator />
+          <Loading />
         )}
       </View>
     );

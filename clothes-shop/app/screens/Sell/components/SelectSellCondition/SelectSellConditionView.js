@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, FlatList, SectionList, StyleSheet} from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
+import {View, FlatList, SectionList, StyleSheet} from 'react-native';
 import colors from '../../../../styles/colors';
-import {BackHeaderCenter} from '../../../../components'
+import {BackHeaderCenter, ListItem} from '../../../../components'
+import {  Text} from '../../../../components';
+import {globalStyles} from '../../../../styles'
 
 const S = StyleSheet.create({});
 
@@ -55,19 +56,21 @@ const SelectSellConditionView = ({
         containerStyle={{backgroundColor: 'white'}}
         rightElement={
           <View style={{}}>
-            <Text>{condition && condition.slice(0, 25)}</Text>
+            <Text style={globalStyles.rightListItem}>{condition && condition.slice(0, 25)}</Text>
           </View>
         }
         title="Condition"
+        titleStyle={globalStyles.leftListItem}
         // titleProps={{numOfLines :1}}
         bottomDivider
         onPress={goToConditionChoose}
       />
       <ListItem
         title="Price"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{priceString}</Text>
+            <Text style={[globalStyles.rightListItem, {textTransform: 'uppercase'}]}>{priceString}</Text>
           </View>
         }
         bottomDivider

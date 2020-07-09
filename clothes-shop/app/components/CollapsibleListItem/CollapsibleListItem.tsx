@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from "react-native";
-import { ListItem } from "react-native-elements";
+import { View } from "react-native";
 import * as Animatable from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ListItem, Text } from '..';
 
 const CollapsibleListItem = ({
     CollapseComponent,

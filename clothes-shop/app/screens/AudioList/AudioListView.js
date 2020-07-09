@@ -12,7 +12,7 @@ import {SectionGrid} from 'react-native-super-grid';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import S from './styles';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import {getSoundAvailability} from '../../features/sounds/operations';
 import SearchBarCustom from '../../components/SearchBarCustom';
 import colors from '../../styles/colors';

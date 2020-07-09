@@ -7,11 +7,14 @@ import {
 } from '../../features/notifications/selectors';
 import {
   addNotification,
+  addNotifications,
+  addNotificationsToStart,
   setViewed,
   unsubscribeToPriceReduce,
   subscribeToPriceReduce,
   removeAllNotification,
   setViewedAll,
+  onNotificationOpen
 } from '../../features/notifications/actions';
 
 const withNotifications = options => BaseComponent => props => {
@@ -38,9 +41,12 @@ const withNotifications = options => BaseComponent => props => {
       }
       subscribeToPriceReduce={item => dispatch(subscribeToPriceReduce(item))}
       addNotification={item => dispatch(addNotification(item))}
+      addNotifications={items => dispatch(addNotifications(items))}
+      // addNotificationsToStart={items => dispatch(addNotificationsToStart(items))}
       removeAllNotification={() => dispatch(removeAllNotification())}
       setViewed={({item, id}) => dispatch(setViewed({item, id}))}
       setViewedAll={() => dispatch(setViewedAll())}
+      onNotificationOpen={(item) => dispatch(onNotificationOpen(item))}
     />
   );
 };

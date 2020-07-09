@@ -15,7 +15,10 @@ import { Negotiation, Message } from '../types/Negotiation.type';
 import { getUser } from "../features/user/selectors";
 // import ImageResizer from 'react-native-image-resizer';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import shortid from 'shortid'
+import { updateUser } from '../features/user/actions';
+import { Toast } from 'native-base';
+import { DropdownAlertService } from './DropdownAlertService';
 
 const collectionsNames = {
   negotiations : "negotiations",
@@ -38,7 +41,16 @@ const followersRef = firestore().collection('followers');
 const wishlistRef = firestore().collection('wishlists');
 const favoritesRef = firestore().collection('favorites');
 const stripe_customersRef = firestore().collection('stripe_customers');
+
 // const { store } = configureStore();
+
+const getImagePath = ({user_id, product_id}) => {
+  return `images/${user_id}/${product_id}/${shortid.generate() + '_' + Date.now()}`
+}
+
+const getProofOfOriginPath = ({user_id, product_id}) => {
+  return `proofOfOrigin/${user_id}/${product_id}/${shortid.generate() + '_' + Date.now()}`
+}
 
 interface  ShopServiceInterface {
     init : (store : any) => void
@@ -52,13 +64,13 @@ class ShopService implements ShopServiceInterface {
     if(!this._store){
       this._store = store
     }
-
+    
     const settings = {
       persistence: true,
       cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED,
     }
     await firestore().settings(settings).catch(console.log)
-
+  
   }
 
   async addToken(token : string){
@@ -373,23 +385,23 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
-  async removeFollowing(followed_user_id){
+  async removeFollowing(followed_user_id:string){
       const user = auth().currentUser;
       if(!user || !user.uid){
-        return
+        return false
       }
       let successful = false
       try{
         await followingRef
-                              .doc(user.uid)
-                              .set({
-                                [followed_user_id]:false
-                              }, {merge: true})
+                  .doc(user.uid)
+                  .set({
+                    [followed_user_id]:false
+                  }, {merge: true})
         await followersRef
-                              .doc(followed_user_id)
-                              .set({
-                                [user.uid]:false
-                              }, {merge: true})
+                  .doc(followed_user_id)
+                  .set({
+                    [user.uid]:false
+                  }, {merge: true})
           // if(doc.exists){
           //   following = doc.data()
           // }
@@ -508,7 +520,7 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
-  async hideProduct(id: string){
+  async hideProduct({product_id}){
     // const user = auth().currentUser;
     let successful = false
     // if(!user || !user.uid){
@@ -517,11 +529,11 @@ class ShopService implements ShopServiceInterface {
     // if(!update){
     //   return 
     // }
-    if(!id){
+    if(!product_id){
       return successful
     }
     try{
-        const response = await clothesRef.doc(id).update({status: constants.clothes_fields.status_field.user_dismiss})
+        const response = await clothesRef.doc(product_id).update({status: constants.clothes_fields.status_field.user_dismiss})
         successful = true
     }catch(err){
         successful = false
@@ -558,7 +570,7 @@ class ShopService implements ShopServiceInterface {
     }
   }
 
-  async uploadPhoto({product_id}){
+  async selectAndUploadPhoto({product_id}){
       const user_id = auth().currentUser?.uid
       let image = null
       let errorMessage = ""
@@ -624,8 +636,59 @@ class ShopService implements ShopServiceInterface {
           errorMessage
         }
       }
-      
+  }
 
+  async uploadPhotoAndUpdate({product_id, images = [], productImages = []}){
+      const user_id = auth().currentUser?.uid
+      let newImages = []
+      let errorMessage = ""
+      let successful = false
+      let result = {}
+      if(!user_id){
+        return {
+          newImages,
+          successful
+        }
+      }
+
+      images = images.filter(image => image.path)
+
+      try{
+        // newImages = []
+        const storageForDefaultApp = storage();
+        for (let index = 0; index < images.length; index++) {
+          const image = images[index];
+          let file = await  storageForDefaultApp
+            .ref(getImagePath({user_id, product_id}))
+            .putFile(image.path)
+              // console.log('file',file)
+            let fullPath = file.metadata.fullPath
+            let downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+            // console.log('downloaded link ',downloadedURL)
+            image.src = downloadedURL
+            newImages.push(image)
+        }
+        // console.log('newImages',newImages)
+        let update = {}
+        let allImages = [...productImages, ...newImages]
+        update["images"] = allImages
+        console.log('update',update)
+        await clothesRef.doc(product_id).update(update)
+        successful = true
+      }catch(err){
+        console.log('uploadPhotoAndUpdate err',err)
+        successful = false,
+        newImages,
+        errorMessage = JSON.stringify(err)
+      }
+      finally{
+        return {
+          newImages,
+          successful,
+          errorMessage
+        }
+      }
+  
   }
 
   /** for user */
@@ -713,9 +776,9 @@ class ShopService implements ShopServiceInterface {
         }
   }
 
-  async getGoods(options = {}, time = {}, limit = 0){
+  async getGoods(options = {}, time = {}, limit = 0, orderBy = {}, startAfter = ''){
     // if()
-    console.log('options',options)
+    // console.log('options',options)
     // console.log('time',time)
     let goods = [];
     let count = null;
@@ -733,14 +796,23 @@ class ShopService implements ShopServiceInterface {
           }
         })
       // query = query.where('status','==', constants.clothes_fields.status_field.approved)
-      if(time.createdAt){
+      if(time?.createdAt){
         query = query.where('createdAt','>=',time.createdAt)
+      }
+
+      if(orderBy?.field){
+        query = query.orderBy(orderBy?.field, orderBy?.direction || 'desc')
+      }else{
+        query = query.orderBy('createdAt', "desc")
+      }
+      if(startAfter){
+        query = query.startAfter(startAfter)
       }
       if(limit){
         query = query.limit(limit)
       }
       // console.log('query',query)
-      snapshot = await query.orderBy('createdAt', "desc").get()
+      snapshot = await query.get()
       count  = snapshot.size
       // .where("specs.B6", isEqualTo: true)
       // .whereField("vitamins.C", isEqualTo: true)
@@ -833,10 +905,18 @@ class ShopService implements ShopServiceInterface {
         user_id
       })
       if(!_.isEmpty(negotation)){
-          let {price} = this.getNegotiationPrice(negotation)
-          if(price && price > 0 && price < product.price){
-              product.price = price
+          let {price : negotiationPrice} = this.getNegotiationPrice(negotation)
+          if(negotiationPrice && negotiationPrice > 0 && negotiationPrice < product.price){
+            if(product.newPrice > 0 && negotiationPrice > product.newPrice){
+              product.price = product.newPrice
+            }else{
+              product.price = negotiationPrice
+            }
           }
+      }else{
+        if(product?.newPrice && product.newPrice < product.price){
+          product.price = product.newPrice
+        }
       }
     }
     return product;
@@ -856,12 +936,19 @@ class ShopService implements ShopServiceInterface {
     // }
     return response
   }
-  // async getUnreceivedItems(){
-  //   let res =  await this.getGoods({
-  //     [constants.clothes_fields.status] : Shop.Status.
-  //   })
-  //   return res
-  // }
+
+  async getUnreceivedItems(){
+    const user_id = auth().currentUser?.uid;
+    if (!user_id) {
+      return
+    }
+    let res =  await this.getGoods({
+      user_id,
+      [constants.clothes_fields.status] : Shop.Status[4],
+      [constants.clothes_fields.sale_status] : Shop.SaleStatus[1],
+    })
+    return res
+  }
 
   async getUserGoods({user_id}){
     // if()
@@ -975,65 +1062,144 @@ class ShopService implements ShopServiceInterface {
       return Alert.alert('You must login firstly')
     }
     let imagesPromises = []
+    const doc = clothesRef.doc()
+
+    const storageForDefaultApp = storage();
+    /** upload image to storage */
     for(let i=1;i<6;i++){
-      const storageForDefaultApp = storage();
       let photo = options['photo'+i]
-      console.log('photo',photo)
+      // console.log('photo',photo)
       if(photo){
         imagesPromises.push(new Promise((resolve) => {
-          try{
-            // ImageResizer
-            //     .createResizedImage(photo.path, 1000, 1000, "PNG", 70)
-                // .then(response => {
-                //   console.log('crop image ...', response)
-
-                  storageForDefaultApp
-                    .ref('images/'+ user.uid + '_' + Date.now())
-                    .putFile(photo.path)
-                    .then(async file => {
-                      // console.log('file',file)
-                        let fullPath = file.metadata.fullPath
-                        let downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
-                        // console.log('downloaded link ',downloadedURL)
-                        resolve({
-                          title : 'photo'+i,
-                          src : downloadedURL   
-                        })
-                    }).catch( err => {
-                      resolve({name :'photo'+i, url : null})
+              storageForDefaultApp
+              .ref(getImagePath({product_id: doc.id, user_id: user.uid}))
+              .putFile(photo.path)
+              .then(async file => {
+                  // console.log('file',file)
+                  try{
+                    const fullPath = file.metadata.fullPath 
+                    const downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+                    // console.log('downloaded link ',downloadedURL)
+                    resolve({
+                      title : 'photo'+i,
+                      src : downloadedURL   
                     })
-                  // response.uri is the URI of the new image that can now be displayed, uploaded...
-                  // response.path is the path of the new image
-                  // response.name is the name of the new image with the extension
-                  // response.size is the size of the new image
-                // })
-                // .catch(err => {
-                //   console.log('error during crop images',err)
-                //   // Oops, something went wrong. Check that the filename is correct and
-                //   // inspect err to get more details.
-                //   resolve({name :'photo'+i, url : null})
-                // });
-            
-          }catch(err){
-            console.log('ERROR',err)
-          }  
+                  }catch(err){
+                    resolve({
+                      title : 'photo'+i,
+                      src : null   
+                    })
+                  }
+
+                }).catch( err => {
+                  console.log('err',err)
+                  resolve({name :'photo'+i, url : null})
+                })
+
         }))
       }
     }
 
-    const images : Shop.ProductImage[] = await Promise.all(imagesPromises)
-    if(images.map(i => i.src).filter( src => src).length < 5){
-      console.log('image not uploaded, throw error')
-      return
-    }
+    /** upload "other" images to the storage */
     try{
-      const response = await clothesRef.add({
+      options.otherPhotos = options.otherPhotos || []
+      /** upload only 3 from other photos */
+      for (let i = 0; i < 3; i++) {
+        const photo = options.otherPhotos[i];
+        
+      // }
+      // options.otherPhotos && options.otherPhotos.slice(0, 3).forEach((photo, i) =>{
+        if(!photo){
+
+        }else{
+          imagesPromises.push(new Promise((resolve) => {
+            storageForDefaultApp
+              .ref(getImagePath({user_id: user.uid, product_id: doc.id}))
+              .putFile(photo.path)
+              .then(async file => {
+                // console.log('file',file)
+                  const fullPath = file.metadata.fullPath
+                  try{
+                    const downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+                    // console.log('downloaded link ',downloadedURL)
+                    resolve({
+                      title : 'otherPhoto'+i,
+                      src : downloadedURL   
+                    })
+                  }catch(err){
+                    console.log('err',err)
+                    // console.log('downloaded link ',downloadedURL)
+                    resolve({
+                      title : 'otherPhoto'+i,
+                      src : null   
+                    })
+                  }
+
+              }).catch( err => {
+                resolve({name :'otherPhoto'+i, url : null})
+              })
+          }))
+        }
+        
+      }
+      // )
+    }catch(err){
+      console.log('ERROR DURING UPLOAD OTHER PHOTOS',err)
+    }
+    /** upload proofOfOrigin */
+    let proofOfOrigin = null
+    if(options?.proofOfOrigin && options.proofOfOrigin?.path){
+      console.log('upload  proof of origin')
+      try{
+        let proofOfOrigin = await new Promise((resolve) => {
+          storageForDefaultApp
+          .ref(getProofOfOriginPath({user_id: user.uid, product_id: doc.id}))
+          .putFile(options.proofOfOrigin.path)
+          .then(async file => {
+            // console.log('file',file)
+              const fullPath = file.metadata.fullPath
+              try{
+                const downloadedURL = await storageForDefaultApp.ref(fullPath).getDownloadURL()
+                // console.log('downloaded link ',downloadedURL)
+                resolve({
+                  title : 'proofOfOrigin',
+                  src : downloadedURL   
+                })
+              }catch(err){
+                console.log('err',err)
+                // console.log('downloaded link ',downloadedURL)
+                resolve({
+                  title : 'proofOfOrigin',
+                  src : null   
+                })
+              }
+          }).catch( err => {
+            resolve({name :'proofOfOrigin', url : null})
+          })
+        })
+      }catch(err){
+  
+      }
+    }
+   
+    let  images : Shop.ProductImage[] = await Promise.all(imagesPromises)
+    // if(images.map(i => i.src).filter( src => src).length < 5){
+    //   console.log('image not uploaded, throw error')
+    //   return
+    // }
+    images = images.filter(i => i.src)
+
+    try{
+      const response = await doc.set({
         ...options,
+        id:doc.id,
         photo1: null,
         photo2: null,
         photo3: null,
         photo4: null,
         photo5: null,
+        otherPhotos: null,
+        proofOfOrigin,
         images,
         user_id : R.path(['uid'], user),
         createdAt : Date.now(),
@@ -1044,9 +1210,9 @@ class ShopService implements ShopServiceInterface {
         we_love: false,
         vintage: false,
       })
-      await clothesRef.doc(response.id).update({
-        id: response.id
-      })
+      // await clothesRef.doc(response.id).update({
+      //   id: response.id
+      // })
       successful = true
       Alert.alert('Submitted for review')
     }catch(err){
@@ -1088,7 +1254,7 @@ class ShopService implements ShopServiceInterface {
       else{
       }
     }catch(err){
-
+      console.log('ERROR',err)
     }finally{
       console.log('fetched negotiation',negotiation)
       return negotiation
@@ -1109,7 +1275,7 @@ class ShopService implements ShopServiceInterface {
           .keys(options)
           .forEach(key => {
             if(_.isArray(options[key])){
-              query = query.where(key, 'array-contains-any',options[key])
+              query = query.where(key, 'in',options[key])
             }else{
               query = query.where(key,'==', options[key])
             }
@@ -1155,12 +1321,13 @@ class ShopService implements ShopServiceInterface {
   async getReceivedOffer(){
     let user = auth().currentUser
     if(!user || !user.uid){
-      Alert.alert('Firstly login')
+      // Alert.alert('Firstly login')
       return 
     }
     let response = await this.getNegotiations({
       [constants.negotiations_field.seller_id] : user.uid,
-      [constants.negotiations_field.answered] : false,
+      status: ['sent','declined'],
+      // [constants.negotiations_field.answered] : false,
     })
     return response
   }
@@ -1256,6 +1423,26 @@ class ShopService implements ShopServiceInterface {
       const response = await usersRef.doc(user.uid).update({
         holidaymode,
       })
+      this._store.dispatch(updateUser({holidaymode}))
+      successful = true
+    }catch(err){
+      
+    }finally{
+      return successful
+    }
+
+  }
+
+  async setNewPrice({product_id, newPrice}){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id && !product_id){
+      return 
+    }
+    let successful = false
+    try{
+      const response = await clothesRef.doc(product_id).update({
+        newPrice,
+      })
       successful = true
     }catch(err){
       
@@ -1322,13 +1509,31 @@ class ShopService implements ShopServiceInterface {
   async postComment(text : string, productId: string, parentId: srting) {
       const user = auth().currentUser;
       if(!user || !user.uid){
-        return 
+        return {successfull}
       }
+      if(!text || text.length == 0){
+        return {successfull}
+      }
+      let successfull = false
+      let phoneExp = /(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/img;
+      let emailExp = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/g;
+      let webLinkExp = /(https?:\/\/[^\s]+)/g;
+      const phoneInclude = phoneExp.test(text)
+      const emailInclude = emailExp.test(text)
+      const urlIncude = webLinkExp.test(text)
+      console.log('phoneInclude',phoneInclude)
+      console.log('emailInclude',emailInclude)
+      console.log('urlIncude',urlIncude)
+      if(urlIncude === true || phoneInclude || emailInclude){
+        DropdownAlertService.getDropDown().alertWithType('error','','You can\'t specify any contact information or urls')
+        return {successfull}
+      }
+      // const phoneInclude = phoneExp.test(text)
+
       let userData =  getUser(this._store.getState())
       // let userDoc = await usersRef.doc(user.uid).get()
       // let userData : User = userDoc.data()
 
-      let successfull = false
       let doc = commentsRef.doc()
       let ts = Date.now()
       const newComment = {
@@ -1374,15 +1579,16 @@ class ShopService implements ShopServiceInterface {
   
   async likeComment(id : string) {
     const user = auth().currentUser;
+    let successfull = false
     if(!user || !user.uid){
-      return 
+      DropdownAlertService.getDropDown().alertWithType('error','','you must login first')
+      return {successfull}
     }
     if(!id){
       console.log('no id',id)
-      return 
+      return {successfull}
     }
     console.log('id',id)
-    let successfull = false
     try{
         await commentsRef.doc(id).update({
             likes: firestore.FieldValue.arrayUnion(user.uid),
@@ -1401,15 +1607,16 @@ class ShopService implements ShopServiceInterface {
   
   async unlikeComment(id : string) {
     const user = auth().currentUser;
+    let successfull = false
     if(!user || !user.uid){
-      return 
+      DropdownAlertService.getDropDown().alertWithType('error','','you must login first')
+      return {successfull}
     }
     if(!id){
       console.log('no id',id)
-      return 
+      return {successfull}
     }
     console.log('id',id)
-    let successfull = false
     try{
         await commentsRef.doc(id).update({
             likes: firestore.FieldValue.arrayRemove(user.uid),
@@ -1443,16 +1650,37 @@ class ShopService implements ShopServiceInterface {
         }
       }
       try{
-        let doc = firestore().collection('alerts').doc()
-       await doc.set({
-          ...alert,
-          id: doc.id,
-          user_id:  user.uid,
+        console.log('alert',alert)
+        let fields = Object.entries(alert.fields).filter(([k,v]) => !!v)
+        console.log('fields',fields)
+        let query = firestore()
+                .collection('alerts')
+                .where('user_id','==',user.uid)
+        
+        fields.forEach(([k,v]) => {
+          query = query.where(k,'==',v)
         })
-        item = {
-          ...alert,
-          id: doc.id,
-          user_id:  user.uid,
+        let snapshot = await query.get()
+        /** if alert already exists */
+        if(snapshot.size > 0){
+          console.log('aler exist')
+          return {
+            successful,
+            item
+          }
+        }
+        console.log('snapshot',snapshot)
+
+        let doc = firestore().collection('alerts').doc()
+        await doc.set({
+            ...alert,
+            id: doc.id,
+            user_id:  user.uid,
+          })
+          item = {
+            ...alert,
+            id: doc.id,
+            user_id:  user.uid,
         }
         successful = true
       }catch(err){
@@ -1479,6 +1707,82 @@ class ShopService implements ShopServiceInterface {
         }
       }
   }
+
+  /** for holiday mode */
+  async setHolidayStart(ts : number){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id || !ts){
+      return 
+    }
+    try{
+        await usersRef.doc(user_id).update({
+            holidaymodeStartTs: ts,
+        })
+        successfull = true
+    }catch(err){
+      console.log('ERROR DURING DISLIKE COMMENT',err)
+    }finally{
+      return {
+        successfull,
+      } 
+    }
+  }
+
+  async setHolidayEnd(ts: number){
+    const user_id = auth().currentUser?.uid;
+    if(!user_id || !ts){
+      return 
+    }
+    try{
+        await usersRef.doc(user_id).update({
+            holidaymodeEndTs: ts,
+        })
+        successfull = true
+    }catch(err){
+      console.log('ERROR DURING DISLIKE COMMENT',err)
+    }finally{
+      return {
+        successfull,
+      } 
+    }
+  }
+
+  /** for notifications */
+  async getUserNotifications(){
+    let successful = false
+    const user_id = auth().currentUser?.uid;
+    let notifications = []
+    if(!user_id){
+      return notifications
+    }
+    try{
+      console.log('user_id',user_id)
+      let snapshot = await firestore()
+            .collection(`users`)
+            .doc(`${user_id}`)
+            .collection(`notifications`)
+            // .orderBy('created_time','a')
+            .limit(50)
+            .get()
+      console.log('found notfcs',snapshot.size)
+      snapshot.forEach( doc => {
+        notifications.push(doc.data())
+      })
+      successful = true
+    }catch(err){
+      console.log('ERROR DURING getUserNotifications',err)
+    }finally{
+      return {
+        successful,
+        notifications
+      }
+    }
+  }
+
+  /**
+   * For user 
+   */
+
 }
 
 export default new ShopService();

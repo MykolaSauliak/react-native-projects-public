@@ -62,7 +62,7 @@ const ItemLookingFor = ({
     return (
         <View style={{flex:1}}>
             <View style={{padding: 10}}>
-                <Text>To avoid missing that special item when it comes online, you can choose the frequency of your alerts</Text>
+                <Text xxmediumSize>To avoid missing that special item when it comes online, you can choose the frequency of your alerts</Text>
             </View>
             <FlatList 
                 data={alerts} 

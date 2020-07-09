@@ -176,13 +176,13 @@ export default createReducer(initialState, {
     return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};
   },
 
-  [types.setSelectedSellPhotos]: (state, {payload}) => {
+  [types.setSelectedSellOtherPhotos]: (state, {payload}) => {
     let sellProduct = state.sellProduct;
-    sellProduct.selectedSellPhotos = payload;
+    sellProduct.otherPhotos = payload;
     let drafts = state.drafts;
     drafts.forEach((d, i) => {
       if (d.id == sellProduct.id) {
-        drafts[i].selectedSellPhotos = payload;
+        drafts[i].otherPhotos = payload;
       }
     });
     return {...state, sellProduct, drafts, draftLastUpdate: Date.now()};

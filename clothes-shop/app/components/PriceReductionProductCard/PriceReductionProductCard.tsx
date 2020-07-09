@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 import PreviewRowCard from '../PreviewRowCard/PreviewRowCard';
 import { Formik,  Form, Field } from 'formik';
 import * as Yup from "yup";

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
 import T from 'prop-types';
 import firestore from '@react-native-firebase/firestore';
 import _ from 'lodash';

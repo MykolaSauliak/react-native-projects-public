@@ -1,19 +1,12 @@
 import React, { Component} from 'react';
 import {
   View,
-  Text,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
   ScrollView
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {
-    Header, 
-    SearchBar, 
-    ListItem, 
-    Button
-} from 'react-native-elements';
 import SearchBox from '../../../containers/SearchBox';
 import screens from '../../../constants/screens';
 import {NavigationService} from '../../../services';
@@ -32,7 +25,7 @@ import ToggleRefinement from '../../../containers/Search/ToggleRefinement';
 import SortBy from '../../../containers/Search/SortBy';
 import RangeSlider from '../../../containers/Search/RangeSlider';
 import ClearRefinements from '../../../containers/Search/ClearRefinements';
-import { BackHeader } from '../../../components';
+import { BackHeader, ListItem, Text } from '../../../components';
 import constants from '../../../constants';
 import colors from '../../../styles/colors';
 import { SearchItem } from '../../../types/Search';
@@ -162,7 +155,7 @@ class FilterSort extends Component<Props, State> {
                             /> */}
                         <LoadingIndicator />  
                             <ListItem 
-                                сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
+                                containerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
                                 title="Sort by" 
                                 /> 
                             <SortBy   
@@ -174,8 +167,8 @@ class FilterSort extends Component<Props, State> {
                                     { value: 'clothes_popularity', label: 'Popularity' },
                                 ]}
                                 />
-                            <ListItem 
-                                сontainerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
+                            <ListItem
+                                containerStyle={{backgroundColor: colors.gray, opacity: 0.5}} 
                                 title="Filter by" 
                                 /> 
                             <FilterRow 

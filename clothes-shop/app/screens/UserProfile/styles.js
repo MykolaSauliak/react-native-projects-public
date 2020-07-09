@@ -14,10 +14,9 @@ export default StyleSheet.create({
     marginTop: 5,
   },
   avatar: {
-    // borderColor: colors.orange,
-    // borderWidth: 1,
-    borderRadius: 50,
-    height: 95,
+    width: 50, 
+    height: 50, 
+    borderRadius: 25
   },
   email: {
     fontWeight: 'bold',

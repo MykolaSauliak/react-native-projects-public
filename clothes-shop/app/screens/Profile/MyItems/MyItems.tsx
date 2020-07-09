@@ -1,11 +1,10 @@
 import React from 'react';
-import {View, Text, ImageBackground, StyleSheet, FlatList, ScrollView} from 'react-native';
-// import globalStyles from '../../constants/styles';
+import {View, ImageBackground, StyleSheet, FlatList, ScrollView} from 'react-native';
+// import globalStyles from '../../styles';
 import colors from '../../../styles/colors';
 import GridList from '../../../containers/GridList'
-import {BackHeader} from "../../../components";
+import {BackHeader, BackHeaderCenter, PreviewRowCard, ListItem} from "../../../components";
 import Loading from "../../../components/Loading";
-import {ListItem} from 'react-native-elements'
 import _ from 'lodash'
 import {NavigationService} from '../../../services'
 import ProductCard from '../../../containers/ProductCard';
@@ -13,8 +12,24 @@ import SoldCard from '../../../components/SoldCard';
 import PriceReductionProductCard from '../../../containers/PriceReductionProductCard';
 import { Loader } from '../../../components';
 import NegotiationPreview from '../../../components/Negotiations/NegotiationPreview';
+import SellerProduct from '../../../components/SellerProduct/SellerProduct';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import constants from '../../../constants';
+import listnames from '../../../constants/listnames';
+import {  Text} from '../../../components';
+import { itemWidth } from '../../../containers/FirestoreSlider';
+import {withListCount} from '../../../features/lists'
+import globalStyles from '../../../styles'
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const S = StyleSheet.create({
+  sectionTitle: {
+    ...globalStyles.title,
+    opacity: 0.5, 
+    fontSize: widthPercentageToDP(4),
+    textTransform: 'uppercase'
+  },
   header: {
     height: 50,
     backgroundColor: colors.dark,
@@ -29,7 +44,8 @@ const MyItems = ({
   soldItems,
   refusedItems,
   unreceivedItems,
-  forSaleItems
+  forSaleItems,
+  getListCount
 }) => {
 
   let NegotiationContainer = ({item, ...props}) => <NegotiationPreview 
@@ -37,75 +53,99 @@ const MyItems = ({
     onPress={() => NavigationService.navigateToNegotiations({...item})}
     {...props}
     />
+  const forSaleItemsCount = getListCount({listName: listnames.myitemsforsales})
   // console.log('forSaleItems',forSaleItems.length)
-  // console.log('soldItems',soldItems.length)
-  // console.log('offerReceived',offerReceived.length)
+  // console.log('soldItems',soldItems)
+  // console.log('offerReceived',offerReceived)
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
-      <BackHeader title="My items" />
+      <BackHeaderCenter title="My items" />
       {loading 
         ? (<Loader containerStyle={{padding: 15}}/>)
         :
       <ScrollView>
-        <ListItem title="Items for sale" titleStyle={{opacity: 0.5, fontSize: 12, textTransform: 'uppercase'}} containerStyle={{paddingTop: 25}} bottomDivider/>
-        {!_.isEmpty(offerReceived) && (<ListItem title="Offers received" 
+        <ListItem 
+          title="Items for sale" 
+          titleStyle={S.sectionTitle} 
+          containerStyle={{paddingTop: 25}} 
+          bottomDivider
+          />
+        {!_.isEmpty(offerReceived) && (<ListItem 
+          titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
+          title={`Offers received (${offerReceived.length})`} 
           chevron
           bottomDivider
           onPress={() => NavigationService.navigateToList({
-            Component: (props) => <NegotiationPreview 
-                    {...props} 
-                    onPress={(item) => NavigationService.navigateToNegotiations({...item})}
-                    />,
+            Component: ({id, product_id, ...props}) => (<PreviewRowCard 
+            {...props} 
+            onPress={() => NavigationService.navigateToNegotiations({id, product_id})}
+            />),
+            // Component: (props) => <NegotiationPreview 
+            //         {...props} 
+            //         onPress={(item) => NavigationService.navigateToNegotiations({...item})}
+            //         />,
             items : offerReceived,
             title: "Offers received",
-
           })}
           />)}
-        <ListItem 
-          title={`My items for sale (${forSaleItems.length})`} 
+        {forSaleItemsCount > 0 && (<ListItem 
+          title={`My items for sale (${forSaleItemsCount})`} 
+          titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
           chevron 
           bottomDivider
-          onPress={() => NavigationService.navigateToGrid({
-            items : forSaleItems,
+          onPress={() => NavigationService.navigateToList({
+            // items : forSaleItems,
+            listName: listnames.myitemsforsales,
+            Component: SellerProduct,
+            headerProps: { rightComponent : () => <TouchableOpacity onPress={() =>  NavigationService.navigateToNegotiationOptions({goBack : () => NavigationService.navigateToList({listName: listnames.myitemsforsales})})}>
+            <Ionicons name="ios-settings" size={25} color={colors.orange} />
+          </TouchableOpacity> },
             title: "My items for sale"
           })}
           />
+        )}
         
         {(!_.isEmpty(priceReductionItems) 
           || !_.isEmpty(imageCroppedItems)) 
           && (<ListItem title="Items in progress" 
-              titleStyle={{opacity: 0.5, fontSize: 12, textTransform: 'uppercase'}} 
+              titleStyle={S.sectionTitle} 
               containerStyle={{paddingTop: 25}} 
               bottomDivider/>)}
         {!_.isEmpty(imageCroppedItems) && (<ListItem 
-          title="Photos currently being cropped" 
+          title={`Photos currently being cropped (${imageCroppedItems.length})`}
           chevron 
-          bottomDivider
+          bottomDivider 
           onPress={() => NavigationService.navigateToGrid({
             items : imageCroppedItems,
             title: "Photos currently being cropped"
           })}
           />)}
-        {!_.isEmpty(priceReductionItems) && (<ListItem 
-          title={`Price reduction (${priceReductionItems.length})`}
+        {withListCount( listnames.priceReduction)(({count = 0, ...props}) => {
+          console.log('count',count)
+          if(count == 0){
+            return null
+          }
+        return <ListItem 
+          title={`Price reduction (${count})`}
+          titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
           chevron 
           bottomDivider
           onPress={() => NavigationService.navigateToList({
             Component :  PriceReductionProductCard,
-            items : priceReductionItems,
+            // items : priceReductionItems,
+            listName: listnames.priceReduction,
             title: "Price reduction"
           })}
-          />)
-        }
-
+        />})}
         {(!_.isEmpty(refusedItems) || !_.isEmpty(unreceivedItems) || !_.isEmpty(soldItems)) && (<ListItem 
           title="Historical" 
-          titleStyle={{opacity: 0.5, fontSize: 12, textTransform: 'uppercase'}} 
+          titleStyle={S.sectionTitle} 
           containerStyle={{paddingTop: 25}} 
           bottomDivider
           />)}
         {!_.isEmpty(soldItems) && (<ListItem 
             title={`Sold items (${soldItems.length})`}
+            titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
             chevron 
             bottomDivider
             onPress={() => NavigationService.navigateToList({
@@ -116,6 +156,7 @@ const MyItems = ({
           />)}
         {!_.isEmpty(refusedItems) && (<ListItem 
           title={`Refused items (${refusedItems.length})`}
+          titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
           chevron 
           bottomDivider
           onPress={() => NavigationService.navigateToGrid({
@@ -125,7 +166,8 @@ const MyItems = ({
           })}
           />)}
         {!_.isEmpty(unreceivedItems) && (<ListItem 
-          title="Unreceived items" 
+          title={`Unreceived items (${unreceivedItems.length})`}
+          titleStyle={[globalStyles.title, globalStyles.leftListItemSmall]}
           chevron 
           bottomDivider
           onPress={() => NavigationService.navigateToGrid({

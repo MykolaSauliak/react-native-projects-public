@@ -14,7 +14,7 @@ export interface Negotiation {
     createdAt: number,
     created_time: number,
     // isAccepted: boolean | null,
-    status: 'sent' | 'accepted' | 'declined'
+    status: 'sent' | 'accepted' | 'declined' | 'seller_sent'
     messages: Message[],
     // answered : boolean,
     // answeredAt : number,
@@ -24,7 +24,7 @@ export interface Negotiation {
 export interface Message {
     offer_price: number,
     text?: string,
-    status: 'sent' | 'accepted' | 'declined'
+    status: 'sent' | 'accepted' | 'declined' | "seller_sent"
     created_time: number,
     user_id: string,
 }

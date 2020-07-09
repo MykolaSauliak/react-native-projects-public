@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import { NavigationService } from "../../services"
 import FilterRow from '../../components/FilterRow';
+import {Text} from '../../components';
 import {
   InstantSearch, 
   Configure,

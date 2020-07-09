@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {View, Image} from 'react-native';
+import {ListItem,Text} from '../../../../components';
 import constants from '../../../../constants';
 import {ChooseCard} from '..';
 

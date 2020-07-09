@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {ListItem} from 'react-native-elements';
 import constants from '../../../../constants';
 import {StripeService} from '../../../../services';
 // import CardList from '../../../../components/CardList';

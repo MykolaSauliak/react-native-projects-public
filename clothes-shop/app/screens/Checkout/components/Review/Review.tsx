@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {View, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {ListItem, CheckBox} from 'react-native-elements';
-import ProductListItem from '../../../../components/ProductListItem';
+import ProductListItem from '../../../../components/ProductListItem/ProductListItem';
 import S from './styles';
-import globalStyles from '../../../../constants/styles';
+import globalStyles from '../../../../styles';
 import constants from '../../../../constants';
 import colors from '../../../../styles/colors';
 import {
@@ -15,7 +14,7 @@ import {
 import i18n from '../../../../i18n';
 import { DataTable } from 'react-native-paper';
 import Modal from 'react-native-modal'
-import { BackHeader } from '../../../../components';
+import { BackHeader, ListItem, Text } from '../../../../components';
 import PaymentWebview from '../PaymentWebview/PaymentWebview'
 import { getTotalWithTaxes } from '../../../../features/cart/operations';
 import {Order} from '../../../../types/types'
@@ -242,7 +241,7 @@ const Review = ({
   // console.log('shippingAddress', shippingAddress);
   return (
     <View style={{flex: 1, width: '100%'}}>
-      <View style={{flex: 0.8, padding: 15}}>
+      <View style={{flex: 0.8, padding: 10}}>
         {/* <ScrollView> */}
         <Modal isVisible={isPaymentModalVisible} 
               style={S.modal}>
@@ -284,28 +283,24 @@ const Review = ({
         <Text style={S.title}>CART</Text>
         {cartItems.map(item => {
           return (
-             <ProductListItem
+            <ProductListItem
                 showRightPrice
-                // containerStyle={{backgroundColor: null}}
-                // showCheckBox={showEdit}
                 showCartIcon={false}
-                // checked={isMarked({id: item.id})}
-                // onCheckBoxClick={toggleItemMark}
-                // openBottomSheet={openBottomSheet}
-                toWishlist={toWishlist}
-                fromWishlist={fromWishlist}
-                fromCart={fromCart}
-                toCart={toCart}
                 title={item.brand_name}
-                subtitle={(item.color || '') + ' ' + (item.material || '') + ' ' + (item.type_name || '')}
-                inWishlist={isInWishlist({id: item.id})}
+                subtitle={
+                  (item.color || '') +
+                  ' ' +
+                  (item.material || '') +
+                  ' ' +
+                  (item.type_name || '')
+                }
                 inCart={isInCart({id: item.id})}
                 onPress={() => openProductInfo(item)}
                 // onCountChange={(count) => setCount({id : item.id, count})}
                 {...item}
                 item={item}
                 count={item.count || 1}
-                containerStyle={{}}
+                containerStyle={{marginTop: 25}}
               />
           );
         })}

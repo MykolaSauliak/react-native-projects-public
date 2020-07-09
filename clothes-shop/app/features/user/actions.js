@@ -6,6 +6,14 @@ export const setEmail = email => dispatch => {
     payload: email,
   });
 };
+
+export const setLoading = payload => dispatch => {
+  dispatch({
+    type: types.setLoading  ,
+    payload,
+  });
+};
+
 export const setUser = user => dispatch => {
   dispatch({
     type: types.setUser,

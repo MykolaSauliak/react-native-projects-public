@@ -1,38 +1,40 @@
 import React from 'react';
 import { View, StyleSheet, Keyboard } from "react-native";
-import { Text, BackHeaderCenter } from '../../../components';
+import { Text, BackHeaderCenter, ListItem } from '../../../components';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { colors } from '../../../styles';
-import { ListItem } from 'react-native-elements';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import constants from '../../../constants';
 import { withAuth } from '../../../utils/enhancers';
 import userFields from '../../../constants/userFields';
 import { AuthService, NavigationService } from '../../../services';
+import S from '../../../components/ProductListItem/style';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const NegotiationOptions = ({
     loggedInUser,
-    lastUpdate
+    lastUpdate,
+    navigation
 }) => {
 
     React.useEffect(() => {
         Keyboard.dismiss()
     }, [])
-
+    const goBack = navigation.getParam('goBack', () => NavigationService.goBack())
     // let [checked, setChecked] = React.useState(loggedInUser[userFields.receive_negotiation.receive_negotiation])
-    let radio_props = [
+    const radio_props = [
         {label: 'To receive price offers on all your items', value: userFields.receive_negotiation.all },
         {label: 'Not to receive price offers on your items', value: userFields.receive_negotiation.neither },
         {label: 'To choose items for which you would like to receive price offers', value: userFields.receive_negotiation.choose },
     ]
     return (
         <View style={{flex:1}}>
-            <BackHeaderCenter title="Setup" goBack={() => NavigationService.navigateToMyNegotiations()}/>
+            <BackHeaderCenter title="Setup" goBack={goBack}/>
             <View style={{padding: 15}}>
-                <Text xmediumSize>
+                <Text xmediumSize style={S.title}>
                     We allow buyers to make price offers to enable you to sell your items more quickly.
                 </Text>
-                <Text bold xmediumSize>
+                <Text bold xmediumSize  style={S.title}>
                     {`\nIf you do not wish to receive offers, you can adjust your preference settings.\nDo you prefer:`}
                 </Text>
             </View>
@@ -44,7 +46,7 @@ const NegotiationOptions = ({
                                 // bottomDivider
                                 containerStyle={{height: constants.rowHeight}}
                                 leftElement={                                <TouchableOpacity
-                                    style={styles.radioCircle}
+                                    style={[styles.radioCircle, loggedInUser[userFields.receive_negotiation.receive_negotiation] === res.value ? {borderColor: colors.orange} : {borderColor:'black'}]}
                                     onPress={() => {
                                         AuthService.updateUser({
                                             [userFields.receive_negotiation.receive_negotiation] :res.value
@@ -52,7 +54,7 @@ const NegotiationOptions = ({
                                     }}>
                                     {loggedInUser[userFields.receive_negotiation.receive_negotiation] === res.value && <View style={styles.selectedRb} />}
                                 </TouchableOpacity>}
-                                title={<Text style={styles.radioText}>{res.label}</Text>}
+                                title={<Text xxmediumSize style={styles.radioText}>{res.label}</Text>}
                                 onPress={() => AuthService.updateUser({
                                     [userFields.receive_negotiation.receive_negotiation] :res.value
                                 })}
@@ -78,16 +80,16 @@ const styles = StyleSheet.create({
 	},
     radioText: {
         marginRight: 35,
-        fontSize: 16,
+        fontSize: widthPercentageToDP(4.5),
         color: '#000',
-        marginTop: -5,
+        // marginTop: -5,
     },
 	radioCircle: {
 		height: 20,
 		width: 20,
 		borderRadius: 100,
 		borderWidth: 1,
-		borderColor: colors.black,
+		borderColor: colors.orange,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

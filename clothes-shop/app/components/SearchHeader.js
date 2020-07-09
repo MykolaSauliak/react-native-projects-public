@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {SearchBar} from 'react-native-elements';
 import colors from '../styles/colors';
-import globalStyles from '../constants/styles';
+import globalStyles from '../styles';
+import {Text} from '../components';
 import Modal from 'react-native-modal';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';

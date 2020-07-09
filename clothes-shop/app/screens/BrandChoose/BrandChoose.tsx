@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {SearchBar, ListItem,} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import colors from '../../styles/colors';
 import i18n from '../../i18n';
 import S from './BrandChoose.style';
 import {NavigationService} from '../../services';
-import {BackHeaderCenter} from '../../components'
+import {BackHeaderCenter, ListItem} from '../../components'
+import {  Text} from '../../components';
 
 const BrandChoose = ({
   brands,

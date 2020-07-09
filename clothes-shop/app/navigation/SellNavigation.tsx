@@ -24,6 +24,13 @@ import SelectSellCondition from '../screens/Sell/components/SelectSellCondition'
 import SelectSellConditionWrite from '../screens/Sell/components/SelectSellConditionWrite';
 import SelectSellPrice from '../screens/Sell/components/SelectSellPrice';
 import SelectSellOptionalInformation from '../screens/Sell/components/SelectSellOptionalInformation';
+
+import SelectSellVintage from '../screens/Sell/components/SelectSellOptionalInformation/components/SelectSellVintage';
+import SelectSellProofOfOrigin from '../screens/Sell/components/SelectSellOptionalInformation/components/SelectSellProofOfOrigin';
+import SelectSellOrigin from '../screens/Sell/components/SelectSellOptionalInformation/components/SelectSellOrigin';
+import SelectSellSerialNumber from '../screens/Sell/components/SelectSellOptionalInformation/components/SelectSellSerialNumber';
+import SelectSellPackaging from '../screens/Sell/components/SelectSellOptionalInformation/components/SelectSellPackaging';
+
 import screens from '../constants/screens';
 
 const SellStack = createStackNavigator(
@@ -47,6 +54,12 @@ const SellStack = createStackNavigator(
       [screens.SelectSellPrice]: SelectSellPrice,
       [screens.SelectSeller]: SelectSeller,
       [screens.SelectSellOptionalInformation]: SelectSellOptionalInformation,
+
+      [screens.SelectSellVintage]: SelectSellVintage,
+      [screens.SelectSellProofOfOrigin]: SelectSellProofOfOrigin,
+      [screens.SelectSellOrigin]: SelectSellOrigin,
+      [screens.SelectSellSerialNumber]: SelectSellSerialNumber,
+      [screens.SelectSellPackaging]: SelectSellPackaging,
     },
     {
       defaultNavigationOptions: props => ({

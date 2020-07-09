@@ -1,20 +1,23 @@
 import React from 'react';
 import {
   View,
-  Text,
   FlatList,
   SectionList,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header, Button} from 'react-native-elements';
+import {SearchBar, Header, Button} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
 import getStepRemained from '../../../../utils/getStepRemained';
 import {ShopService, NavigationService} from '../../../../services';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, ListItem } from '../../../../components';
+import _ from 'lodash'
+import {  Text} from '../../../../components';
+import constants from '../../../../constants';
+import globalStyles from '../../../../styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const S = StyleSheet.create({
   number: {
@@ -22,8 +25,9 @@ const S = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     // padding:,
-    borderColor: 'black',
+    borderColor: colors.orange,
     borderWidth: 1,
+    // margin: 10,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
@@ -42,7 +46,7 @@ const SelectSellMainView = ({
   color,
   printed,
 
-  photos,
+  otherPhotos,
   photo1,
   photo2,
   photo3,
@@ -57,9 +61,12 @@ const SelectSellMainView = ({
   price,
 
   vintage,
+  serialNumber,
+  origin,
+  proofOfOrigin,
+  soldWith,
 
   seller,
-  soldWith,
   updateSearch,
   placeholder,
   onPress,
@@ -70,8 +77,9 @@ const SelectSellMainView = ({
   goToConditionSelect,
   goToSellerSelect,
   goToOptionalSelect,
-  // setSellProduct,
-  // removeFromDrafts,
+
+  setSellProduct,
+  removeFromDrafts,
   drafts,
 }) => {
   // const filteredCars = cars.filter(c => c.carmake == selectedCarMake.title && c.model == selectedModel.title)
@@ -85,8 +93,8 @@ const SelectSellMainView = ({
   // console.log('material',material)
   // console.log('color',color)
   // console.log('printed',printed)
-  console.log('selectedSellProduct', selectedSellProduct);
-  console.log('category', category);
+  // console.log('selectedSellProduct', selectedSellProduct);
+  // console.log('category', category);
 
   const complete = () => {
     return (
@@ -140,8 +148,8 @@ const SelectSellMainView = ({
   const sellerComplete = () => {
     return (
       seller != null &&
-      seller.personal_contact_information != null &&
-      seller.phone != null &&
+      !_.isEmpty(seller.personal_contact_information) &&
+      // seller.phone != null &&
       shipping_country != null
     );
   };
@@ -198,7 +206,7 @@ const SelectSellMainView = ({
       color,
       printed,
 
-      photos,
+      otherPhotos,
       photo1,
       photo2,
       photo3,
@@ -216,149 +224,172 @@ const SelectSellMainView = ({
 
       seller,
       shipping_country,
+
       vintage,
-      soldWith
+      soldWith,
+      serialNumber,
+      origin,
+      proofOfOrigin,
+
     });
     if (successful) {
       NavigationService.navigateToDrafts();
-      // setSellProduct({})
-      // removeFromDrafts(selectedSellProduct.id)
+      setSellProduct({})
+      removeFromDrafts(selectedSellProduct.id)
     }
   };
   // console.log('complete',complete())
-  // console.log('photo5', photo5);
+  console.log('seller.personal_contact_information', seller.personal_contact_information);
   return (
-    <View style={{flex: 1, backgroundColor: colors.gray}}>
-      <BackHeaderCenter
-        title={`${getStepRemained({
-          ...selectedSellProduct,
-          seller,
-        })} Step(s) remained`}
-        goBack={() => NavigationService.navigateToDrafts()}
-      />
-      <ListItem containerStyle={{backgroundColor: colors.lightGray}} disabled />
-      <View>
-        <ScrollView>
-          <ListItem
-            containerStyle={{backgroundColor: 'white'}}
-            leftElement={
-              !informationComplete() ? (
-                <View style={S.number}>
-                  <Text>1</Text>
-                </View>
-              ) : (
-                <View style={S.number}>
-                  <AntDesign name="checkcircle" size={30} />
-                </View>
-              )
-            }
-            title="Information"
-            bottomDivider
-            onPress={() => goToInformationSelect()}
-            chevron
-          />
-          <ListItem
-            leftElement={
-              !photosComplete() ? (
-                <View style={S.number}>
-                  <Text>2</Text>
-                </View>
-              ) : (
-                <View style={S.number}>
-                  <AntDesign name="checkcircle" size={30} />
-                </View>
-              )
-            }
-            title="Photos"
-            bottomDivider
-            onPress={goToPhotosSelect}
-            chevron
-          />
-          <ListItem
-            leftElement={
-              !descriptionComplete() ? (
-                <View style={S.number}>
-                  <Text>3</Text>
-                </View>
-              ) : (
-                <View style={S.number}>
-                  <AntDesign name="checkcircle" size={30} />
-                </View>
-              )
-            }
-            title="Description"
-            bottomDivider
-            onPress={goToDescriptionSelect}
-            chevron
-          />
-          <ListItem
-            leftElement={
-              !conditionComplete() ? (
-                <View style={S.number}>
-                  <Text>4</Text>
-                </View>
-              ) : (
-                <View style={S.number}>
-                  <AntDesign name="checkcircle" size={30} />
-                </View>
-              )
-            }
-            title="Condition & price"
-            bottomDivider
-            onPress={goToConditionSelect}
-            chevron
-          />
-          <ListItem
-            leftElement={
-              !sellerComplete() ? (
-                <View style={S.number}>
-                  <Text>5</Text>
-                </View>
-              ) : (
-                <View style={S.number}>
-                  <AntDesign name="checkcircle" size={30} />
-                </View>
-              )
-            }
-            title="Seller"
-            onPress={goToSellerSelect}
-            chevron
-          />
-          <ListItem
-            containerStyle={{backgroundColor: colors.lightGray}}
-            disabled
-          />
-          <ListItem
-            title={"Optional information"}
-            chevron
-            onPress={() => NavigationService.navigateToSellProductOptionalSelect()}
-          />
-          {/* <ListItem
-                    // leftElement={<View>
-                    //         <Text style={S.number}></Text>
-                    //     </View>}
-                    title="Optional information"
-                    onPress={goToOptionalSelect}
-                    /> */}
-        </ScrollView>
-      </View>
-      <Button
-        containerStyle={{
-          padding: 5,
-          marginHorizontal: 10,
-          height: 50,
-          width: '95%',
-          position: 'absolute',
-          bottom: 5,
-        }}
-        onPress={handleSubmit}
-        title="confirm"
-        disabled={complete() === true ? false : true}
-        buttonStyle={{
-          backgroundColor: colors.orange,
-        }}
-      />
-    </View>
+    <>
+    <ScrollView 
+      //   style={{flex:1}}
+      // // style={{height: constants.DEVICE_HEIGHT - 100, }} 
+        alwaysBounceVertical
+        contentContainerStyle={{backgroundColor: colors.gray,paddingBottom: 75}}
+        >
+      {/* <View style={{}}> */}
+        <BackHeaderCenter
+          title={`${getStepRemained({
+            ...selectedSellProduct,
+            seller,
+          })} Step(s) remained`}
+          goBack={() => NavigationService.navigateToDrafts()}
+        />
+        {/* <ListItem containerStyle={{backgroundColor: colors.lightGray}} disabled /> */}
+        {/* <View style={{flex:1}}> */}
+        <View style={{marginVertical: 20}}>
+          <Text xxmediumSize bold center>{brand.title}</Text>
+          <Text xxmediumSize center capitalize>{`${category.title} ${type.title}`}</Text>
+        </View>
+        <ListItem
+          titleMedium
+          containerStyle={{backgroundColor: 'white'}}
+          leftElement={
+            !informationComplete() ? (
+              <View style={S.number}>
+                <Text xmediumSize style={{color: colors.orange}}>1</Text>
+              </View>
+            ) : (
+              // <View style={S.number}>
+                <AntDesign name="checkcircle" size={30} color={colors.orange}/>
+              // {/* // </View> */}
+            )
+          }
+          title="Information"
+          titleStyle={globalStyles.mediumText}
+          bottomDivider
+          onPress={() => goToInformationSelect()}
+          chevron
+        />
+        <ListItem
+          titleMedium
+          leftElement={
+            !photosComplete() ? (
+              <View style={S.number}>
+                <Text xmediumSize style={{color: colors.orange}}>2</Text>
+              </View>
+            ) : (
+              // <View style={S.number}>
+                <AntDesign name="checkcircle" size={30} color={colors.orange}/>
+              // </View>
+            )
+          }
+          title="Photos"
+          bottomDivider
+          onPress={goToPhotosSelect}
+          chevron
+        />
+        <ListItem
+          titleMedium
+          leftElement={
+            !descriptionComplete() ? (
+              <View style={S.number}>
+                <Text xmediumSize style={{color: colors.orange}}>3</Text>
+              </View>
+            ) : (
+              // <View style={{}}>
+                <AntDesign name="checkcircle" size={30} color={colors.orange}/>
+              // </View>
+            )
+          }
+          title="Description"
+          bottomDivider
+          onPress={goToDescriptionSelect}
+          chevron
+        />
+        <ListItem
+          titleMedium
+          leftElement={
+            !conditionComplete() ? (
+              <View style={S.number}>
+                <Text xmediumSize style={{color: colors.orange}}>4</Text>
+              </View>
+            ) : (
+              // <View style={S.number}>
+                <AntDesign name="checkcircle" size={30} color={colors.orange}/>
+              // </View>
+            )
+          }
+          title="Condition & price"
+          bottomDivider
+          onPress={goToConditionSelect}
+          chevron
+        />
+        <ListItem
+          titleMedium
+          leftElement={
+            !sellerComplete() ? (
+              <View style={S.number}>
+                <Text xmediumSize style={{color: colors.orange}}>5</Text>
+              </View>
+            ) : (
+              // <View style={S.number}>
+                <AntDesign name="checkcircle" size={30} color={colors.orange}/>
+              // </View>
+            )
+          }
+          title="Seller"
+          onPress={goToSellerSelect}
+          chevron
+        />
+        <ListItem
+          containerStyle={{backgroundColor: colors.lightGray}}
+          disabled
+        />
+        <ListItem
+          titleMedium
+          title={"Optional information"}
+          chevron
+          onPress={() => NavigationService.navigateToSellProductOptionalSelect()}
+        />
+        {/* <ListItem
+                  // leftElement={<View>
+                  //         <Text style={S.number}></Text>
+                  //     </View>}
+                  title="Optional information"
+                  onPress={goToOptionalSelect}
+                  /> */}
+    {/* </View> */}
+      {/* </View> */}
+    </ScrollView>
+    <Button
+      containerStyle={{
+        padding: 5,
+        marginHorizontal: 10,
+        height: 50,
+        width: '95%',
+        position: 'absolute',
+        bottom: 5,
+      }}
+      onPress={handleSubmit}
+      title="confirm"
+      disabled={complete() === true ? false : true}
+      buttonStyle={{
+        backgroundColor: colors.orange,
+      }}
+    />
+    </>
   );
 };
 

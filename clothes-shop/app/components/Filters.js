@@ -3,7 +3,6 @@ import {
   StyleSheet,
   SafeAreaView,
   Modal,
-  Text,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -12,6 +11,7 @@ import RefinementList from '../containers/Search/RefinementList';
 import {BackHeader} from '../components';
 import AlgoliaPriceFilter from '../components/AlgoliaPriceFilter';
 import {ScrollView} from 'react-native-gesture-handler';
+import {   Text } from "../components";
 
 const styles = StyleSheet.create({
   closeButton: {

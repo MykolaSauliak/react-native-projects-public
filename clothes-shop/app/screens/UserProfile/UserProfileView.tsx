@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View,
-  Text,
+
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -27,9 +27,20 @@ import S from './styles';
 import {BackHeader, TabBarHorizontalScroll} from '../../components'
 import GridList from '../../containers/GridList'
 import getLastActive from '../../utils/getLastActive';
+import FollowButton from '../../containers/FollowButton/FollowButton';
+import { User } from '../../types/User.type'
+import Entypo from 'react-native-vector-icons/Entypo'
+import constants from '../../constants';
+import {  Text} from '../../components';
+import globalStyle from '../../styles'
+import SellerReputationChip from '../../components/SellerStatusChip/SellerStatusChip';
 
 const ScrollableTabView = require('react-native-scrollable-tab-view');
 const initialLayout = { width: Dimensions.get('window').width };
+
+type Props = {
+  user: User
+}
 
 const UserProfileView = ({
   // isSignedIn = false,
@@ -43,16 +54,20 @@ const UserProfileView = ({
   toOrders,
   toPrivatePolicy,
 
-  email,
-  name,
-  last_name,
+  // email,
+  // name,
+  // last_name,
   idcode,
   user : {
     avatar,
     uid,
+    name = "",
+    last_name = "",
     quick_shipping,
     last_active,
-    sold_count,
+    soldCount,
+    location = "",
+    reputation
   },
 
   followers,
@@ -63,7 +78,6 @@ const UserProfileView = ({
 
   userWishlist,
   userItemsForSale,
-  soldCount,
   userFavorites,
   userFollowing,
   userFollowers,
@@ -76,18 +90,18 @@ const UserProfileView = ({
   goToOrders,
   changeLocale,
   locale,
-}) => {
+} : Props) => {
   // console.log('userFollowing',userFollowing)
   console.log('userItemsForSale',userItemsForSale.length)
   console.log('userFollowers',userFollowers)
   const FirstRoute = () => (
     // <View style={[{backgroundColor: '#673ab7'}]} />
-    <GridList items={userItemsForSale} />
+    <GridList items={userItemsForSale} loading={loading} />
   );
   
-  const SecondRoute = () => <GridList items={userWishlist}/>;
+  const SecondRoute = () => <GridList items={userWishlist} loading={loading} />;
   
-  const ThirdRoute = () => <GridList items={userFavorites} />;
+  const ThirdRoute = () => <GridList items={userFavorites} loading={loading}/>;
   // const FourthRoute = () => <UsersList items={userFollowing || []} />;
   // const FifthRoute = () => <UsersList items={userFavorites || []} />;
   
@@ -120,17 +134,38 @@ const UserProfileView = ({
   };
 
   const getItemsSold = () => {
-    return soldCount
+    return soldCount || 0
   };
+
+  const getAvatarSource = () => {
+    return  typeof avatar == 'string' ?  {uri: avatar} : avatar?.src ? {uri: avatar?.src} : constants.defaultAvatar
+  }
 
   const _renderForeground = () => {
     return (
       // <View style={{backgroundColor: colors.gray}}>
       <View style={{padding: 15, paddingVertical: 5}}>
         <ListItem
-          leftAvatar={{source: {uri: avatar ? avatar.src ? avatar.src : avatar : ''}, size:'large'}}
-          title={name}
-          titleStyle={{color: 'black'}}
+          leftElement={<View style={{flex:0.3}}>
+              <Image
+                source={getAvatarSource()} 
+                style={globalStyle.avatar}
+                defaultSource={constants.defaultAvatar}
+                />
+          </View>}
+          // leftAvatar={{source: {uri: avatar ? avatar.src ? avatar.src : avatar : ''}, size:'large'}}
+          title={<View>
+            <Text xxmediumSize style={globalStyle.title}>{`${name} ${last_name}`}</Text>
+            <SellerReputationChip containerStyle={{marginTop: 4, 
+              alignItems:'flex-start'}} reputation={reputation}/>
+            </View>}
+          subtitle={location.length > 0 && (
+              <View style={{flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
+                <Entypo name="location"/>
+                <Text>{location}</Text>
+              </View>
+            )} 
+          titleStyle={{color: 'black',...globalStyle.text}}
           containerStyle={{backgroundColor: null}}
         />
         <View
@@ -141,16 +176,17 @@ const UserProfileView = ({
             flexDirection: 'row',
             padding: 15,
           }}>
-          <View style={{flex: 0.3}}>
-            <Text>{Object.keys(userFollowers).length}</Text>
-            <Text>Followed by</Text>
+          <View style={{flex: 0.3, paddingHorizontal:6}}>
+            <Text mediumSize>{Object.keys(userFollowers).length}</Text>
+            <Text mediumSize>Followed by</Text>
           </View>
           <View style={{flex: 0.3}}>
-            <Text>{following.length}</Text>
-            <Text >Following</Text>
+            <Text mediumSize>{following.length}</Text>
+            <Text mediumSize>Following</Text>
           </View>
           <View style={{flex: 0.3}}>
-            {
+            <FollowButton uid={uid} />
+            {/* {
               isUserFollowed({user_id: uid})
               ?  <Button
                   color={'gray'}
@@ -169,22 +205,22 @@ const UserProfileView = ({
                   onPress={() => addToFollowing(uid)}
                   title={'FOLLOW'}
                 />
-            }
+            } */}
 
           </View>
         </View>
         <View style={{marginVertical: 10, }}>
-          {last_active && <Text style={{lineHeight: 25}}>Last active: {getLastActive(last_active)}</Text>}
-          <Text style={{lineHeight: 25}}>
+          {last_active && <Text xmediumSize style={{lineHeight: 25}}>Last active: {getLastActive(last_active)}</Text>}
+          <Text xmediumSize style={{lineHeight: 25}}>
             {getActiveItemsForSale()} items for sale, {getItemsSold()} items sold
           </Text >
-          {quick_shipping && <Text style={{lineHeight: 25}}>Usually ships in 1-2 days</Text>}
+          {quick_shipping && <Text xmediumSize style={{lineHeight: 25}}>Usually ships in 1-2 days</Text>}
         </View>
       </View>
     );
   };
 
-  const isSignedIn = email && email.length > 0;
+  // const isSignedIn = email && email.length > 0;
 
   return (
     <ScrollView >

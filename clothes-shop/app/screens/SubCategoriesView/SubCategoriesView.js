@@ -1,17 +1,17 @@
 import React from 'react';
 import {
   View,
-  Text,
   FlatList,
   Image,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import S from './styles';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../../styles/colors';
-import {ListItem} from 'react-native-elements';
+import {ListItem} from '../../components';
+import {  Text} from '../../components';
 
 const SubCategoriesView = ({
   subcategories,

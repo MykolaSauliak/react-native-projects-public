@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  Text,
   SafeAreaView,
   StatusBar,
   Button,
@@ -11,6 +10,7 @@ import {
 //   import algoliasearch from 'algoliasearch';
 import {InstantSearch, connectRefinementList} from 'react-instantsearch-native';
 import InfiniteHits from '../../../../components/InfiniteHits';
+import {  Text} from '../../../../components';
 // import Filters from '../../components/Filters';
 // const index = client.initIndex('parts');
 

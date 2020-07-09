@@ -1,13 +1,11 @@
 import React, { Component} from 'react';
 import {
   View,
-  Text,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Header, SearchBar, ListItem, Button} from 'react-native-elements';
 import SearchBox from '../../../containers/SearchBox';
 import screens from '../../../constants/screens';
 import {NavigationService} from '../../../services';
@@ -29,6 +27,7 @@ import RemoveAllAtUnmount from '../../../containers/Search/RemoveAll';
 import constants from '../../../constants';
 import { SearchItem } from '../../../types/Search.type';
 import { FilterSortButton } from '../../../containers/Search';
+import {  Text} from '../../../components';
 
 
 const VirtualRefinementList = connectRefinementList(() => null);
@@ -143,6 +142,16 @@ class TextSearchView extends Component<Props,State> {
             }}
             root={this.root} 
             >
+            <SortBy 
+             defaultRefinement="clothes"
+             items={[
+                 { value: 'clothes', label: 'Featured' },
+                 { value: 'clothes_lowest_price', label: 'Lowest price' },
+                 { value: 'clothes_highest_price', label: 'Highest price' },
+                 { value: 'clothes_popularity', label: 'Popularity' },
+             ]}
+             />
+             
             <VirtualRefinementList attribute="category_id" />
             <VirtualRefinementList attribute="type_id" />
             <VirtualRefinementList attribute="subtype_id"  />
@@ -168,7 +177,8 @@ class TextSearchView extends Component<Props,State> {
                       defaultRefinement={searchState?.refinementList?.category_id} 
                       // searchState={searchState}
                       /> */}
-                    <SearchBox 
+                    <SearchBox
+                       showBack={true} 
                         onSearchClick={() => NavigationService.navigateToSearchHistory()} 
                         placeholder={title} 
                         />

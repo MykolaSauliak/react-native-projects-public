@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text,
     FlatList,
     StyleSheet,
     Dimensions
  } from "react-native";
-import { ListItem, Input } from "react-native-elements";
 import Modal from "react-native-modal";
 import { BackHeader } from '../../../components';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -20,6 +18,7 @@ import { TabBarHorizontalScroll } from "../../../components";
 import _ from 'lodash';
 import ListItemWithDropDown from '../../../components/ListItemWithDropDown';
 import CollapsibleListItem from '../../../components/CollapsibleListItem/CollapsibleListItem';
+import {  Text} from '../../../components';
 
   
 const initialLayout = { width: Dimensions.get('window').width };

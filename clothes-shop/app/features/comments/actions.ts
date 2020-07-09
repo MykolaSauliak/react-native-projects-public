@@ -32,14 +32,14 @@ export const addComment = ({
   // console.log('addToFavorites', listName);
   ShopService
     .postComment(text, productId, parentId)
-    .then( response => {
-      if(response){
-        console.log('add new comment ',listName,response)
+    .then(({successfull, item}) => {
+      if(successfull){
+        // console.log('add new comment ',listName,response)
         dispatch({
           type: types.addComment,
           payload: {
             listName,
-            item : response.item,
+            item,
           },
         });
       }
@@ -48,18 +48,18 @@ export const addComment = ({
 
 export const likeComment = (listName : string, id : string) => dispatch => {
   // console.log('addToFavorites', item);
-  // console.log('addToFavorites', listName);
+  console.log('likeComment', listName, id);
   ShopService
   .likeComment(id)
-  .then( response => {
-    if(response){
-      console.log('like comment,',response)
+  .then(({successfull, user_id}) => {
+    if(successfull){
+      // console.log('like comment response,')
       dispatch({
           type: types.likeComment,
           payload: {
             listName,
             id,
-            user_id : response.user_id
+            user_id
           },
       });
     }
@@ -72,6 +72,7 @@ export const likeComment = (listName : string, id : string) => dispatch => {
 
 export const unlikeComment = (listName: string, id :string) => dispatch => {
 
+  
   ShopService
   .unlikeComment(id)
   .then( response => {

@@ -35,6 +35,7 @@ const enhance = compose(
   withState('approvalUrl', 'setApprovalUrl', null),
   withState('accessToken', 'setAccessToken', ''),
   withState('markedItems', 'setMarkedItems', []),
+  withState('loading', 'setLoading', false),
   // withState('isLoggedIn', 'setLoggedIn', false),
   // withProps({
   //     isLoggedIn : Auth.isLoggedIn()

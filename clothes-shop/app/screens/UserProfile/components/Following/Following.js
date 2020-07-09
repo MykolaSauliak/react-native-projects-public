@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View} from 'react-native';
 import GridList from '..';
-import {ListItem} from 'react-native-elements';
+import {ListItem, Loading} from '../../../../components';
 import {NavigationService} from '../../../../services';
 
 const Following = ({items, onPress, loading}) => {
   return (
     <View>
-      {loading && <ActivityIndicator />}
+      {loading && <Loading />}
       {items.map(item => (
         <ListItem title={item.name} />
       ))}

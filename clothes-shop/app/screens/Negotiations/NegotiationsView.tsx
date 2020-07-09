@@ -1,23 +1,27 @@
 import React from 'react';
 import {
   View,
-  Text,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
-import {BackHeader} from '../../components';
+import {BackHeader, Text, Loading, BackHeaderCenter} from '../../components';
 import { ActivityIndicator } from 'react-native-paper';
 import { 
   Negotiation,
   Product 
 } from "../../types/Negotiation.type";
 import NegotiationContainer from '../../containers/Negotiations/NegotiationContainer'
-
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { NavigationService } from '../../services';
+import { colors } from '../../styles';
 interface Metadata {
   key: string,
   value: any
 }
 
 interface NegotiationProps {
+  id: string,
+  product_id?: string,
   item: Product,
   loading : boolean,
   error : string,
@@ -46,11 +50,13 @@ const NegotiationsView = ({
   sellerUser,
   loading,
   id,
-  isSignedIn
+  product_id,
+  isSignedIn,
+  loggedInUser
 } : NegotiationProps) => {
   // console.log('brand_name',brand_name)
   if(loading){
-    return <ActivityIndicator />
+    return <Loading />
   };
 
   if(!isSignedIn){
@@ -58,20 +64,25 @@ const NegotiationsView = ({
        <Text style={{textAlign:'center'}}>login to view negotiation info</Text>
     </View>
   }
-  // console.log('negotiation',negotiation)
+  console.log('id',id)
   return (
-    <ScrollView>
-    <View style={{zIndex: 1, flex: 1, width: '100%'}}>
-      <BackHeader title="Negotiating area" />
+    // <ScrollView>
+    <View style={{flex: 1}}>
+      <BackHeaderCenter 
+        title="Negotiating area" 
+        rightComponent={(<TouchableOpacity onPress={() =>  NavigationService.navigateToNegotiationOptions() }>
+              <Ionicons name="ios-settings" size={25} color={colors.orange} />
+            </TouchableOpacity>)
+        }/>
       <NegotiationContainer 
           negotiation={negotiation}
           product={item}
-          product_id={item.id}
+          product_id={item.id || product_id}
           id={id}
           sellerUser={sellerUser}
           />
     </View>
-    </ScrollView>
+    // {/* </ScrollView> */}
   );
 };
 

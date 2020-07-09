@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -18,6 +16,8 @@ import S from './SelectSellDescriptionWrite.style';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { BackHeaderCenter } from '../../../../components';
+import {  Text} from '../../../../components';
+import { globalStyles } from '../../../../styles';
 
 const SelectSellDescriptionWriteView = ({
   description,
@@ -46,11 +46,11 @@ const SelectSellDescriptionWriteView = ({
           <AntDesign name="down" size={15} />
         )}
       </View>
-      <Text style={[S.text, {opacity: 0.5}]}>
+      <Text style={[S.text, globalStyles.botomSheetTitle]}>
         What should I include in the description?
       </Text>
       <View style={{width: 50, borderWidth: 2}} />
-      <Text style={S.text}>
+      <Text style={[S.text, globalStyles.botomSheetSubtitle]}>
         Describe your item objectively and in detail here: list any defects, any
         alterations, the absense of labels (composition or brand name), etc
       </Text>
@@ -71,7 +71,7 @@ const SelectSellDescriptionWriteView = ({
           title="Description"
           rightComponent={{icon: 'check', color: '#000', onPress: onDone}}
         />
-        <Text
+        {/* <Text
           style={{
             opacity: 0.5,
             padding: 5,
@@ -81,11 +81,13 @@ const SelectSellDescriptionWriteView = ({
             marginVertical: 15,
             textAlign: 'left',
           }}>
-          {/* Specify the main colour of the item */}
-        </Text>
+          Specify the main colour of the item
+        </Text> */}
         <Input
           value={description}
           multiline
+          inputContainerStyle={{ borderBottomWidth: 0,}}
+          containerStyle={{ marginTop: 10}}
           placeholder="Describe your article"
           onChangeText={text => setSelectedSellDescription(text)}
         />

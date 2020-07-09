@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import { 
     View,
-    Text,
     Keyboard,
     Dimensions 
 } from "react-native";
@@ -22,12 +21,12 @@ import {
 import {MembersSearch,ItemSearch} from './components';
 import {searchClient} from '../../../search'
 import uuid4 from 'uuid/v4'
-
 import { SearchItem, SearchState } from '../../../types/Search';
-import ClothesSearchHeader from '../../../components/ClothesSearchHeader';
+import ClothesSearchHeader from '../../../containers/Headers/ClothesSearchHeader';
 import { NavigationService } from '../../../services';
 import { search } from '../../../features/search/actions';
 import constants from '../../../constants';
+import {  Text} from '../../../components';
 
 type Props = {
     lastsearch : SearchItem[],
@@ -96,12 +95,12 @@ const SearchHistory = ({
 
     const [routes] = React.useState([
       {key: 'first', title: 'Items'},
-      {key: 'second', title: 'Members'},
+    //   {key: 'second', title: 'Members'},
     ]);
 
     const renderScene = SceneMap({
       first: FirstRoute,
-      second: SecondRoute,
+    //   second: SecondRoute,
     });
 
     // console.log('SearchHistory lastsearch',lastsearch)
@@ -115,19 +114,20 @@ const SearchHistory = ({
                 <TabView
                     renderTabBar={props => (
                         <TabBar
-                        style={{textAlign: 'center', backgroundColor: null}}
-                        {...props}
-                        tabStyle={{height: 45}} // here
-                        renderLabel={({route, focused, color}) => (
-                            <Text
-                            style={{
-                                borderBottomColor: focused ? 'gray' : null,
-                                textAlign: 'center',
-                                color: 'black',
-                                margin: 8,
-                            }}>
-                            {route.title.toUpperCase()}
-                            </Text>
+                            style={{textAlign: 'center', backgroundColor: null}}
+                            {...props}
+                            tabStyle={{height: 45}} // here
+                            renderLabel={({route, focused, color}) => (
+                                <Text
+                                    style={{
+                                        borderBottomColor: focused ? 'gray' : null,
+                                        textAlign: 'center',
+                                        color: 'black',
+                                        margin: 3,
+                                        padding:5
+                                    }}>
+                                    {route.title.toUpperCase()}
+                                </Text>
                         )}
                         />
                     )}

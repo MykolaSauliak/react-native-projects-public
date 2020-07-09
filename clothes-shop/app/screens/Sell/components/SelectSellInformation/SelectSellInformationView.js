@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, FlatList, SectionList, StyleSheet} from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
+import {View, FlatList, SectionList, StyleSheet} from 'react-native';
 import colors from '../../../../styles/colors';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
 import {NavigationService} from '../../../../services';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, ListItem } from '../../../../components';
+import {  Text} from '../../../../components';
+import {  globalStyles} from '../../../../styles';
 
 const S = StyleSheet.create({});
 
@@ -67,9 +68,10 @@ const SelectInformationView = ({
       /> */}
       <ListItem
         title="Material"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{material}</Text>
+            <Text style={globalStyles.rightListItem}>{material}</Text>
           </View>
         }
         bottomDivider
@@ -77,9 +79,10 @@ const SelectInformationView = ({
       />
       <ListItem
         title="Color"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{color}</Text>
+            <Text style={globalStyles.rightListItem}>{color}</Text>
           </View>
         }
         bottomDivider
@@ -87,9 +90,10 @@ const SelectInformationView = ({
       />
       <ListItem
         title="Printed"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{printed}</Text>
+            <Text style={globalStyles.rightListItem}>{printed}</Text>
           </View>
         }
         bottomDivider

@@ -59,6 +59,7 @@ import {
   getSeller,
   getDrafts,
   getDraftsLastUpdate,
+  getSelectedSellProperty,
 } from '../../features/seller/selectors';
 import constants from '../../constants';
 
@@ -146,6 +147,20 @@ const withSell = (options = {}) => BaseComponent => props => {
         case constants.seller:
           properties[constants.seller] =  useSelector(state => getSeller(state));
           break
+          
+        case constants.serialNumber:
+          properties[constants.serialNumber] =  useSelector(state => getSelectedSellProperty(state, constants.serialNumber, ));
+          break
+        case constants.origin:
+          properties[constants.origin] =  useSelector(state => getSelectedSellProperty(state, constants.origin));
+          break
+        case constants.proofOfOrigin:
+          properties[constants.proofOfOrigin] =  useSelector(state => getSelectedSellProperty(state,constants.proofOfOrigin, ));
+          break
+          
+        case constants.packaging:
+          properties[constants.packaging] =  useSelector(state => getSelectedSellProperty(state,constants.packaging));
+          break
       }
     })
   }else{
@@ -160,18 +175,25 @@ const withSell = (options = {}) => BaseComponent => props => {
     let category = useSelector(state => getSelectedSellCategory(state));
     let subcategory = useSelector(state => getSelectedSellSubcategory(state));
     let color = useSelector(state => getSelectedSellColor(state));
+    
     let printed = useSelector(state => getSelectedSellPrinted(state));
     let photo1 = useSelector(state => getSelectedSell1Photo(state));
     let photo2 = useSelector(state => getSelectedSell2Photo(state));
     let photo3 = useSelector(state => getSelectedSell3Photo(state));
     let photo4 = useSelector(state => getSelectedSell4Photo(state));
     let photo5 = useSelector(state => getSelectedSell5Photo(state));
+    let otherPhotos = useSelector(state => getSelectedSellOtherPhotos(state));
     let description = useSelector(state => getSelectedSellDescription(state));
     let measurements = useSelector(state => getSelectedSellMeasurements(state));
     let condition = useSelector(state => getSelectedSellCondition(state));
     let price = useSelector(state => getSelectedSellPrice(state));
+    
     let vintage = useSelector(state => getSelectedSellVintage(state));
     let soldWith = useSelector(state => getSelectedSellSoldWith(state));
+    let origin = useSelector(state => getSelectedSellProperty(state, constants.origin));
+    let serialNumber = useSelector(state => getSelectedSellProperty(state, constants.serialNumber));
+    let proofOfOrigin = useSelector(state => getSelectedSellProperty(state, constants.proofOfOrigin));
+
     let seller = useSelector(state => getSeller(state));
     // let draftLastUpdate = useSelector(state => getDraftsLastUpdate(state));
     properties.drafts = drafts
@@ -191,13 +213,19 @@ const withSell = (options = {}) => BaseComponent => props => {
     properties.photo3 = photo3
     properties.photo4 = photo4
     properties.photo5 = photo5
+    properties.otherPhotos = otherPhotos
     properties.description = description
     properties.measurements = measurements
     properties.condition = condition
     properties.price = price
     properties.condition = condition
+
     properties.vintage = vintage
     properties.soldWith = soldWith
+    properties.serialNumber = serialNumber
+    properties.origin = origin
+    properties.proofOfOrigin = proofOfOrigin
+
     properties.seller = seller
 
     properties.shipping_country =  useSelector(state => getSelectedSellShippingCountry(state));

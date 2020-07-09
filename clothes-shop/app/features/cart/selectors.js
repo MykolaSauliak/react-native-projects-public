@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 
 export const getCartLoading = state => R.path(['cart', 'cartLoading'], state);
+export const getCartLastUpdate = state => R.path(['cart', 'lastCartUpdate'], state);
 
 export const isInCart = ({cartItems, id}) => {
   // console.log('cartItems',cartItems)

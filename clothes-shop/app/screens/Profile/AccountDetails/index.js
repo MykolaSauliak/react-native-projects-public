@@ -1,7 +1,7 @@
 import AccountDetails from './AccountDetails';
 import {compose, withProps, withState, withHandlers} from 'recompose';
 import screens from '../../../constants/screens';
-import {withCart, withWishlist, withAuth} from '../../../utils/enhancers';
+import {withCart, withWishlist, withAuth, withReduxLoading} from '../../../utils/enhancers';
 
 // import categories from '../../mockData/categories'
 
@@ -9,6 +9,7 @@ const enhance = compose(
   withCart(),
   withWishlist(),
   withAuth(),
+  withReduxLoading(),
   // connect(mapStateToProps),
   withState('showEdit', 'setShowEdit', false),
   withState('markedItems', 'setMarkedItems', []),

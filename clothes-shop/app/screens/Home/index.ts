@@ -92,15 +92,15 @@ const enhance = compose(
         {},
         6,
       );
-      const {items: new_in, new_in_count } = await ShopService.getGoods({
-        [constants.clothes_fields.status] : Shop.Status[2]
-      });
+      // const {items: new_in, new_in_count } = await ShopService.getGoods({
+      //   [constants.clothes_fields.status] : Shop.Status[2]
+      // });
       const popular_brands = await ShopService.fetchPopulaBrands();
       const essentialList = await ShopService.fetchCollection({main_essential : true});
       this.props.setEssentialList(essentialList);
       this.props.setPopularBrand(popular_brands);
       this.props.setWeLoveProducts(we_love);
-      this.props.setNewInProduct(new_in);
+      // this.props.setNewInProduct(new_in);
       // console.log('loading false')
       this.props.setLoading(false);
       SplashScreen.hide();

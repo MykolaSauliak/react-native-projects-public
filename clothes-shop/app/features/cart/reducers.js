@@ -1,10 +1,12 @@
 import createReducer from '../../utils/createReducer';
 import types from './types';
+import constants from '../../constants';
 
 const initialState = {
   // cartItems : {
   //   // "key" : count
   // },
+  lastCartUpdate: null,
   cartLoading: false,
   cartItems: [
     /*
@@ -59,6 +61,17 @@ export default createReducer(initialState, {
     });
     // let cartItems = {...state.cartItems, [id] : count}
     return {...state, cartItems};
+  },
+  [types.setShippingOption]: (state, {payload: {id, option}}) => {
+    // //console.log('set count ...',id,count);
+    let cartItems = state.cartItems.map(c => {
+      if (c.id == id) {
+        c.shippingOption = option
+      }
+      return c;
+    });
+    // let cartItems = {...state.cartItems, [id] : count}
+    return {...state, cartItems, lastCartUpdate: Date.now()};
   },
   [types.setCartItems]: (state, {payload}) => {
     return {...state, cartItems: payload};

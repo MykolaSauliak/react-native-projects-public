@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export default function(draft) {
   let steps = 5;
   if (informationComplete(draft) == true) {
@@ -74,13 +76,24 @@ const conditionComplete = obj => {
   return price != null && price.price != null && price.currency != null;
 };
 
-const sellerComplete = obj => {
+// const sellerComplete = obj => {
+//   const {seller, shipping_country} = obj;
+//   console.log('shipping_country',shipping_country)
+//   return (
+//     seller != null &&
+//     seller.personal_contact_information != null &&
+//     seller.phone != null &&
+//     shipping_country != null
+//   );
+// };
+
+const sellerComplete = (obj) => {
   const {seller, shipping_country} = obj;
-  console.log('shipping_country',shipping_country)
+  console.log(shipping_country, seller)
   return (
     seller != null &&
-    seller.personal_contact_information != null &&
-    seller.phone != null &&
+    !_.isEmpty(seller.personal_contact_information) &&
+    // seller.phone != null &&
     shipping_country != null
   );
 };

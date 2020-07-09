@@ -1,5 +1,6 @@
 import createReducer from '../../utils/createReducer';
 import types from './types';
+import _ from 'lodash'
 
 const initialState = {
   // cartItems : {
@@ -15,6 +16,7 @@ const initialState = {
     */
   ],
   lastUpdate: null,
+  openedNotification: null
 };
 
 export default createReducer(initialState, {
@@ -34,8 +36,8 @@ export default createReducer(initialState, {
     return {
       ...state,
       notifications: [
-        ...state.notifications.filter(n => n.id != payload.id),
         payload,
+        ...state.notifications.filter(n => n.id != payload.id),
       ],
       // notifications: [
       //   ...state.notifications.filter(obj => obj.id != payload.id),
@@ -44,11 +46,22 @@ export default createReducer(initialState, {
     };
     // return {...state, cartItems : {...state.cartItems.filter(id => id != payload), payload}}
   },
+  [types.addNotifications]: (state, {payload}) => {
+    //console.log('add to cart -',payload)
+    return {
+      ...state,
+      notifications: [..._.differenceBy(payload, state.notifications, 'id'), ...state.notifications],
+    };
+  },
   [types.setLoading]: (state, {payload}) => {
     return {...state, loading: payload};
   },
   [types.removeAllNotification]: (state, {payload}) => {
     return {...state, notifications: []};
+  },
+  [types.setOpenedNotification]: (state, {payload}) => {
+    console.log('setOpenedNotification')
+    return {...state, openedNotification: payload};
   },
   // [types.removeFromCart]: (state, { payload }) => {
   //   let cartItems = state.cartItems

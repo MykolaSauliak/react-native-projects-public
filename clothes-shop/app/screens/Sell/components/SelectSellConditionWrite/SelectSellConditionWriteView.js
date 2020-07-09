@@ -1,25 +1,23 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header, Input} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import conditions, {conditionDesc} from '../../../../constants/conditions';
-import globalStyles from '../../../../constants/styles';
+import globalStyles from '../../../../styles';
 import ItemsList from '../../../../components/ItemsList';
 import ListItemWithDropDown from '../../../../components/ListItemWithDropDown';
 import i18n from '../../../../i18n';
 import S from './SelectSellConditionWrite.style';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
-import {BackHeaderCenter} from '../../../../components'
+import {BackHeaderCenter, Text} from '../../../../components'
 
 const SelectSellConditionWriteView = ({
   description,
@@ -53,7 +51,7 @@ const SelectSellConditionWriteView = ({
         What should you do if you are unsure of the condition of your item?
       </Text>
       <View style={{width: 50, borderWidth: 2}} />
-      <Text style={[globalStyles.botomSheetTitle]}>
+      <Text style={[globalStyles.botomSheetSubtitle]}>
         If you are unsure which condition category your item falls into, we
         advise you specify the less good of the two and provide futher detail in
         your item description.Once your article has been sold, we will base our
@@ -82,6 +80,10 @@ const SelectSellConditionWriteView = ({
           <ListItemWithDropDown
             onPress={() => setCondition(constants.neverWornWithTag)}
             title={constants.neverWornWithTag}
+            // titleMedium
+            titleStyle
+            collapseTitleProps={{xmediumSize: true}}
+            collapseSubtitleProps={{mediumSize: true}}
             subtitle={conditionDesc.neverWornWithTag}
             collapseTitle="Reasons for refusal"
             collapseSubtitle={conditions.refusal.neverWornWithTag}
@@ -90,6 +92,7 @@ const SelectSellConditionWriteView = ({
             onPress={() => setCondition(constants.neverWorn)}
             title={constants.neverWorn}
             subtitle={conditionDesc.neverWorn}
+            collapseTitleProps={{xmediumSize: true}}
             collapseTitle="Reasons for refusal"
             collapseSubtitle={conditions.refusal.neverWorn}
 

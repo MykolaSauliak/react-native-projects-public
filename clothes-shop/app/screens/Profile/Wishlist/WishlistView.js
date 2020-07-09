@@ -1,20 +1,20 @@
 import React from 'react';
 import {
   View,
-  Text,
   FlatList,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import {Icon, Header} from 'react-native-elements';
-import ProductListItem from '../../../components/ProductListItem';
-import globalStyles from '../../../constants/styles';
+import ProductListItem from '../../../components/ProductListItem/ProductListItem';
+import globalStyles from '../../../styles';
 import colors from '../../../styles/colors';
 import i18n from '../../../i18n';
 import {NavigationService} from '../../../services';
 import { BackHeaderCenter } from '../../../components';
 import { GridList } from '../../../containers';
+import {  Text} from '../../../components';
 
 const S = StyleSheet.create({
   header: {

@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, FlatList, SectionList} from 'react-native';
-import {SearchBar, ListItem} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
+import { ListItem } from '../../../../components';
 
 const SelectModelView = ({
   cars,

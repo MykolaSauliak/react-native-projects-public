@@ -6,12 +6,12 @@ import s from './styles';
 import {
   Button,
   TextTouchable,
-  Text,
   Form,
   FormInput,
 } from '../../../../components';
 import i18n from '../../../../i18n';
 import {SignUpSchema} from '../../../../validators/schemes';
+import {  Text} from '../../../../components';
 
 const SignUpForm = ({signUp, isSigningUp, onChangeTabIndex, formRef}) => (
   // <KeyboardAwareScrollView
@@ -74,7 +74,7 @@ const SignUpForm = ({signUp, isSigningUp, onChangeTabIndex, formRef}) => (
             </View> */}
             <React.Fragment>
               <Button
-                // primary
+                primary
                 containerStyle={[s.buttonContainer, {backgroundColor: 'black'}]}
                 // style={[s.buttonContainer, {backgroundColor :'black'}]}
                 disabled={!isValid}

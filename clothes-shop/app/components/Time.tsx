@@ -33,7 +33,7 @@ const styles = {
       ...containerStyle,
     },
     text: {
-      color: Color.timeTextColor,
+      color: 'black',
       ...textStyle,
     },
   }),
@@ -42,7 +42,7 @@ const styles = {
       ...containerStyle,
     },
     text: {
-      color: Color.white,
+      color: 'black',
       ...textStyle,
     },
   }),

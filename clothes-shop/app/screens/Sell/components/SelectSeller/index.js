@@ -15,7 +15,7 @@ const enhance = compose(
       navigation.navigate(screens.SelectSellMainSteps);
     },
     goToPersonalContact: ({navigation}) => () => {
-      navigation.navigate(screens.AddShippingAddressScreen);
+      navigation.navigate(screens.AddPersonalInformation);
     },
   }),
 );

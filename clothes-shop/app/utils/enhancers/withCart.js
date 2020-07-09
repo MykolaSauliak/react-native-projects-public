@@ -4,6 +4,7 @@ import {
   getCartitems,
   isInCart,
   getCartLoading,
+  getCartLastUpdate,
 } from '../../features/cart/selectors';
 import {
   addToCart,
@@ -11,6 +12,7 @@ import {
   pureActions,
   setCount,
   resetCart,
+  setShippingOption,
 } from '../../features/cart/actions';
 import {
   getTotalValue,
@@ -25,12 +27,14 @@ const withCart = options => BaseComponent => props => {
   let cartItems = useSelector(state => getCartitems(state)) || [];
   cartItems = cartItems.filter(c => c && typeof c.id === 'string');
   let cartLoading = useSelector(state => getCartLoading(state));
+  let lastCartUpdate = useSelector(state => getCartLastUpdate(state));
   // console.log('cartItems',cartItems.length)
   return (
     <BaseComponent
       {...props}
       cartCount={cartItems ? cartItems.length : 0}
       cartItems={cartItems}
+      lastCartUpdate={lastCartUpdate}
       cartLoading={cartLoading}
       updateCart={() => dispatch(updateCart())}
       resetCart={() => dispatch(resetCart())}
@@ -39,6 +43,7 @@ const withCart = options => BaseComponent => props => {
       getTotalWithTaxesFull={() => getTotalWithTaxesFull(cartItems)}
       getAuthenticationFees={() => getAuthenticationFees(cartItems)}
       setCount={({id, count}) => dispatch(setCount({id, count}))}
+      setShippingOption={({id, option}) => dispatch(setShippingOption({id, option}))}
       // addToCart={(item) => dispatch(addToCart(item))}
       // removeFromCart={(item) => dispatch(removeFromCart(item))}
       toCart={item => dispatch(addToCart(item))}

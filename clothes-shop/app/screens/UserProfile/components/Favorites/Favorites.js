@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View} from 'react-native';
 import GridList from '../../../../components/GridList/GridList';
 import {NavigationService} from '../../../../services';
+import { Loading } from '../../../../components';
 
 const Favorites = ({items, onPress, loading}) => {
   return (
     <View>
-      {loading && <ActivityIndicator />}
+      {loading && <Loading />}
       <GridList items={items} onPress={item => onPress(item)} />
     </View>
   );

@@ -37,7 +37,7 @@ export const getSelectedSell4Photo = state =>
 export const getSelectedSell5Photo = state =>
   R.path(['seller', 'sellProduct', 'imageFifth'], state);
 export const getSelectedSellOtherPhotos = state =>
-  R.path(['seller', 'sellProduct', 'images'], state);
+  R.path(['seller', 'sellProduct', 'otherPhotos'], state);
 
 export const getSelectedSellMeasurements = state =>
   R.path(['seller', 'sellProduct', 'selectedSellMeasurements'], state);

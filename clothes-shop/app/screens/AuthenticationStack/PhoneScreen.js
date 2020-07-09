@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
     View,
-    Text,
     Button,
     StyleSheet,
     Alert,
@@ -23,6 +22,7 @@ import screens from '../../constants/screens';
 import Auth from '../../api/Auth';
 import CodeInput from 'react-native-confirmation-code-input';
 import i18n from '../../i18n';
+import {  Text} from '../../components';
 
 const S = StyleSheet.create({
   codeConfirmBox: {

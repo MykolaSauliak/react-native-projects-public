@@ -14,8 +14,7 @@ const getFontFamily = (light, medium, bold) => {
   // if (bold) {
   //   fontFamily = 'OpenSans-Bold';
   // }
-
-  return {fontFamily: "Arial"};
+  return {fontFamily: bold ? "Linux Libertine O" : "Linux Libertine"};
 };
 
 const getFontSize = (
@@ -98,11 +97,41 @@ const getFontColor = (black, gray, white, orange, red, lightGray, green) => {
   return {color};
 };
 
+const getFontAlign = (center, left, right) => {
+  let textAlign = 'left';
+
+  if (center) {
+    textAlign = 'center'
+  }
+  if (right) {
+    textAlign = 'right';
+  }
+
+  return {textAlign};
+};
+const getFontTransform = (capitalize, uppercase, lowercase) => {
+  let textTransform = 'none';
+
+  if (capitalize) {
+    textTransform = 'capitalize'
+  }
+  if (uppercase) {
+    textTransform = 'uppercase';
+  }
+  if (lowercase) {
+    textTransform = 'lowercase';
+  }
+
+  return {textTransform};
+};
+
 const enhance = compose(
   setPropTypes(Text.propTypes),
   withProps(props => ({
     style: [
       getFontFamily(props.light, props.medium, props.bold),
+      getFontAlign(props.center, props.left, props.right),
+      getFontTransform(props.capitalize, props.uppercase, props.lowercase),
       getFontSize(
         props.xxbigSize,
         props.xbigSize,
@@ -125,7 +154,7 @@ const enhance = compose(
         props.lightGray,
         props.green,
       ),
-      {fontWeight: props.bold ? 'bold' : '100'},
+      {fontWeight: props.bold ? 'bold' : 'normal'},
       props.style,
     ],
   })),

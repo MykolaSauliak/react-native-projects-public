@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   ImageBackground,
   Image,
@@ -10,6 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import screens from '../constants/screens';
+import {   Text } from "../components";
 
 const BACKGROUND_IMAGE = require('../assets/background.png');
 const RIP_IMAGE = require('../assets/rip.png');

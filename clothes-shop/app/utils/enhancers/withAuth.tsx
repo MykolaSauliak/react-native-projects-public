@@ -12,6 +12,7 @@ const withAuth = (options ={}) => BaseComponent => props => {
       {...props}
       isSignedIn={user && (user.uid || user.email) ? true : false}
       updateUser={update => dispatch(updateUser(update))}
+      userLoading={useSelector(state => state.user?.loading)}
       lastUpdate={useSelector(state => state.user?.lastUpdate)}
       loggedInUser={user}
     />

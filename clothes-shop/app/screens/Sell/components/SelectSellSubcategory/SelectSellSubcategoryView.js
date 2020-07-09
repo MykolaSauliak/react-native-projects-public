@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -17,6 +15,7 @@ import S from './SelectSellSubcategory.style';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { BackHeaderCenter } from '../../../../components';
+import {  Text} from '../../../../components';
 
 const SelectSellSubcategoryView = ({
   subcategories,

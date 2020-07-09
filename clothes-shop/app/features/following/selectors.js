@@ -1,10 +1,9 @@
 import * as R from 'ramda';
 
-export const isUserFollowed = ({following, user_id, item = {}}) => {
+export const isUserFollowed = ({following = [], user_id, item = {}}) => {
   // const favoritesId = R.path(['favorite','favoriteAudio'], state)
-  return (
-    following &&
-    following.filter(f => f.id == user_id || f.id == item.user_id).length > 0
+  return (following &&
+    following.filter(f => f == user_id || f == item.user_id).length > 0
   );
 };
 export const getFollowingLoading = state =>

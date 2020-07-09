@@ -8,6 +8,7 @@ import constants from '../constants';
 import toTimestamp from '../utils/getDiscountEndTs';
 import T from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
+import { useActionSheet } from '@expo/react-native-action-sheet'
 
 const S = StyleSheet.create({
   title: {
@@ -38,6 +39,9 @@ const S = StyleSheet.create({
     top: 10,
     zIndex: 2,
   },
+  container: {
+    width: '100%',
+  },
   imageBlock: {
     width: '50%',
     padding: 10,
@@ -46,11 +50,15 @@ const S = StyleSheet.create({
 
 const ImagePickerRow = ({
   id,
-  title,
-  subtitle,
+  title = "",
+  subtitle = "",
   onPress,
   titleStyle = {},
+  subtitleStyle = {},
+  containerStyle = {},
+  imagesContainer = {},
   imageExample,
+  placeholderImage,
   onImageUpload,
   source = {},
   imgs = [],
@@ -60,8 +68,9 @@ const ImagePickerRow = ({
   // let [image, setImage ] = useState({uri:  "https://via.placeholder.com/250x250?text=click-to-upload"})
   // let [images, setImages ] = useState([])
   let [image, setImage] = useState(source);
-  let [images, setImages] = useState(imgs);
+  let [images, setImages] = useState(imgs || []);
   let [lastUpdate, setLastUpdate] = useState(Date.now());
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const options = {
     title: 'Select photo',
@@ -91,6 +100,10 @@ const ImagePickerRow = ({
       // includeBase64: true
     }).then(imgs => {
       setImages([...images, ...imgs]);
+      console.log('images',images)
+      if (onImageUpload) {
+        onImageUpload([...images, ...imgs]);
+      }
       // console.log(images);
     })
   };
@@ -143,13 +156,120 @@ const ImagePickerRow = ({
     //   });
   };
 
+
+  const takePhoto = () => {
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      compressImageQuality: quality,
+      compressImageMaxHeight: constants.compressImageMaxHeight,
+      compressImageMaxWidth: constants.compressImageMaxWidth,
+      // includeBase64: true
+    }).then(image => {
+      setImage(image); 
+      /**
+       * response params
+       * @path {String}
+       * @width {Number}
+       * @height {Number}
+       * @size {Number}
+       * @mime {string}
+       */
+      // console.log(image);
+      console.log('image size',image.size)
+      if (onImageUpload) {
+        onImageUpload(image);
+      }
+    })
+    .catch(err => {
+      console.log('ERROR DURING IMAGE UPLOAD',err)
+    })
+  };
+
+  const takePhotos = () => {
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      multiple: true,
+      compressImageQuality: quality,
+      compressImageMaxHeight: constants.compressImageMaxHeight,
+      compressImageMaxWidth: constants.compressImageMaxWidth,
+      // includeBase64: true
+    }).then(image => {
+        console.log('image',image)
+        setImages([...images, image]);
+        // console.log('images',images)
+        if (onImageUpload) {
+          onImageUpload([...images, image]);
+        }
+    })
+    .catch(err => {
+      console.log('ERROR DURING IMAGE UPLOAD',err)
+    })
+  };
+
+  const _onOpenActionSheet = () => {
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
+    const options = ['Take a photo', 'Pick from gallery', 'Cancel'];
+    // const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 2;
+  
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      buttonIndex => {
+        switch(buttonIndex){
+          case 0:
+            takePhoto()
+            break
+          case 1:
+            uploadPicture()
+            break
+          case 2:
+            break
+        }
+        // Do something here depending on the button index selected
+      },
+    );
+  };
+
+
+  const _onOpenActionSheetForMultiple = () => {
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
+    const options = ['Take a photo', 'Pick from gallery', 'Cancel'];
+    // const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 2;
+  
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      buttonIndex => {
+        switch(buttonIndex){
+          case 0:
+            takePhotos()
+            break
+          case 1:
+            uploadPictures()
+            break
+          case 2:
+            break
+        }
+        // Do something here depending on the button index selected
+      },
+    );
+  };
+
   return (
-    <View>
-      <Text style={[S.title, titleStyle]}>{title}</Text>
-      {subtitle && subtitle.length > 0 && (
-        <Text style={S.subtitle}>{subtitle}</Text>
+    <View style={S.container, [containerStyle]}>
+      {title.length> 0 && (<Text style={[S.title, titleStyle]}>{title}</Text>)}
+      {subtitle.length > 0 && (
+        <Text style={[S.subtitle, subtitleStyle]}>{subtitle}</Text>
       )}
-      <View style={S.imageRow}>
+      <View style={[S.imageRow, imagesContainer]}>
         {multiple &&
           images.map((image, i) => {
             return (
@@ -162,6 +282,7 @@ const ImagePickerRow = ({
                 <Image
                   source={{uri: image.path}}
                   style={S.image}
+                  defaultSource={placeholderImage}
                   resizeMode="contain"
                 />
               </View>
@@ -169,7 +290,7 @@ const ImagePickerRow = ({
           })}
         <View style={{width: '50%', padding: 10}}>
           {multiple ? (
-            <TouchableOpacity onPress={uploadPictures}>
+            <TouchableOpacity onPress={_onOpenActionSheetForMultiple}>
               <Image
                 source={{
                   uri:
@@ -180,7 +301,7 @@ const ImagePickerRow = ({
               />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={uploadPicture}>
+            <TouchableOpacity onPress={_onOpenActionSheet}>
               <Image
                 source={{uri: image.path}}
                 style={S.image}

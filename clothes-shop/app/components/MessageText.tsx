@@ -15,6 +15,7 @@ import {
 import ParsedText from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import { LeftRightStyle, IMessage } from './types'
+import { colors } from '../styles'
 
 const WWW_URL_PATTERN = /^www\./i
 
@@ -29,7 +30,7 @@ const textStyle = {
 
 const styles = {
   left: StyleSheet.create({
-    container: {},
+    container: {backgroundColor: colors.darkGray, borderRadius:2},
     text: {
       color: 'black',
       ...textStyle,
@@ -40,13 +41,13 @@ const styles = {
     },
   }),
   right: StyleSheet.create({
-    container: {},
+    container: {backgroundColor: colors.darkGray, borderRadius:2},
     text: {
-      color: 'white',
+      color: 'black',
       ...textStyle,
     },
     link: {
-      color: 'white',
+      color: 'black',
       textDecorationLine: 'underline',
     },
   }),
@@ -59,6 +60,7 @@ export interface MessageTextProps<TMessage extends IMessage> {
   optionTitles?: string[]
   currentMessage?: TMessage
   containerStyle?: LeftRightStyle<ViewStyle>
+  textContainerStyle?: any
   textStyle?: LeftRightStyle<TextStyle>
   linkStyle?: LeftRightStyle<TextStyle>
   textProps?: TextProps
@@ -81,6 +83,7 @@ export default class MessageText<
     },
     containerStyle: {},
     textStyle: {},
+    textContainerStyle: {},
     linkStyle: {},
     customTextStyle: {},
     textProps: {},
@@ -173,6 +176,7 @@ export default class MessageText<
           styles[this.props.position].container,
           this.props.containerStyle &&
             this.props.containerStyle[this.props.position],
+            this.props.textContainerStyle
         ]}
       >
         <ParsedText

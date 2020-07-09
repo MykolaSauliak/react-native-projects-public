@@ -8,26 +8,32 @@ import {
 } from 'recompose';
 import ShopService from '../../services';
 import screens from '../../constants/screens';
-import {addShippingAddress} from '../../features/shippingaddress/actions';
+import {
+  addShippingAddress,
+  updateAddress
+} from '../../features/shippingaddress/actions';
 import {connect} from 'react-redux';
 import {
   getSelectedAddress,
   getAddresses,
+  getLastAddressUpdate
 } from '../../features/shippingaddress/selectors'; // import { getCartitems } from '../../features/cart/selectors'
 
 const mapStateToProps = state => ({
   address: getSelectedAddress(state),
   addresses: getAddresses(state),
+  lastUpdate: getLastAddressUpdate(state),
   // selectedModel : getSelectedModel(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   addAddress: payload => dispatch(addShippingAddress(payload)),
+  updateAddress: (id, update) => dispatch(updateAddress(id, update)),
 });
 
 const enhance = compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   ),
   // withState('subcategories','setSubcategories',[]),

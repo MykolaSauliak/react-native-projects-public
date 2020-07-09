@@ -10,6 +10,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import SearchHeader from '../components/SearchHeader';
 import NotificationIcon from '../containers/NotificationIcon';
 import Home from '../screens/Home';
+import Category from '../screens/Category';
 
 import SubCategoriesView from '../screens/SubCategoriesView';
 import ProductInfo from '../screens/ProductInfo';
@@ -58,6 +59,7 @@ const HomeStack = createStackNavigator(
         header: null,
       }),
     },
+    [screens.Category]: Category,
     [screens.SubCategoriesViewStack]: {
       screen: SubCategoriesViewStack,
     },
@@ -72,6 +74,9 @@ const HomeStack = createStackNavigator(
     },
   },
   {
+    defaultNavigationOptions: ({
+      header: null
+    })
   },
 );
 

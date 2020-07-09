@@ -7,14 +7,14 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import i18n from '../../../../i18n';
 import S from './SelectSellMaterial.style';
 import T from 'prop-types';
 import BottomSheet from 'reanimated-bottom-sheet';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, ListItem } from '../../../../components';
+import {globalStyles} from '../../../../styles'
 
 const SelectSellMaterialView = ({
   materials,
@@ -33,27 +33,21 @@ const SelectSellMaterialView = ({
                 renderContent = {this.renderContent}
                 renderHeader = {this.renderHeader}
                 /> */}
-      <View style={{}}>
+      <View style={{flex:1}}>
         <BackHeaderCenter
           title="Material"
           rightComponent={{icon: 'check', color: '#000', onPress: onDone}}
         />
         <Text
-          style={{
-            padding: 5,
-            paddingHorizontal: 15,
-            fontStyle: 'italic',
-            fontSize: 15,
-            marginVertical: 15,
-            textAlign: 'left',
-          }}>
+          style={globalStyles.sellPlaceholder}>
           Specify the item's primary material
         </Text>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={{flex:1}} showsVerticalScrollIndicator={false}>
           {materials.map(m => (
             <ListItem
               bottomDivider
               title={m}
+              titleStyle={globalStyles.listItem}
               onPress={() => chooseMaterial(m)}
             />
           ))}

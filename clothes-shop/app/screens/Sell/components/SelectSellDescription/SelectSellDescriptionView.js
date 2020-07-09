@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Text, FlatList, SectionList, StyleSheet} from 'react-native';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
+import {View, FlatList, SectionList, StyleSheet} from 'react-native';
+import {SearchBar, Header} from 'react-native-elements';
 import colors from '../../../../styles/colors';
 import convertForSectionList from '../../../../utils/convertForSectionList';
 import i18n from '../../../../i18n';
 import T from 'prop-types';
-import { BackHeaderCenter } from '../../../../components';
+import { BackHeaderCenter, ListItem } from '../../../../components';
+import {  Text} from '../../../../components';
+import {  globalStyles} from '../../../../styles';
 
 const S = StyleSheet.create({});
 
@@ -33,8 +35,8 @@ const SelectSellDescriptionView = ({
     measurements.width &&
     measurements.height
   ) {
-    measurementsString =
-      measurements.width + 'x' + measurements.height + ' ' + measurements.unit;
+    measurementsString = `${measurements.width}x${ measurements.height}${measurements.depth ? 'x'+measurements.depth :""} ${measurements.unit}`
+      // measurements.width + 'x' + measurements.height + ' ' + measurements.unit;
   }
   console.log('measurementsString', measurementsString);
   /**
@@ -62,9 +64,10 @@ const SelectSellDescriptionView = ({
         containerStyle={{backgroundColor: 'white'}}
         rightElement={
           <View style={{}}>
-            <Text>{description.slice(0, 25)}...</Text>
+            <Text style={[globalStyles.rightListItem, {color: colors.orange}]}>{description.slice(0, 35)}...</Text>
           </View>
         }
+        titleStyle={globalStyles.leftListItem}
         title="Description"
         // titleProps={{numOfLines :1}}
         bottomDivider
@@ -72,11 +75,13 @@ const SelectSellDescriptionView = ({
       />
       <ListItem
         title="Measurements"
+        titleStyle={globalStyles.leftListItem}
         rightElement={
           <View style={{}}>
-            <Text>{measurementsString}</Text>
+            <Text style={globalStyles.rightListItem}>{measurementsString}</Text>
           </View>
         }
+        
         bottomDivider
         onPress={goToMeasurementsChoose}
       />

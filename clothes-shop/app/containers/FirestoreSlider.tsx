@@ -12,18 +12,24 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
+import constants from "../constants";
+import { Loading } from "../components";
 
 type SliderEntryType = {
     data: any,
     even: boolean,
     parallax: boolean,
     parallaxProps: any,
+    subtitleStyle?: any,
+    Pagination?: any,
+    titleStyle?: any,
     onSlidePress: (slide : SliderEntryType) => void,
   }
 
 type SliderProps = {
     collection : string,
     queries : [string,string,any][],
+    transformItems : (items:SliderEntryType[] ) => SliderEntryType[],
     children: (slide : any) => void,
     LoadingComponent : React.ComponentType,
 }   
@@ -49,19 +55,21 @@ function wp(percentage : number) {
   return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.36;
-const slideWidth = wp(75);
+const slideHeight = viewportHeight * 0.55;
+const slideWidth = wp(100);
 const itemHorizontalMargin = wp(2);
 
 const sliderWidth = viewportWidth;
-const itemWidth = slideWidth + itemHorizontalMargin * 2;
+const itemWidth = slideWidth;
+// const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 const entryBorderRadius = 8;
 
 const Slides = ({
     entries,
     renderItem,
-    onSlidePress
+    onSlidePress,
+    ...otherProps
 } : SlidesProps) => {
 
     let _carousel = useRef();
@@ -72,7 +80,9 @@ const Slides = ({
             return <SliderEntry 
                         onSlidePress={onSlidePress}
                         data={item} 
+                        Pagination={pagination()}
                         even={(index + 1) % 2 === 0} 
+                        {...otherProps}
                         />;
         };
     }
@@ -83,11 +93,12 @@ const Slides = ({
           dotsLength={entries.length}
           activeDotIndex={activeSlide}
           containerStyle={[S.paginationContainer, {margin: 0, padding: 0}]}
-          dotColor={'rgba(0, 0, 0, 0.52)'}
+          dotColor={'rgb(0, 0, 0)'}
           dotStyle={S.paginationDot}
-          inactiveDotColor={'black'}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
+          inactiveDotColor={'gray'}
+          // inactiveDotOpacity={0.4}
+          inactiveDotScale={1}
+          
           // carouselRef={this._slider1Ref}
           // tappableDots={!!this._slider1Ref}
         />
@@ -107,7 +118,7 @@ const Slides = ({
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
         />
-        {pagination()}
+        {/* {pagination()} */}
         </View>
     )
 }
@@ -121,14 +132,16 @@ class SliderEntry extends Component<SliderEntryType> {
         parallax,
         parallaxProps,
         even,
+
       } = this.props;
   
       return parallax ? (
         <ParallaxImage
           source={{uri: image ? image.src : illustration}}
+          defaultSource={constants.defaultImage}
           containerStyle={[
             styles.imageContainer,
-            even ? styles.imageContainerEven : {},
+            // even ? styles.imageContainerEven : {},
           ]}
           style={styles.image}
           parallaxFactor={0.35}
@@ -149,12 +162,18 @@ class SliderEntry extends Component<SliderEntryType> {
         data: {title, subtitle, tag_ids},
         data,
         even,
-        onSlidePress
+        onSlidePress,
+        titleStyle = {},
+        subtitleStyle = {},
+        Pagination,
       } = this.props;
   
       const uppercaseTitle = title ? (
         <Text
-          style={[styles.title, even ? styles.titleEven : {color: 'black'}]}
+          style={[styles.title, 
+              titleStyle,
+            // even ? styles.titleEven : 
+            {color: 'black'}]}
           numberOfLines={2}>
           {title.toUpperCase()}
         </Text>
@@ -172,24 +191,27 @@ class SliderEntry extends Component<SliderEntryType> {
           <View
             style={[
               styles.imageContainer,
-              even ? styles.imageContainerEven : {},
+              // even ? styles.imageContainerEven : {},
             ]}>
             {this.image}
             <View
-              style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]}
+              style={[styles.radiusMask, {}]}
             />
           </View>
           <View
-            style={[styles.textContainer, even ? styles.textContainerEven : {}]}>
+            style={[styles.textContainer,{}]}>
             {uppercaseTitle}
             <Text
               style={[
                 styles.subtitle,
-                even ? styles.subtitleEven : {color: 'black'},
+                subtitleStyle,
+                {color: 'black'},
+                // even ? styles.subtitleEven : {color: 'black'},
               ]}
               numberOfLines={2}>
               {subtitle}
             </Text>
+            {Pagination}
           </View>
         </TouchableOpacity>
       );
@@ -252,15 +274,20 @@ class FirestoreSlides extends Component<SliderProps> {
             slides,
         } = this.state
         let {
-            LoadingComponent 
+            LoadingComponent ,
+            transformItems
         } = this.props
         if(!LoadingComponent){
-            LoadingComponent = ActivityIndicator
+            LoadingComponent = Loading
         }
         if(loading){
             return <View style={{minHeight: 100, justifyContent:'center',alignItems:'center'}}>
                 <LoadingComponent size="large"/>
             </View>
+        }
+
+        if(transformItems && slides && slides.length > 0){
+          slides = transformItems(slides)
         }
 
         return (
@@ -275,16 +302,18 @@ class FirestoreSlides extends Component<SliderProps> {
 const S = StyleSheet.create({
     paginationContainer : {
         paddingVertical: 5,
+        marginTop: 25,
         margin: 1,
+        // alignItems:'center',
     },
     paginationDot:{
-        width: 8,
-        height: 8,
+        width: 20,
+        height: 2,
         borderRadius: 4,
-        marginHorizontal: 8,
+        marginHorizontal: 2,
     },
     sliderContainer: {
-        paddingVertical: 5,
+        // paddingVertical: 5,
     },
 })
 
@@ -292,7 +321,7 @@ const styles = StyleSheet.create({
     slideInnerContainer: {
       width: itemWidth,
       height: slideHeight,
-      paddingHorizontal: itemHorizontalMargin,
+      // paddingHorizontal: itemHorizontalMargin,
       paddingBottom: 18, // needed for shadow
     },
     shadow: {
@@ -311,8 +340,8 @@ const styles = StyleSheet.create({
       flex: 1,
       marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
       backgroundColor: 'white',
-      borderTopLeftRadius: entryBorderRadius,
-      borderTopRightRadius: entryBorderRadius,
+      // borderTopLeftRadius: entryBorderRadius,
+      // borderTopRightRadius: entryBorderRadius,
     },
     imageContainerEven: {
       backgroundColor: colors.black,
@@ -320,9 +349,9 @@ const styles = StyleSheet.create({
     image: {
       ...StyleSheet.absoluteFillObject,
       resizeMode: 'cover',
-      borderRadius: IS_IOS ? entryBorderRadius : 0,
-      borderTopLeftRadius: entryBorderRadius,
-      borderTopRightRadius: entryBorderRadius,
+      // borderRadius: IS_IOS ? entryBorderRadius : 0,
+      // borderTopLeftRadius: entryBorderRadius,
+      // borderTopRightRadius: entryBorderRadius,
     },
     // image's border radius is buggy on iOS; let's hack it!
     radiusMask: {
@@ -338,31 +367,34 @@ const styles = StyleSheet.create({
     },
     textContainer: {
       justifyContent: 'center',
-      paddingTop: 20 - entryBorderRadius,
+      paddingTop: 30 - entryBorderRadius,
       paddingBottom: 20,
-      paddingHorizontal: 16,
+      marginTop: -45,
+      borderRadius: 10,
+      minHeight: 100,
+      marginHorizontal: 16,
       backgroundColor: 'white',
-      borderBottomLeftRadius: entryBorderRadius,
-      borderBottomRightRadius: entryBorderRadius,
+      // borderBottomLeftRadius: entryBorderRadius,
+      // borderBottomRightRadius: entryBorderRadius,
     },
     textContainerEven: {
       backgroundColor: colors.black,
     },
-    title: {
-      color: colors.black,
-      fontSize: 13,
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-    },
+    // title: {
+    //   color: colors.black,
+    //   fontSize: 13,
+    //   fontWeight: 'bold',
+    //   letterSpacing: 0.5,
+    // },
     titleEven: {
       color: 'white',
     },
-    subtitle: {
-      marginTop: 6,
-      color: colors.gray,
-      fontSize: 12,
-      fontStyle: 'italic',
-    },
+    // subtitle: {
+    //   marginTop: 6,
+    //   color: colors.gray,
+    //   fontSize: 12,
+    //   fontStyle: 'italic',
+    // },
     subtitleEven: {
       color: 'rgba(255, 255, 255, 0.7)',
     },
@@ -390,7 +422,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     title: {
-      paddingHorizontal: 30,
+      marginTop: 15,
+      paddingHorizontal: 10,
       backgroundColor: 'transparent',
       color: 'rgba(255, 255, 255, 0.9)',
       fontSize: 16,
@@ -402,11 +435,13 @@ const styles = StyleSheet.create({
     },
     subtitle: {
       marginTop: 5,
-      paddingHorizontal: 30,
+      paddingHorizontal: 10,
       backgroundColor: 'transparent',
       color: 'rgba(255, 255, 255, 0.75)',
       fontSize: 13,
-      fontStyle: 'italic',
+      // fontStyle: 'italic',
+      textDecorationLine: "underline",
+      textDecorationStyle: "dotted",
       textAlign: 'center',
     },
     slider: {
@@ -420,8 +455,8 @@ const styles = StyleSheet.create({
       paddingVertical: 8,
     },
     paginationDot: {
-      width: 8,
-      height: 8,
+      width: 25,
+      height: 6,
       borderRadius: 4,
       marginHorizontal: 8,
     },

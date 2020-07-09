@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
-import {SearchBar, ListItem,} from 'react-native-elements';
-import {BackHeaderCenter} from '../../../../components'
+import {View, FlatList} from 'react-native';
+import {SearchBar} from 'react-native-elements';
+import {BackHeaderCenter, ListItem} from '../../../../components'
 import colors from '../../../../styles/colors';
 import i18n from '../../../../i18n';
+import {  Text} from '../../../../components';
+import S from './styles'
 
 const SelectSellInformationView = ({
   categories,
@@ -29,17 +31,12 @@ const SelectSellInformationView = ({
 
   return (
     <View style={{flex: 1, backgroundColor: colors.gray}}>
-      <View style={{marginTop: 25}}>
+      <View style={{}}>
         <BackHeaderCenter
           title="Submit item"
           />
         <Text
-          style={{
-            padding: 15,
-            fontSize: 22,
-            marginVertical: 15,
-            textAlign: 'center',
-          }}>
+          style={S.sellPlaceholder}>
           In which category should you place your article
         </Text>
         {/* <ListItem /> */}
@@ -49,7 +46,7 @@ const SelectSellInformationView = ({
           renderItem={({item}) => (
             <ListItem
               title={item.title}
-              titleStyle={{textAlign: 'center'}}
+              titleStyle={S.listItem}
               onPress={() => onPress(item)}
               // leftAvatar={{ source: { uri: item.image } }}
               bottomDivider

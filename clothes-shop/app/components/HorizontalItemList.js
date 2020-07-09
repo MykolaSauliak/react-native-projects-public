@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, ScrollView, StyleSheet, FlatList} from 'react-native';
+import {View, ScrollView, StyleSheet, FlatList} from 'react-native';
 import ProductCard from '../containers/ProductCard';
-import globalStyles from '../constants/styles';
+import globalStyles from '../styles';
+import {   Text } from "../components";
+import constants from '../constants';
 
 const S = StyleSheet.create({
   listBox: {
@@ -31,7 +33,7 @@ const HorizontalItemList = ({
         horizontal={true}
         containerStyle={{paddingLeft: 15, flex: 1}}>
         {items.map((item, i) => {
-          return <ProductCard onPress={onPress} {...item} item={item} />;
+          return <ProductCard containerStyle={{width: constants.DEVICE_WIDTH * 0.45}} onPress={onPress} {...item} item={item} />;
         })}
       </ScrollView>
     </View>

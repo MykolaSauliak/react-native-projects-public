@@ -25,6 +25,7 @@
       "myaccount": "My account",
       "myvestiaire": "My Vestiaire",
       "mystats": "My Stats",
+      "myselling": "My selling",
       "mydetails": "My Details",
       "pushnotifications": "Push notifications",
       "priceoffersent": "Price offer sent"
@@ -58,7 +59,9 @@
   },
   "cart" : {
       "carttitle" : "Cart",
-      "totalvalue" : "Total value:"
+      "totalvalue" : "Total value:",
+      "yourbagisempty" : "Your bag is empty",
+      "butnotforlong" : "... but not for long"
   },
   "categories" : {
       "categoriestitle" : "CATEGORIES"

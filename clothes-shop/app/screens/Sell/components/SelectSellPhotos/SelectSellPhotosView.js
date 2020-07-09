@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   SectionList,
   TouchableOpacity,
   FlatList,
@@ -9,7 +8,6 @@ import {
   Image,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchBar, ListItem, Header} from 'react-native-elements';
 import globalColors from '../../../../styles/colors';
 import constants from '../../../../constants';
 import ItemsList from '../../../../components/ItemsList';
@@ -24,6 +22,9 @@ import photo_example_4_bottom from '../../../../assets/images/photo_example_4_bo
 import photo_example_5_inside from '../../../../assets/images/photo_example_5_inside.png';
 import ImagePickerRow from '../../../../components/ImagePickerRow';
 import { BackHeaderCenter } from '../../../../components';
+import {  Text} from '../../../../components';
+import { globalStyles } from '../../../../styles';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const SelectSellPhotosView = ({
   printed,
@@ -38,6 +39,7 @@ const SelectSellPhotosView = ({
   set3Image,
   set4Image,
   set5Image,
+  setOtherPhotos,
   image1,
   image2,
   image3,
@@ -93,60 +95,66 @@ const SelectSellPhotosView = ({
           title="Photos"
           rightComponent={{icon: 'check', color: '#000', onPress: onDone}}
         />
-        <Text
-          style={{
-            opacity: 0.5,
-            padding: 5,
-            paddingHorizontal: 15,
-            fontStyle: 'italic',
-            fontSize: 15,
-            marginVertical: 15,
-            textAlign: 'left',
-          }}>
-          In your first photo set your item against a white background so it is
-          clearly visible
-        </Text>
         <ScrollView>
+          <Text
+            style={[globalStyles.sellPlaceholder]}>
+            In your first photo set your item against a white background so it is
+            clearly visible
+          </Text>
           {/* 5nd photo (inside) */}
           <ImagePickerRow
             source={image1}
             onImageUpload={set1Image}
             title="Main photo"
+            titleStyle={{fontSize: widthPercentageToDP(5)}}
             imageExample={photo_example_1_main}
           />
           <ImagePickerRow
             source={image2}
             onImageUpload={set2Image}
             title="2nd photo (back)"
+            titleStyle={{fontSize: widthPercentageToDP(5)}}
             imageExample={photo_example_2_back}
           />
           <ImagePickerRow
             source={image3}
             title="3nd photo (brand)"
+            titleStyle={{fontSize: widthPercentageToDP(5)}}
             onImageUpload={set3Image}
             imageExample={photo_example_inside_3_brand}
           />
           <ImagePickerRow
             source={image4}
             title="4nd photo (bottom)"
+            titleStyle={{fontSize: widthPercentageToDP(5)}}
             onImageUpload={set4Image}
             imageExample={photo_example_4_bottom}
           />
           <ImagePickerRow
             source={image5}
             title=" 5nd photo (inside) "
+            titleStyle={{fontSize: widthPercentageToDP(5)}}
             onImageUpload={set5Image}
             imageExample={photo_example_5_inside}
           />
-          {/* <View style={{marginTop: 15, borderTopWidth: 1, borderTopColor: 'gray'}}>
-                        <ImagePickerRow
-                            multiple
-                            onIm
-                            title="More photos (optional)"
-                            subtitle="You can add one, two,three or more photos"
-                            // imageExample={photo_example_5_inside}
-                            />
-                    </View> */}
+          {/* <ImagePickerRow
+            source={image5}
+            title=" MORE "
+            onImageUpload={set5Image}
+            imageExample={photo_example_5_inside}
+          /> */}
+          <View style={{marginTop: 15, borderTopWidth: 1, borderTopColor: 'gray'}}>
+              <ImagePickerRow
+                  multiple
+                  onIm
+                  title="More photos (optional)"
+                  titleStyle={{fontSize: widthPercentageToDP(5)}}
+                  onImageUpload={setOtherPhotos}
+                  subtitle="You can add one, two, three or more photos"
+                  subtitleStyle={{fontSize: widthPercentageToDP(5)}}
+                  // imageExample={photo_example_5_inside}
+                  />
+          </View>
         </ScrollView>
 
         {/* <ItemsList items={printed} onItemPress={onPress}/> */}

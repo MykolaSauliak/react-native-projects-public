@@ -1,16 +1,16 @@
 import React, {useState, Suspense} from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import constants from '../../constants';
-import globalStyles from '../../constants/styles';
+import globalStyles from '../../styles';
 import {NavigationService} from '../../services';
 import {
     Chip
 } from 'react-native-paper';
-import {ListItem} from 'react-native-elements';
+import {ListItem, Text} from '../../components';
 import FollowButton from '../../containers/FollowButton/FollowButton';
 import { colors } from '../../styles';
 import { trim } from '../../utils';
@@ -53,10 +53,20 @@ const SellerInfo = ({
           <Text style={{fontSize: 13,lineHeight: 22}}>{`${sold_item || 0} sold items`}</Text>
          </View>}
           // rightElement={}
-          rightAvatar={{
-            source: avatar ? {uri: avatar} : require('./avatar-placeholder-300x300.png'),
-          }}
-          rightElement={<FollowButton uid={uid} containerStyle={{borderColor: colors.orange, borderWidth: 1, padding: 3, borderRadius: 3}} titleStyle={{color: colors.orange}}/>}
+          // rightAvatar={{
+          //   source: avatar ? {uri: avatar} : require('./avatar-placeholder-300x300.png'),
+          // }}
+          rightElement={<View style={{alignItems: 'center', justifyContent: 'center',  borderRadius: 35}}>
+              <Image 
+                source={avatar ? {uri: avatar} : require('./avatar-placeholder-300x300.png')}
+                style={{width: 50, height: 50, marginBottom: 10, borderRadius: 25}}
+                resizeMode="cover"
+                />
+              <FollowButton uid={uid} 
+                  containerStyle={{borderColor: colors.orange, borderWidth: 1, padding: 3, borderRadius: 3}} 
+                  titleStyle={{color: colors.orange}}
+                  />
+          </View>}
         />
         </View>)}
       </View>

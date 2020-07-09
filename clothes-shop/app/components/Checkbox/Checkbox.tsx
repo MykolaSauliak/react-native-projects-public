@@ -1,22 +1,27 @@
 import React from 'react';
 import { colors } from '../../styles';
-import { ListItem } from 'react-native-elements';
+import globalStyles from '../../styles'
+import { ListItem } from '..';
 
 let Checkbox = ({
     title = "",
     subtitle,
     checked = false,
-    onPress = (value : boolean) => {}
+    onPress = (value : boolean) => {},
+    containerStyle = {},
+    titleStyle = {},
 }) => (
-    <ListItem 
+    <ListItem  
         title={title}
         subtitle={subtitle}
-        checkBox={{checked: checked, onPress: () => onPress(!checked), 
+        checkBox={{
+            containerStyle,
+            checked: checked, onPress: () => onPress(!checked), 
             checkedColor: colors.orange
         }}
-        titleStyle={{opacity: !checked ? 0.5: 1, fontSize: 14}}
-        subtitleStyle={{opacity: !checked ? 0.5: 1, fontSize: 12}}
-        containerStyle={{borderBottomColor: 'black', borderBottomWidth: 0.4}}
+        titleStyle={{opacity: !checked ? 0.5: 1, fontSize: 14, ...globalStyles.title,...titleStyle}}
+        subtitleStyle={{opacity: !checked ? 0.5: 1, fontSize: 12, ...globalStyles.title}}
+        containerStyle={{borderBottomColor: 'black', borderBottomWidth: 0.4,...containerStyle}}
         />
 )
 export default Checkbox;

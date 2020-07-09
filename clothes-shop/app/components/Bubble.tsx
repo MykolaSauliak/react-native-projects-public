@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
-  Text,
   Clipboard,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -11,7 +10,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-
+import {   Text } from "../components";
 import QuickReplies from './QuickReplies'
 
 import MessageText from './MessageText'
@@ -30,6 +29,7 @@ import {
   Omit,
   MessageVideoProps,
 } from './types'
+import { colors } from '../styles'
 
 const styles = {
   left: StyleSheet.create({
@@ -39,7 +39,9 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: Color.leftBubbleBackground,
+      // backgroundColor: Color.leftBubbleBackground,
+      backgroundColor: colors.gray,
+      color: 'black',
       marginRight: 60,
       minHeight: 20,
       justifyContent: 'flex-end',
@@ -62,7 +64,9 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: Color.defaultBlue,
+      backgroundColor: colors.gray,
+      color: 'black',
+      // backgroundColor: Color.defaultBlue,
       marginLeft: 60,
       minHeight: 20,
       justifyContent: 'flex-end',
@@ -181,6 +185,7 @@ export default class Bubble<
       createdAt: null,
       image: null,
     },
+    showTime: true,
     nextMessage: {},
     previousMessage: {},
     containerStyle: {},
@@ -234,6 +239,7 @@ export default class Bubble<
       left: ViewPropTypes.style,
       right: ViewPropTypes.style,
     }),
+    showTime: PropTypes.bool
   }
 
   onLongPress = () => {
@@ -348,7 +354,7 @@ export default class Bubble<
       if (this.props.renderMessageText) {
         return this.props.renderMessageText(messageTextProps)
       }
-      return <MessageText {...messageTextProps} />
+      return <MessageText  {...messageTextProps} />
     }
     return null
   }
@@ -477,6 +483,7 @@ export default class Bubble<
       containerStyle,
       wrapperStyle,
       bottomContainerStyle,
+      showTime,
     } = this.props
     return (
       <View
@@ -507,7 +514,7 @@ export default class Bubble<
                 ]}
               >
                 {this.renderUsername()}
-                {this.renderTime()}
+                {showTime === true && this.renderTime()}
                 {this.renderTicks()}
               </View>
             </View>

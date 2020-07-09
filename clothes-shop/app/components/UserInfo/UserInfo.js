@@ -20,12 +20,14 @@ const UserInfo = ({
   rating,
   email = "",
   first_name = "",
+  last_name = "",
   onLogout,
   showViewProfile = false,
   textReview = false,
   showAverageRating = false,
   styleContainer,
   reviewsCount,
+  titleStyle = {}
 }) => {
   return (
       <View 
@@ -34,14 +36,14 @@ const UserInfo = ({
         {/* <View style={s.mainContainer}> */}
           {/* <View style={s.infoContainer}> */}
             <View style={s.name}>
-              <Text bigSize bold>{first_name}</Text>
+              <Text xlargeSize style={[titleStyle]}>{first_name} {last_name}</Text>
             </View>
             {!_.isEmpty(email) && (<View style={s.name}>
-              <Text medium>{email}</Text>
+              <Text smallSize>{email}</Text>
             </View>)}
             {onLogout && (
               <TouchableOpacity onPress={onLogout}>
-                <Text>log out</Text>
+                <Text smallSize>log out</Text>
               </TouchableOpacity>
             )}
           {/* </View> */}

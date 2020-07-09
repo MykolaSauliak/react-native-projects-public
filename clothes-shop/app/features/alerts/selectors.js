@@ -2,8 +2,8 @@ import * as R from 'ramda';
 
 export const getAlerts = state =>
   R.path(['alerts', 'alerts'], state) || [];
-export const alertExists = ({alert,alerts,state}) => {
-  if(!alerts){
+export const alertExists = ({alert = {},alerts = [],state}) => {
+  if(!alerts && state){
     alerts =   R.path(['alerts', 'alerts'], state) || [];
   }
   let exists = false
@@ -16,7 +16,7 @@ export const alertExists = ({alert,alerts,state}) => {
       && a.fields.material == alert.fields.material
       ){
        exists = true
-       return true
+       return exists
       }
   }
   return exists

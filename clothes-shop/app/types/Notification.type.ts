@@ -5,7 +5,7 @@
         leftImage : string,
         rightImage : string,
         title : string,
-        ts: number
+        ts: number,
     }
     
     export interface NegotiationNotification {
@@ -37,5 +37,12 @@
         rightImage : string,
         title : string,
         ts: number
+    }
+
+
+    export interface LocalNotification {
+        title: string,
+        body?: string,
+        foreground?: boolean,
     }
 // } 

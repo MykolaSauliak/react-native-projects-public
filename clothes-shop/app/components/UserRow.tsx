@@ -1,7 +1,8 @@
 import React from 'react';
 import { View,Text } from "react-native";
-import { ListItem  } from "react-native-elements";
 import constants from '../constants';
+import { ListItem } from '.';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 type Props = {
     user_id :string,
@@ -19,10 +20,11 @@ const UserRow = ({
 } : Props) => {
     console.log('avatar',avatar)
     return (
-        <ListItem 
+        <ListItem
             onPress={onPress}
-            leftAvatar={{source : avatar ?  {uri : avatar} : constants.defaultImage}}
-            title={`${name} ${last_name}`}
+            leftAvatar={{source : avatar ?  {uri : avatar} : constants.defaultAvatar, size: 55}}
+            title={`${name}${last_name ? " " + last_name : ""}`}
+            titleStyle={{fontSize: widthPercentageToDP(6)}}
             />
     );
 };

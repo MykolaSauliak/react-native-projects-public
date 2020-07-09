@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text ,
     TouchableOpacity,
     StyleSheet
 } from "react-native";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { NavigationService } from '../../services';
+import {Text} from '../../components'
 
 type AlertButtonProps = {
   item: any,
@@ -17,18 +17,10 @@ type AlertButtonProps = {
 
 const styles = StyleSheet.create({
     wishlistBtn: {    
-        // flex: 0.15,
-        // backgroundColor: 'white',
-        // width: 50,
-        // borderRadius: 8,
-        // height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        // borderColor: 'black',
-        // borderWidth: 0.8,
     },
     btnText: {
-      fontSize: 14,
       marginTop: 10,
     }
 })
@@ -46,7 +38,7 @@ const AlertButton = ({
                 style={[styles.wishlistBtn, btnStyle]}
                 >
               <EvilIcons name="bell" size={30} color={color}/>
-              <Text style={[styles.btnText, {color:color}]}>Create an alert</Text>
+              <Text mediumSize style={[styles.btnText, {color:color}]}>Create an alert</Text>
             </TouchableOpacity>
       </View>
     );

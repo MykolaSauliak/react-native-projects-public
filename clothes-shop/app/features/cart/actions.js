@@ -19,6 +19,15 @@ export const removeFromCart = id => dispatch => {
     payload: id,
   });
 };
+export const setShippingOption = ({id, option}) => dispatch => {
+  // console.log('removeFromCart', id);
+  dispatch({
+    type: types.setShippingOption,
+    payload: {
+      id, option
+    },
+  });
+};
 
 export const setCartLoading = loading => dispatch => {
   dispatch({

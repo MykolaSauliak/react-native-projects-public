@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { 
     View,
-    Text ,
+
     TouchableOpacity,
     StyleSheet
 } from "react-native";
+import Text from '../../components/Text/Text'
 import {Icon} from 'react-native-elements'
 
 type TwoStateButtonProps = {
@@ -37,7 +38,7 @@ const TwoStateButton = ({
     toggled = false,
     onPress,
     onToggledPress,
-    title,
+    title = "",
     toggledTitle,
     btnStyle = {},
     color = 'black',
@@ -59,7 +60,7 @@ const TwoStateButton = ({
               style={[styles.wishlistBtn, btnStyle]}
             >
               <Icon type={type} name={name}  size={30} color={color} {...iconProps}/>
-              {title.length> 0 && <Text style={[styles.btnText, {color:color}, textStyle]}>{title}</Text>}
+              {title.length> 0 && <Text mediumSize style={[styles.btnText, {color:color}, textStyle]}>{title}</Text>}
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -67,7 +68,7 @@ const TwoStateButton = ({
               style={[styles.wishlistBtn, btnStyle]}
                 >
               <Icon type={type} name={name} size={30} color={color} {...toggledIconProps}/>
-              {toggledTitle.length> 0 && <Text style={[styles.btnText, {color:color}, textStyle]}>{toggledTitle}</Text>}
+              {toggledTitle.length> 0 && <Text mediumSize style={[styles.btnText, {color:color}, textStyle]}>{toggledTitle}</Text>}
             </TouchableOpacity>
         )}
       </View>

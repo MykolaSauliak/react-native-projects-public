@@ -1,8 +1,9 @@
 import React from 'react';
-import { View , Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View , TouchableOpacity, StyleSheet } from "react-native";
 import i18n from "../../i18n";
 import {  NavigationService } from "../../services";
 import colors from "../../styles/colors";
+import {Text} from "../../components";
 
 const NotAuthorizedUser = ({
     onPress

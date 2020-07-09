@@ -2,13 +2,13 @@ import React from 'react';
 import { withCart } from "../../utils/enhancers";
 import {
     View,
-    Text,
     TouchableOpacity,
     StyleSheet,
   } from 'react-native';
   import i18n from '../../i18n';
   import { Button } from 'react-native-elements';
 import ButtonBlack from '../../components/Button/ButtonBlack';
+import {Text} from '../../components';
 
 const styles = StyleSheet.create({
     cartBtn: {

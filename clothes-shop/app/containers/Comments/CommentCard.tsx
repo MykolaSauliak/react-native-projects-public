@@ -45,7 +45,10 @@ const CommentCardContainer = ({
             likeActive={likes.includes(loggedInUser.uid)}
             dislikeActive={dislikes.includes(loggedInUser.uid)}
             onAvatarPress={() => NavigationService.navigateToCustomUserProfile({user_id : user.uid || snippet.authorId})}
-            onLikePress={() => likeComment(id,snippet.productId,)}
+            onLikePress={() => {
+                // console.log('likeComment',id,snippet.productId,)
+                likeComment(id,snippet.productId)}
+            }
             onDislikePress={() => unlikeComment(id,snippet.productId,)}
             />
     );

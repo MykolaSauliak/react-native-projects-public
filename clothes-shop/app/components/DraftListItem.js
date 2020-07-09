@@ -1,20 +1,19 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {ListItem, CheckBox} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import constants from '../constants';
 import toTimestamp from '../utils/getDiscountEndTs';
-
+import {   Text } from "../components";
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import globalStyles from "../styles";
 const S = StyleSheet.create({
-  cartBtn: {
-    padding: 12,
-    // position: "absolute",
-    bottom: 0,
-    backgroundColor: colors.orange,
-    borderRadius: 5,
-    marginTop: 20,
+  brand:{
+    ...globalStyles.boldText,     
+    fontSize: widthPercentageToDP(5.5),  
+    lineHeight: 24,
   },
   id: {
     // color: colors.gray,
@@ -23,25 +22,14 @@ const S = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: 17,
-  },
-  price: {
-    fontSize: 18,
-  },
-  newPrice: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  discountPrice: {
-    color: 'gray',
-    marginHorizontal: 3,
-
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-  },
-  desc: {
     fontSize: 15,
-    color: 'gray',
+    lineHeight: 24
+  },
+
+  steps:{
+    // ...globalStyles.boldText, 
+    color: colors.orange,    
+    fontSize: widthPercentageToDP(4.5),  
   },
   discount: {
     fontWeight: 'bold',
@@ -131,6 +119,7 @@ const DraftListItem = ({
   return (
     <ListItem
       key={id || item.created_time}
+      chevron={{type: 'entypo', name: 'chevron-thin-right', color: 'black', size: 22}}
       leftElement={
         <View
           style={{
@@ -163,22 +152,24 @@ const DraftListItem = ({
       //     }
       //   }}
       onPress={onPress}
-      containerStyle={{minHeight: 100}}
+      // containerStyle={{minHeight: 100}}
       title={
-        <View style={{flex: 1}}>
-          <Text style={S.id}>
+        <>
+          {/* <Text style={S.id}>
             {created_time ? `${created_time},` : ''}{' '}
             {item.selectedSellCategory ? item.selectedSellCategory.title : ''}
+          </Text> */}
+          <Text bold style={[S.brand]}>
+            {item.selectedSellBrand ? item.selectedSellBrand.title : ''}
           </Text>
           <Text style={S.title}>
-            {type ? type.title : type} {subtype ? subtype.title : subtype}
+            {/* {type ? type.title : type} {subtype ? subtype.title : subtype} */}
+            {item.selectedSellCategory ? item.selectedSellCategory.title : ''}{' '}
             {item.selectedSellType ? item.selectedSellType.title : ''}{' '}
             {item.selectedSellSubtype ? item.selectedSellSubtype.title : ''}
           </Text>
-          <Text style={S.desc}>{item.selectedSellDescription}</Text>
-          {/* <Text style={S.desc}>{condition}</Text> */}
-          <Text style={S.desc}>{`${steps} step(s) remaining`}</Text>
-        </View>
+          <Text style={S.steps}>{`${steps} step(s) remaining`}</Text>
+        </>
       }
       // subtitle={<View style={{width: '100%', marginTop: 15}}>
       //     {

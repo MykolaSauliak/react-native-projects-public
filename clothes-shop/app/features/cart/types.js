@@ -4,6 +4,7 @@ export default {
   setCount: 'setCount',
   resetCart: 'resetCart',
   setCartItems: 'setCartItems',
+  setShippingOption: 'setShippingOption',
   setLoading: 'setLoading',
   updateCart: 'updateCart',
 };

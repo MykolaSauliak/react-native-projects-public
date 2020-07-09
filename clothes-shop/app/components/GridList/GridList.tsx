@@ -1,65 +1,88 @@
 import React from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
+import Text from '../Text/Text'
 import ProductCard from '../../containers/ProductCard';
 import {NavigationService} from '../../services';
+import Loading from '../Loading';
+import { globalStyles } from '../../styles';
 
 const styles = StyleSheet.create({
   title :{    
     marginTop: 10,
-    fontSize: 32,
+    // fontSize: 32,
     // fontWeight: 'bold',
-    fontFamily: 'OPTICenturyNova',
+    // fontFamily: 'SilkSerif-Regular',
     paddingLeft: 15,
+  },
+  emptyList: {
+    ...globalStyles.text,
+    padding: 15
   }
 })
 
 const GridList = ({
-  items, 
+  items = [], 
   onPress,
   isFavorite,
   toggleFavorite,
   horizontal,
   title = '',
   titleStyle = {},
+  titleProps = {},
   ItemCard,
   loading,
+  listName,
   LoadingComponent,
+  fetchMore,
+  onEndReached,
   ...props
 }) => {
 
   if(!LoadingComponent){
-    LoadingComponent = ActivityIndicator
+    LoadingComponent = Loading
   }
   // console.log('items',items)
-  if(loading){
-    return <LoadingComponent />
+  // if(loading){
+  //   return <LoadingComponent />
+  // }
+
+  const renderFooter = (loading = false) => {
+    if(loading){
+      return <LoadingComponent />
+    }
+    return null
   }
 
   if(!ItemCard){
     ItemCard = ProductCard
   }
-  console.log('items',items.length)
+  // console.log('items',items.length)
   return (
     <View style={{flex:1}}>
-        {title.length > 0 && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+        {title.length > 0 && <Text xxmediumSize {...titleProps} style={[styles.title, titleStyle]}>{title}</Text>}
         <FlatGrid
+          spacing={5}
           // style={horizontal ? {height : '100%'} : null}
           horizontal={horizontal}
           keyExtractor={(item, i) => item.title + i}
           items={items}
           ListEmptyComponent={<View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-              <Text>no items found</Text>
+              <Text style={styles.emptyList} xmediumSize>no items found</Text>
             </View>
           }
           itemDimension={150}
-          renderItem={({item}) => (
+          renderItem={({item, index}) => (
             <ItemCard
+              key={item?.id || index}
               {...item}
               item={item}
               onPress={onPress}
             />
           )}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0}
+          ListFooterComponent={renderFooter(loading)}
           {...props}
         />
     </View>
